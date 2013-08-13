@@ -1,16 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[My Octopress Blog]]></title>
+  <title><![CDATA[zxhfirefox's Blog]]></title>
   <link href="http://zxhfirefox.github.io/atom.xml" rel="self"/>
   <link href="http://zxhfirefox.github.io/"/>
-  <updated>2013-08-14T01:05:26+08:00</updated>
+  <updated>2013-08-14T01:09:39+08:00</updated>
   <id>http://zxhfirefox.github.io/</id>
   <author>
-    <name><![CDATA[Your Name]]></name>
+    <name><![CDATA[zxhfirefox]]></name>
     
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[First Blood]]></title>
+    <link href="http://zxhfirefox.github.io/blog/2013/08/14/first-blood/"/>
+    <updated>2013-08-14T01:08:00+08:00</updated>
+    <id>http://zxhfirefox.github.io/blog/2013/08/14/first-blood</id>
+    <content type="html"><![CDATA[
+]]></content>
+  </entry>
   
 </feed>
