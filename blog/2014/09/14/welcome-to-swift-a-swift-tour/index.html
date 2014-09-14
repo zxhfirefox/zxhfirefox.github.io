@@ -10,8 +10,7 @@
 
   
   <meta name="description" content="传统来说，我们学习一门语言的第一个程序将是HelloWorld。在Swift里，非常简单： 1
-2
-println(&quot;Hello,World&quot;); ">
+println(&quot;Hello,World&quot;) 如果你之前写过C或者Objc的代码，这个语法你应该不陌生，在Swift里，这行代码就是一个完整的程序， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -90,11 +89,93 @@ println(&quot;Hello,World&quot;); ">
 <div class="entry-content"><p>传统来说，我们学习一门语言的第一个程序将是HelloWorld。在Swift里，非常简单：</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="n">println</span><span class="p">(</span><span class="s">&quot;Hello,World&quot;</span><span class="p">);</span>
-</span><span class='line'>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="n">println</span><span class="p">(</span><span class="s">&quot;Hello,World&quot;</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure>
 
+
+<p>如果你之前写过C或者Objc的代码，这个语法你应该不陌生，在Swift里，这行代码就是一个完整的程序，你不需要导入其他库来使用输入输出或者字符串处理。写在全局作用域的代码被用来作为程序的入口，所以你不需要一个main函数。你也不用在每一个语句后面写上分号。</p>
+
+<p>这里我们将通过许多的例子来给你足够的知识让你能够开始用Swift写代码。遇到不能理解的地方也不要紧，这里的所有内容在这本书的剩余部分都会详细介绍。</p>
+
+<h4>Simple Values</h4>
+
+<p>用let来声明常量，var声明变量。常量的值不需要在编译期知道，但是你只能赋值一次，这意味着你用常量来定义一次，然后在很多地方使用。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">var</span> <span class="n">myVariable</span> <span class="o">=</span> <span class="mi">42</span>
+</span><span class='line'><span class="n">myVariable</span> <span class="o">=</span> <span class="mi">48</span>
+</span><span class='line'><span class="k">let</span> <span class="n">myConstant</span> <span class="o">=</span> <span class="mi">42</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>常量和变量必须具有和你赋值给他们的值相同的类型，但是你并需要总是明确的写出他们的类型。你只管提供值，让编译期绝对类型。在上面的例子里，myVaribale将是整数类型，因为它的初始化值是整数。</p>
+
+<p>如果一个初始化值不足以提供类型信息，那你就必须提供类型，写在变量的后面，用冒号隔开。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">let</span> <span class="n">implictInteger</span> <span class="o">=</span> <span class="mi">70</span>
+</span><span class='line'><span class="k">let</span> <span class="n">implictDouble</span> <span class="o">=</span> <span class="mf">70.0</span>
+</span><span class='line'><span class="k">let</span> <span class="nl">explictDouble</span> <span class="p">:</span> <span class="n">Double</span> <span class="o">=</span> <span class="mi">70</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>值永远都不会隐式转换为其他类型。如果你需要转换一个值到另外一个类型，你需要显式转化。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">let</span> <span class="n">label</span> <span class="o">=</span> <span class="s">&quot;The width is &quot;</span>
+</span><span class='line'><span class="k">let</span> <span class="n">width</span> <span class="o">=</span> <span class="mi">94</span>
+</span><span class='line'><span class="k">let</span> <span class="n">widthLabel</span> <span class="o">=</span> <span class="n">label</span> <span class="o">+</span> <span class="n">String</span><span class="p">(</span><span class="n">width</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>其实有更简单的办法在字符串中插入值，把值写在括号里，在括号前面写一个 \ 。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">let</span> <span class="n">apples</span> <span class="o">=</span> <span class="mi">3</span>
+</span><span class='line'><span class="k">let</span> <span class="n">oranges</span> <span class="o">=</span> <span class="mi">5</span>
+</span><span class='line'><span class="k">let</span> <span class="n">appleSummary</span> <span class="o">=</span> <span class="s">&quot;I have </span><span class="se">\\</span><span class="s">(apples) apples&quot;</span>
+</span><span class='line'><span class="k">let</span> <span class="n">fruitSummary</span> <span class="o">=</span> <span class="s">&quot;I have </span><span class="se">\\</span><span class="s">(apples + oranges) pieces of fruit.&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>使用[ ]来创建数组和字典，在[ ]里写上索引或键来访问数字和字典里的元素。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">var</span> <span class="n">shoppingList</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;catfish&quot;</span><span class="p">,</span> <span class="s">&quot;water&quot;</span><span class="p">,</span> <span class="s">&quot;tulips&quot;</span><span class="p">,</span> <span class="s">&quot;blue paint&quot;</span><span class="p">]</span>
+</span><span class='line'><span class="n">shoppingList</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;bottle of water&quot;</span>
+</span><span class='line'><span class="k">var</span> <span class="n">occupations</span> <span class="o">=</span> <span class="p">[</span>
+</span><span class='line'>    <span class="s">&quot;Malcolm&quot;</span> <span class="o">:</span> <span class="s">&quot;Captain&quot;</span> <span class="p">,</span>
+</span><span class='line'>    <span class="s">&quot;Kaylee&quot;</span>  <span class="o">:</span> <span class="s">&quot;Mechanic&quot;</span><span class="p">,</span>
+</span><span class='line'><span class="p">]</span>
+</span><span class='line'><span class="n">occupations</span><span class="p">[</span><span class="s">&quot;Jayne&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;Public Relations&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>创建空的数字和字典，用初始化语法：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">let</span> <span class="n">emptyArray</span> <span class="o">=</span> <span class="err">\</span><span class="p">[</span><span class="n">String</span><span class="p">]()</span>
+</span><span class='line'><span class="k">let</span> <span class="n">emptyDictionary</span> <span class="o">=</span> <span class="err">\</span><span class="p">[</span><span class="nl">String</span><span class="p">:</span><span class="n">Float</span><span class="p">]()</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Control Flow</h4>
 </div>
 
 

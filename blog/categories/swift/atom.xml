@@ -4,7 +4,7 @@
   <title><![CDATA[Category: swift | zxhfirefox's Blog]]></title>
   <link href="http://zxhfirefox.github.io/blog/categories/swift/atom.xml" rel="self"/>
   <link href="http://zxhfirefox.github.io/"/>
-  <updated>2014-09-14T18:38:18+08:00</updated>
+  <updated>2014-09-14T19:05:58+08:00</updated>
   <id>http://zxhfirefox.github.io/</id>
   <author>
     <name><![CDATA[zxhfirefox]]></name>
@@ -20,10 +20,74 @@
     <id>http://zxhfirefox.github.io/blog/2014/09/14/welcome-to-swift-a-swift-tour</id>
     <content type="html"><![CDATA[<p>传统来说，我们学习一门语言的第一个程序将是HelloWorld。在Swift里，非常简单：</p>
 
-<p>&#8220;` swift
-println(&ldquo;Hello,World&rdquo;);</p>
+<p><code>swift
+println("Hello,World")
+</code></p>
 
-<p>&#8220;`</p>
+<p>如果你之前写过C或者Objc的代码，这个语法你应该不陌生，在Swift里，这行代码就是一个完整的程序，你不需要导入其他库来使用输入输出或者字符串处理。写在全局作用域的代码被用来作为程序的入口，所以你不需要一个main函数。你也不用在每一个语句后面写上分号。</p>
+
+<p>这里我们将通过许多的例子来给你足够的知识让你能够开始用Swift写代码。遇到不能理解的地方也不要紧，这里的所有内容在这本书的剩余部分都会详细介绍。</p>
+
+<h4>Simple Values</h4>
+
+<p>用let来声明常量，var声明变量。常量的值不需要在编译期知道，但是你只能赋值一次，这意味着你用常量来定义一次，然后在很多地方使用。</p>
+
+<p><code>swift
+var myVariable = 42
+myVariable = 48
+let myConstant = 42
+</code></p>
+
+<p>常量和变量必须具有和你赋值给他们的值相同的类型，但是你并需要总是明确的写出他们的类型。你只管提供值，让编译期绝对类型。在上面的例子里，myVaribale将是整数类型，因为它的初始化值是整数。</p>
+
+<p>如果一个初始化值不足以提供类型信息，那你就必须提供类型，写在变量的后面，用冒号隔开。</p>
+
+<p><code>swift
+let implictInteger = 70
+let implictDouble = 70.0
+let explictDouble : Double = 70
+</code></p>
+
+<p>值永远都不会隐式转换为其他类型。如果你需要转换一个值到另外一个类型，你需要显式转化。</p>
+
+<p><code>swift
+let label = "The width is "
+let width = 94
+let widthLabel = label + String(width)
+</code></p>
+
+<p>其实有更简单的办法在字符串中插入值，把值写在括号里，在括号前面写一个 \ 。</p>
+
+<p><code>swift
+let apples = 3
+let oranges = 5
+let appleSummary = "I have \\(apples) apples"
+let fruitSummary = "I have \\(apples + oranges) pieces of fruit."
+</code></p>
+
+<p>使用[ ]来创建数组和字典，在[ ]里写上索引或键来访问数字和字典里的元素。</p>
+
+<p>&#8220;` swift
+var shoppingList = [&ldquo;catfish&rdquo;, &ldquo;water&rdquo;, &ldquo;tulips&rdquo;, &ldquo;blue paint&rdquo;]
+shoppingList[1] = &ldquo;bottle of water&rdquo;
+var occupations = [</p>
+
+<pre><code>"Malcolm" : "Captain" ,
+"Kaylee"  : "Mechanic",
+</code></pre>
+
+<p>]
+occupations[&ldquo;Jayne&rdquo;] = &ldquo;Public Relations&rdquo;
+&#8220;`</p>
+
+<p>创建空的数字和字典，用初始化语法：</p>
+
+<p><code>swift
+let emptyArray = \[String]()
+let emptyDictionary = \[String:Float]()
+</code></p>
+
+<h4>Control Flow</h4>
 ]]></content>
   </entry>
   
