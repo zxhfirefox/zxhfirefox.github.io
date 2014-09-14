@@ -4,7 +4,7 @@
   <title><![CDATA[Category: swift | zxhfirefox's Blog]]></title>
   <link href="http://zxhfirefox.github.io/blog/categories/swift/atom.xml" rel="self"/>
   <link href="http://zxhfirefox.github.io/"/>
-  <updated>2014-09-14T18:27:19+08:00</updated>
+  <updated>2014-09-14T18:38:18+08:00</updated>
   <id>http://zxhfirefox.github.io/</id>
   <author>
     <name><![CDATA[zxhfirefox]]></name>
@@ -12,6 +12,20 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Welcome to Swift A Swift Tour]]></title>
+    <link href="http://zxhfirefox.github.io/blog/2014/09/14/welcome-to-swift-a-swift-tour/"/>
+    <updated>2014-09-14T18:29:00+08:00</updated>
+    <id>http://zxhfirefox.github.io/blog/2014/09/14/welcome-to-swift-a-swift-tour</id>
+    <content type="html"><![CDATA[<p>传统来说，我们学习一门语言的第一个程序将是HelloWorld。在Swift里，非常简单：</p>
+
+<p>&#8220;` swift
+println(&ldquo;Hello,World&rdquo;);</p>
+
+<p>&#8220;`</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Welcome to Swift - About Swift]]></title>
