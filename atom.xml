@@ -4,7 +4,7 @@
   <title><![CDATA[zxhfirefox's Blog]]></title>
   <link href="http://zxhfirefox.github.io/atom.xml" rel="self"/>
   <link href="http://zxhfirefox.github.io/"/>
-  <updated>2014-09-14T14:26:45+08:00</updated>
+  <updated>2014-09-14T15:12:10+08:00</updated>
   <id>http://zxhfirefox.github.io/</id>
   <author>
     <name><![CDATA[zxhfirefox]]></name>
@@ -18,7 +18,13 @@
     <link href="http://zxhfirefox.github.io/blog/2014/09/14/translate-the-swift-programming-language/"/>
     <updated>2014-09-14T14:26:00+08:00</updated>
     <id>http://zxhfirefox.github.io/blog/2014/09/14/translate-the-swift-programming-language</id>
-    <content type="html"><![CDATA[
+    <content type="html"><![CDATA[<p>This blog was created a long time ago, I did not write any meaningful things.</p>
+
+<p>As Apple release the swift programming language 1.0, I think I want to write something.</p>
+
+<p>The first goal is trying to translate the Swift Programming Language.</p>
+
+<p>Hope I can make it.</p>
 ]]></content>
   </entry>
   
