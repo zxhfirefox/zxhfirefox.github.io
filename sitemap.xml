@@ -13,7 +13,7 @@
   <url>
     <loc>http://zxhfirefox.github.io/blog/2014/09/14/translate-the-swift-programming-language/</loc>
     
-    <lastmod>2014-09-14T14:26:00+08:00</lastmod>
+    <lastmod>2014-09-14T00:00:00+08:00</lastmod>
     
     <priority>0.8</priority>
   </url>
@@ -28,29 +28,22 @@
   
   
   <url>
-    <loc>http://zxhfirefox.github.io/blog/categories/</loc>
-    <lastmod>2014-09-14T17:26:24+08:00</lastmod>
+    <loc>http://zxhfirefox.github.io/blog/archives/</loc>
+    <lastmod>2014-09-14T17:38:51+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>http://zxhfirefox.github.io/</loc>
-    <lastmod>2014-09-14T17:26:24+08:00</lastmod>
+    <lastmod>2014-09-14T17:38:51+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   
   <url>
-    <loc>http://zxhfirefox.github.io/blog/archives/</loc>
-    <lastmod>2014-09-14T17:26:24+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  
-  <url>
     <loc>http://zxhfirefox.github.io/about/</loc>
-    <lastmod>2014-09-14T17:26:24+08:00</lastmod>
+    <lastmod>2014-09-14T17:38:51+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
