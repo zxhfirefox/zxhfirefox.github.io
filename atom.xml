@@ -4,7 +4,7 @@
   <title><![CDATA[zxhfirefox's Blog]]></title>
   <link href="http://zxhfirefox.github.io/atom.xml" rel="self"/>
   <link href="http://zxhfirefox.github.io/"/>
-  <updated>2014-09-14T15:12:10+08:00</updated>
+  <updated>2014-09-14T16:49:52+08:00</updated>
   <id>http://zxhfirefox.github.io/</id>
   <author>
     <name><![CDATA[zxhfirefox]]></name>
@@ -14,7 +14,16 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Translate The Swift Programming Language]]></title>
+    <title type="html"><![CDATA[Welcome to Swift - About Swift]]></title>
+    <link href="http://zxhfirefox.github.io/blog/2014/09/14/welcome-to-swift-about-swift/"/>
+    <updated>2014-09-14T16:20:47+08:00</updated>
+    <id>http://zxhfirefox.github.io/blog/2014/09/14/welcome-to-swift-about-swift</id>
+    <content type="html"><![CDATA[<p>Category test</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Translate the Swift Programming Language]]></title>
     <link href="http://zxhfirefox.github.io/blog/2014/09/14/translate-the-swift-programming-language/"/>
     <updated>2014-09-14T14:26:00+08:00</updated>
     <id>http://zxhfirefox.github.io/blog/2014/09/14/translate-the-swift-programming-language</id>
