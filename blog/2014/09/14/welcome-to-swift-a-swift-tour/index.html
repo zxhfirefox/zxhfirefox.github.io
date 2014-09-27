@@ -80,8 +80,6 @@ println(&quot;Hello,World&quot;) 如果你之前写过C或者Objc的代码，这
 
 
 <time class='entry-date' datetime='2014-09-14T18:29:00+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>6:29 pm</span></time>
-        <span>请勿在商业范围使用，转载请注明出处.</span>
-        </br>
         
       </p>
     
@@ -91,7 +89,7 @@ println(&quot;Hello,World&quot;) 如果你之前写过C或者Objc的代码，这
 <div class="entry-content"><p>传统来说，我们学习一门语言的第一个程序将是HelloWorld。在Swift里，非常简单：</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="n">println</span><span class="p">(</span><span class="s">&quot;Hello,World&quot;</span><span class="p">)</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">println</span><span class="p">(</span><span class="s2">&quot;Hello,World&quot;</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -106,9 +104,9 @@ println(&quot;Hello,World&quot;) 如果你之前写过C或者Objc的代码，这
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">var</span> <span class="n">myVariable</span> <span class="o">=</span> <span class="mi">42</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">var</span> <span class="n">myVariable</span> <span class="o">=</span> <span class="mi">42</span>
 </span><span class='line'><span class="n">myVariable</span> <span class="o">=</span> <span class="mi">48</span>
-</span><span class='line'><span class="k">let</span> <span class="n">myConstant</span> <span class="o">=</span> <span class="mi">42</span>
+</span><span class='line'><span class="n">let</span> <span class="n">myConstant</span> <span class="o">=</span> <span class="mi">42</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -119,9 +117,9 @@ println(&quot;Hello,World&quot;) 如果你之前写过C或者Objc的代码，这
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">let</span> <span class="n">implictInteger</span> <span class="o">=</span> <span class="mi">70</span>
-</span><span class='line'><span class="k">let</span> <span class="n">implictDouble</span> <span class="o">=</span> <span class="mf">70.0</span>
-</span><span class='line'><span class="k">let</span> <span class="nl">explictDouble</span> <span class="p">:</span> <span class="n">Double</span> <span class="o">=</span> <span class="mi">70</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">let</span> <span class="n">implictInteger</span> <span class="o">=</span> <span class="mi">70</span>
+</span><span class='line'><span class="n">let</span> <span class="n">implictDouble</span> <span class="o">=</span> <span class="mi">70</span><span class="o">.</span><span class="mi">0</span>
+</span><span class='line'><span class="n">let</span> <span class="n">explictDouble</span> <span class="p">:</span> <span class="no">Double</span> <span class="o">=</span> <span class="mi">70</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -130,9 +128,9 @@ println(&quot;Hello,World&quot;) 如果你之前写过C或者Objc的代码，这
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">let</span> <span class="n">label</span> <span class="o">=</span> <span class="s">&quot;The width is &quot;</span>
-</span><span class='line'><span class="k">let</span> <span class="n">width</span> <span class="o">=</span> <span class="mi">94</span>
-</span><span class='line'><span class="k">let</span> <span class="n">widthLabel</span> <span class="o">=</span> <span class="n">label</span> <span class="o">+</span> <span class="n">String</span><span class="p">(</span><span class="n">width</span><span class="p">)</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">let</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;The width is &quot;</span>
+</span><span class='line'><span class="n">let</span> <span class="n">width</span> <span class="o">=</span> <span class="mi">94</span>
+</span><span class='line'><span class="n">let</span> <span class="n">widthLabel</span> <span class="o">=</span> <span class="n">label</span> <span class="o">+</span> <span class="nb">String</span><span class="p">(</span><span class="n">width</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -142,10 +140,10 @@ println(&quot;Hello,World&quot;) 如果你之前写过C或者Objc的代码，这
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">let</span> <span class="n">apples</span> <span class="o">=</span> <span class="mi">3</span>
-</span><span class='line'><span class="k">let</span> <span class="n">oranges</span> <span class="o">=</span> <span class="mi">5</span>
-</span><span class='line'><span class="k">let</span> <span class="n">appleSummary</span> <span class="o">=</span> <span class="s">&quot;I have \(apples) apples&quot;</span>
-</span><span class='line'><span class="k">let</span> <span class="n">fruitSummary</span> <span class="o">=</span> <span class="s">&quot;I have \(apples + oranges) pieces of fruit.&quot;</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">let</span> <span class="n">apples</span> <span class="o">=</span> <span class="mi">3</span>
+</span><span class='line'><span class="n">let</span> <span class="n">oranges</span> <span class="o">=</span> <span class="mi">5</span>
+</span><span class='line'><span class="n">let</span> <span class="n">appleSummary</span> <span class="o">=</span> <span class="s2">&quot;I have \(apples) apples&quot;</span>
+</span><span class='line'><span class="n">let</span> <span class="n">fruitSummary</span> <span class="o">=</span> <span class="s2">&quot;I have \(apples + oranges) pieces of fruit.&quot;</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -158,13 +156,13 @@ println(&quot;Hello,World&quot;) 如果你之前写过C或者Objc的代码，这
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">var</span> <span class="n">shoppingList</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;catfish&quot;</span><span class="p">,</span> <span class="s">&quot;water&quot;</span><span class="p">,</span> <span class="s">&quot;tulips&quot;</span><span class="p">,</span> <span class="s">&quot;blue paint&quot;</span><span class="p">]</span>
-</span><span class='line'><span class="n">shoppingList</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;bottle of water&quot;</span>
-</span><span class='line'><span class="k">var</span> <span class="n">occupations</span> <span class="o">=</span> <span class="p">[</span>
-</span><span class='line'>    <span class="s">&quot;Malcolm&quot;</span> <span class="o">:</span> <span class="s">&quot;Captain&quot;</span> <span class="p">,</span>
-</span><span class='line'>    <span class="s">&quot;Kaylee&quot;</span>  <span class="o">:</span> <span class="s">&quot;Mechanic&quot;</span><span class="p">,</span>
-</span><span class='line'><span class="p">]</span>
-</span><span class='line'><span class="n">occupations</span><span class="p">[</span><span class="s">&quot;Jayne&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;Public Relations&quot;</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">var</span> <span class="n">shoppingList</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;catfish&quot;</span><span class="p">,</span> <span class="s2">&quot;water&quot;</span><span class="p">,</span> <span class="s2">&quot;tulips&quot;</span><span class="p">,</span> <span class="s2">&quot;blue paint&quot;</span><span class="o">]</span>
+</span><span class='line'><span class="n">shoppingList</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span> <span class="o">=</span> <span class="s2">&quot;bottle of water&quot;</span>
+</span><span class='line'><span class="n">var</span> <span class="n">occupations</span> <span class="o">=</span> <span class="o">[</span>
+</span><span class='line'>    <span class="s2">&quot;Malcolm&quot;</span> <span class="p">:</span> <span class="s2">&quot;Captain&quot;</span> <span class="p">,</span>
+</span><span class='line'>    <span class="s2">&quot;Kaylee&quot;</span>  <span class="p">:</span> <span class="s2">&quot;Mechanic&quot;</span><span class="p">,</span>
+</span><span class='line'><span class="o">]</span>
+</span><span class='line'><span class="n">occupations</span><span class="o">[</span><span class="s2">&quot;Jayne&quot;</span><span class="o">]</span> <span class="o">=</span> <span class="s2">&quot;Public Relations&quot;</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -172,8 +170,8 @@ println(&quot;Hello,World&quot;) 如果你之前写过C或者Objc的代码，这
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">let</span> <span class="n">emptyArray</span> <span class="o">=</span> <span class="p">[</span><span class="n">String</span><span class="p">]()</span>
-</span><span class='line'><span class="k">let</span> <span class="n">emptyDictionary</span> <span class="o">=</span> <span class="p">[</span><span class="nl">String</span><span class="p">:</span><span class="n">Float</span><span class="p">]()</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">let</span> <span class="n">emptyArray</span> <span class="o">=</span> <span class="o">[</span><span class="nb">String</span><span class="o">]</span><span class="p">()</span>
+</span><span class='line'><span class="n">let</span> <span class="n">emptyDictionary</span> <span class="o">=</span> <span class="o">[</span><span class="nb">String</span><span class="ss">:Float</span><span class="o">]</span><span class="p">()</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -190,8 +188,8 @@ println(&quot;Hello,World&quot;) 如果你之前写过C或者Objc的代码，这
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">let</span> <span class="n">individualScores</span> <span class="o">=</span> <span class="p">[</span><span class="mi">75</span><span class="p">,</span> <span class="mi">43</span><span class="p">,</span> <span class="mi">103</span><span class="p">,</span> <span class="mi">87</span><span class="p">,</span> <span class="mi">12</span><span class="p">]</span>
-</span><span class='line'><span class="k">var</span> <span class="n">teamScore</span> <span class="o">=</span> <span class="mi">0</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">let</span> <span class="n">individualScores</span> <span class="o">=</span> <span class="o">[</span><span class="mi">75</span><span class="p">,</span> <span class="mi">43</span><span class="p">,</span> <span class="mi">103</span><span class="p">,</span> <span class="mi">87</span><span class="p">,</span> <span class="mi">12</span><span class="o">]</span>
+</span><span class='line'><span class="n">var</span> <span class="n">teamScore</span> <span class="o">=</span> <span class="mi">0</span>
 </span><span class='line'><span class="k">for</span> <span class="n">score</span> <span class="k">in</span> <span class="n">individualScores</span> <span class="p">{</span>
 </span><span class='line'>    <span class="k">if</span> <span class="n">score</span> <span class="o">&gt;</span> <span class="mi">50</span> <span class="p">{</span>
 </span><span class='line'>        <span class="n">teamScore</span> <span class="o">+=</span> <span class="mi">3</span>
@@ -213,12 +211,12 @@ println(&quot;Hello,World&quot;) 如果你之前写过C或者Objc的代码，这
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">var</span> <span class="nl">optionalString</span> <span class="p">:</span> <span class="n">String</span><span class="o">?</span> <span class="o">=</span> <span class="s">&quot;Hello&quot;</span>
-</span><span class='line'><span class="n">optionalString</span> <span class="o">==</span> <span class="nb">nil</span>
-</span><span class='line'><span class="k">var</span> <span class="nl">optionalName</span> <span class="p">:</span> <span class="n">String</span><span class="o">?</span> <span class="o">=</span> <span class="s">&quot;John&quot;</span>
-</span><span class='line'><span class="k">var</span> <span class="n">greeting</span> <span class="o">=</span> <span class="s">&quot;Hello&quot;</span>
-</span><span class='line'><span class="k">if</span> <span class="k">let</span> <span class="n">name</span> <span class="o">=</span> <span class="n">optionalName</span> <span class="p">{</span>
-</span><span class='line'>    <span class="n">greeting</span> <span class="o">=</span> <span class="s">&quot;Hello,\(name)&quot;</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">var</span> <span class="n">optionalString</span> <span class="p">:</span> <span class="nb">String</span><span class="p">?</span> <span class="o">=</span> <span class="s2">&quot;Hello&quot;</span>
+</span><span class='line'><span class="n">optionalString</span> <span class="o">==</span> <span class="kp">nil</span>
+</span><span class='line'><span class="n">var</span> <span class="n">optionalName</span> <span class="p">:</span> <span class="nb">String</span><span class="p">?</span> <span class="o">=</span> <span class="s2">&quot;John&quot;</span>
+</span><span class='line'><span class="n">var</span> <span class="n">greeting</span> <span class="o">=</span> <span class="s2">&quot;Hello&quot;</span>
+</span><span class='line'><span class="k">if</span> <span class="n">let</span> <span class="nb">name</span> <span class="o">=</span> <span class="n">optionalName</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">greeting</span> <span class="o">=</span> <span class="s2">&quot;Hello,\(name)&quot;</span>
 </span><span class='line'><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
@@ -238,16 +236,16 @@ println(&quot;Hello,World&quot;) 如果你之前写过C或者Objc的代码，这
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
 <span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">let</span> <span class="n">vegetable</span> <span class="o">=</span> <span class="s">&quot;red pepper&quot;</span>
-</span><span class='line'><span class="k">switch</span> <span class="n">vegetable</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">case</span> <span class="s">&quot;celery&quot;</span><span class="o">:</span>
-</span><span class='line'>        <span class="k">let</span> <span class="n">vegerableComent</span> <span class="o">=</span> <span class="s">&quot;Add some raisins and make ants on a log.&quot;</span>
-</span><span class='line'>    <span class="k">case</span> <span class="s">&quot;cucumber&quot;</span><span class="p">,</span> <span class="s">&quot;watercress&quot;</span><span class="o">:</span>
-</span><span class='line'>        <span class="k">let</span> <span class="n">vegerableComment</span> <span class="o">=</span> <span class="s">&quot;That would make a good tea sandwich.&quot;</span>
-</span><span class='line'>    <span class="k">case</span> <span class="k">let</span> <span class="n">x</span> <span class="k">where</span> <span class="n">x</span><span class="p">.</span><span class="n">hasSuffix</span><span class="p">(</span><span class="s">&quot;pepper&quot;</span><span class="p">)</span><span class="o">:</span>
-</span><span class='line'>        <span class="k">let</span> <span class="n">vegetableComment</span> <span class="o">=</span> <span class="s">&quot;Is it a spicy \(x) ?&quot;</span>
-</span><span class='line'>    <span class="k">default</span><span class="o">:</span>
-</span><span class='line'>        <span class="k">let</span> <span class="n">vegetableComment</span> <span class="o">=</span> <span class="s">&quot;Everything tastes good in soup.&quot;</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">let</span> <span class="n">vegetable</span> <span class="o">=</span> <span class="s2">&quot;red pepper&quot;</span>
+</span><span class='line'><span class="n">switch</span> <span class="n">vegetable</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">case</span> <span class="s2">&quot;celery&quot;</span><span class="p">:</span>
+</span><span class='line'>        <span class="n">let</span> <span class="n">vegerableComent</span> <span class="o">=</span> <span class="s2">&quot;Add some raisins and make ants on a log.&quot;</span>
+</span><span class='line'>    <span class="k">case</span> <span class="s2">&quot;cucumber&quot;</span><span class="p">,</span> <span class="s2">&quot;watercress&quot;</span><span class="p">:</span>
+</span><span class='line'>        <span class="n">let</span> <span class="n">vegerableComment</span> <span class="o">=</span> <span class="s2">&quot;That would make a good tea sandwich.&quot;</span>
+</span><span class='line'>    <span class="k">case</span> <span class="n">let</span> <span class="n">x</span> <span class="n">where</span> <span class="n">x</span><span class="o">.</span><span class="n">hasSuffix</span><span class="p">(</span><span class="s2">&quot;pepper&quot;</span><span class="p">):</span>
+</span><span class='line'>        <span class="n">let</span> <span class="n">vegetableComment</span> <span class="o">=</span> <span class="s2">&quot;Is it a spicy \(x) ?&quot;</span>
+</span><span class='line'>    <span class="ss">default</span><span class="p">:</span>
+</span><span class='line'>        <span class="n">let</span> <span class="n">vegetableComment</span> <span class="o">=</span> <span class="s2">&quot;Everything tastes good in soup.&quot;</span>
 </span><span class='line'><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
@@ -271,12 +269,12 @@ println(&quot;Hello,World&quot;) 如果你之前写过C或者Objc的代码，这
 <span class='line-number'>11</span>
 <span class='line-number'>12</span>
 <span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">let</span> <span class="n">interestingNumbers</span> <span class="o">=</span> <span class="p">[</span>
-</span><span class='line'>    <span class="s">&quot;Prime&quot;</span> <span class="o">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">13</span><span class="p">],</span>
-</span><span class='line'>    <span class="s">&quot;Fibonacci&quot;</span> <span class="o">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">8</span><span class="p">],</span>
-</span><span class='line'>    <span class="s">&quot;Square&quot;</span> <span class="o">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="mi">25</span><span class="p">],</span>
-</span><span class='line'><span class="p">]</span>
-</span><span class='line'><span class="k">var</span> <span class="n">largest</span> <span class="o">=</span> <span class="mi">0</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">let</span> <span class="n">interestingNumbers</span> <span class="o">=</span> <span class="o">[</span>
+</span><span class='line'>    <span class="s2">&quot;Prime&quot;</span> <span class="p">:</span> <span class="o">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">13</span><span class="o">]</span><span class="p">,</span>
+</span><span class='line'>    <span class="s2">&quot;Fibonacci&quot;</span> <span class="p">:</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">8</span><span class="o">]</span><span class="p">,</span>
+</span><span class='line'>    <span class="s2">&quot;Square&quot;</span> <span class="p">:</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="mi">25</span><span class="o">]</span><span class="p">,</span>
+</span><span class='line'><span class="o">]</span>
+</span><span class='line'><span class="n">var</span> <span class="n">largest</span> <span class="o">=</span> <span class="mi">0</span>
 </span><span class='line'><span class="k">for</span> <span class="p">(</span><span class="n">kind</span><span class="p">,</span><span class="n">numbers</span><span class="p">)</span> <span class="k">in</span> <span class="n">interestingNumbers</span> <span class="p">{</span>
 </span><span class='line'>    <span class="k">for</span> <span class="n">number</span> <span class="k">in</span> <span class="n">numbers</span> <span class="p">{</span>
 </span><span class='line'>        <span class="k">if</span> <span class="n">number</span> <span class="o">&gt;</span> <span class="n">largest</span> <span class="p">{</span>
@@ -299,12 +297,12 @@ println(&quot;Hello,World&quot;) 如果你之前写过C或者Objc的代码，这
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='swift'><span class='line'> <span class="k">var</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'> <span class="n">var</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">2</span>
 </span><span class='line'> <span class="k">while</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="mi">100</span> <span class="p">{</span>
 </span><span class='line'>     <span class="n">n</span> <span class="o">=</span> <span class="n">n</span> <span class="o">*</span> <span class="mi">2</span>
 </span><span class='line'> <span class="p">}</span>
 </span><span class='line'> <span class="n">n</span>
-</span><span class='line'> <span class="k">var</span> <span class="n">m</span> <span class="o">=</span> <span class="mi">2</span>
+</span><span class='line'> <span class="n">var</span> <span class="n">m</span> <span class="o">=</span> <span class="mi">2</span>
 </span><span class='line'> <span class="k">do</span><span class="p">{</span>
 </span><span class='line'>     <span class="n">m</span> <span class="o">=</span> <span class="n">m</span> <span class="o">*</span> <span class="mi">2</span>
 </span><span class='line'> <span class="p">}</span> <span class="k">while</span> <span class="n">m</span> <span class="o">&lt;</span> <span class="mi">100</span>
@@ -324,13 +322,13 @@ println(&quot;Hello,World&quot;) 如果你之前写过C或者Objc的代码，这
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">var</span> <span class="n">firstLoop</span> <span class="o">=</span> <span class="mi">0</span>
-</span><span class='line'><span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mf">0.</span><span class="p">.</span><span class="o">&lt;</span><span class="mi">4</span> <span class="p">{</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">var</span> <span class="n">firstLoop</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'><span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">0</span><span class="o">.</span><span class="n">.</span><span class="o">&lt;</span><span class="mi">4</span> <span class="p">{</span>
 </span><span class='line'>    <span class="n">firstLoop</span> <span class="o">+=</span> <span class="n">i</span>
 </span><span class='line'><span class="p">}</span>
 </span><span class='line'><span class="n">firstLoop</span>
-</span><span class='line'><span class="k">var</span> <span class="n">secondLoop</span> <span class="o">=</span> <span class="mi">0</span>
-</span><span class='line'><span class="k">for</span> <span class="k">var</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">4</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span> <span class="p">{</span>
+</span><span class='line'><span class="n">var</span> <span class="n">secondLoop</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'><span class="k">for</span> <span class="n">var</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">4</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span> <span class="p">{</span>
 </span><span class='line'>    <span class="n">secondLoop</span> <span class="o">+=</span> <span class="n">i</span>
 </span><span class='line'><span class="p">}</span>
 </span><span class='line'><span class="n">secondLoop</span>
@@ -347,10 +345,10 @@ println(&quot;Hello,World&quot;) 如果你之前写过C或者Objc的代码，这
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">func</span> <span class="n">greet</span><span class="p">(</span><span class="nl">name</span><span class="p">:</span> <span class="n">String</span><span class="p">,</span> <span class="nl">day</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">String</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">return</span> <span class="s">&quot;Hello \(name), today is \(day)&quot;</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">func</span> <span class="n">greet</span><span class="p">(</span><span class="nb">name</span><span class="p">:</span> <span class="nb">String</span><span class="p">,</span> <span class="ss">day</span><span class="p">:</span> <span class="nb">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">String</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="s2">&quot;Hello \(name), today is \(day)&quot;</span>
 </span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="n">greet</span><span class="p">(</span><span class="s">&quot;Bob&quot;</span><span class="p">,</span><span class="s">&quot;Tuesday&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="n">greet</span><span class="p">(</span><span class="s2">&quot;Bob&quot;</span><span class="p">,</span><span class="s2">&quot;Tuesday&quot;</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -373,10 +371,10 @@ println(&quot;Hello,World&quot;) 如果你之前写过C或者Objc的代码，这
 <span class='line-number'>15</span>
 <span class='line-number'>16</span>
 <span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">func</span> <span class="nf">calculateStatistics</span><span class="p">(</span><span class="nl">scores</span><span class="p">:</span> <span class="p">[</span><span class="n">Int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="nl">min</span><span class="p">:</span> <span class="n">Int</span><span class="p">,</span> <span class="nl">max</span><span class="p">:</span> <span class="n">Int</span><span class="p">,</span> <span class="nl">sum</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">var</span> <span class="n">min</span> <span class="o">=</span> <span class="n">scores</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-</span><span class='line'>    <span class="k">var</span> <span class="n">max</span> <span class="o">=</span> <span class="n">scores</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-</span><span class='line'>    <span class="k">var</span> <span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">func</span> <span class="n">calculateStatistics</span><span class="p">(</span><span class="ss">scores</span><span class="p">:</span> <span class="o">[</span><span class="no">Int</span><span class="o">]</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="ss">min</span><span class="p">:</span> <span class="no">Int</span><span class="p">,</span> <span class="ss">max</span><span class="p">:</span> <span class="no">Int</span><span class="p">,</span> <span class="ss">sum</span><span class="p">:</span> <span class="no">Int</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">var</span> <span class="n">min</span> <span class="o">=</span> <span class="n">scores</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span>
+</span><span class='line'>    <span class="n">var</span> <span class="n">max</span> <span class="o">=</span> <span class="n">scores</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span>
+</span><span class='line'>    <span class="n">var</span> <span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span>
 </span><span class='line'>    <span class="k">for</span> <span class="n">score</span> <span class="k">in</span> <span class="n">scores</span> <span class="p">{</span>
 </span><span class='line'>        <span class="k">if</span> <span class="n">score</span> <span class="o">&gt;</span> <span class="n">max</span> <span class="p">{</span>
 </span><span class='line'>            <span class="n">max</span> <span class="o">=</span> <span class="n">score</span>
@@ -387,9 +385,9 @@ println(&quot;Hello,World&quot;) 如果你之前写过C或者Objc的代码，这
 </span><span class='line'>     <span class="p">}</span>
 </span><span class='line'>     <span class="k">return</span> <span class="p">(</span><span class="n">min</span><span class="p">,</span> <span class="n">max</span><span class="p">,</span> <span class="n">sum</span><span class="p">)</span>
 </span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="k">let</span> <span class="n">statistics</span> <span class="o">=</span> <span class="n">calculateStatistics</span><span class="p">([</span><span class="mi">5</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">9</span><span class="p">])</span>
-</span><span class='line'><span class="n">statistics</span><span class="p">.</span><span class="n">sum</span>
-</span><span class='line'><span class="n">statistics</span><span class="mf">.2</span>
+</span><span class='line'><span class="n">let</span> <span class="n">statistics</span> <span class="o">=</span> <span class="n">calculateStatistics</span><span class="p">(</span><span class="o">[</span><span class="mi">5</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">9</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'><span class="n">statistics</span><span class="o">.</span><span class="n">sum</span>
+</span><span class='line'><span class="n">statistics</span><span class="o">.</span><span class="mi">2</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -404,8 +402,8 @@ println(&quot;Hello,World&quot;) 如果你之前写过C或者Objc的代码，这
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">func</span> <span class="n">sumOf</span><span class="p">(</span><span class="nl">numbers</span> <span class="p">:</span> <span class="n">Int</span><span class="p">...)</span> <span class="o">-&gt;</span> <span class="n">Int</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">var</span> <span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">func</span> <span class="n">sumOf</span><span class="p">(</span><span class="n">numbers</span> <span class="p">:</span> <span class="no">Int</span><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="no">Int</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">var</span> <span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span>
 </span><span class='line'>    <span class="k">for</span> <span class="n">number</span> <span class="k">in</span> <span class="n">numbers</span> <span class="p">{</span>
 </span><span class='line'>        <span class="n">sum</span> <span class="o">+=</span> <span class="n">number</span>
 </span><span class='line'>    <span class="p">}</span>
@@ -427,9 +425,9 @@ println(&quot;Hello,World&quot;) 如果你之前写过C或者Objc的代码，这
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">func</span> <span class="nf">returnFifteen</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Int</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">var</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">10</span>
-</span><span class='line'>    <span class="k">func</span> <span class="n">add</span><span class="p">()</span> <span class="p">{</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">func</span> <span class="n">returnFifteen</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="no">Int</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">var</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">10</span>
+</span><span class='line'>    <span class="n">func</span> <span class="n">add</span><span class="p">()</span> <span class="p">{</span>
 </span><span class='line'>        <span class="n">y</span> <span class="o">+=</span> <span class="mi">5</span>
 </span><span class='line'>    <span class="p">}</span>
 </span><span class='line'>    <span class="n">add</span><span class="p">()</span>
@@ -449,13 +447,13 @@ println(&quot;Hello,World&quot;) 如果你之前写过C或者Objc的代码，这
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">func</span> <span class="nf">makeIncrementer</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="n">Int</span> <span class="o">-&gt;</span> <span class="n">Int</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">func</span> <span class="n">addOne</span><span class="p">(</span><span class="nl">number</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Int</span> <span class="p">{</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">func</span> <span class="n">makeIncrementer</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="no">Int</span> <span class="o">-&gt;</span> <span class="no">Int</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">func</span> <span class="n">addOne</span><span class="p">(</span><span class="ss">number</span><span class="p">:</span> <span class="no">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="no">Int</span> <span class="p">{</span>
 </span><span class='line'>        <span class="k">return</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">number</span>
 </span><span class='line'>    <span class="p">}</span>
 </span><span class='line'>    <span class="k">return</span> <span class="n">addOne</span>
 </span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="k">var</span> <span class="n">increment</span> <span class="o">=</span> <span class="n">makeIncrementer</span><span class="p">()</span>
+</span><span class='line'><span class="n">var</span> <span class="n">increment</span> <span class="o">=</span> <span class="n">makeIncrementer</span><span class="p">()</span>
 </span><span class='line'><span class="n">increment</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure>
 
@@ -475,18 +473,18 @@ println(&quot;Hello,World&quot;) 如果你之前写过C或者Objc的代码，这
 <span class='line-number'>11</span>
 <span class='line-number'>12</span>
 <span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">func</span> <span class="nf">hasAnyMatches</span><span class="p">(</span><span class="nl">list</span><span class="p">:</span> <span class="p">[</span><span class="n">Int</span><span class="p">],</span> <span class="nl">condition</span><span class="p">:</span> <span class="n">Int</span> <span class="o">-&gt;</span> <span class="n">Bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bool</span> <span class="p">{</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">func</span> <span class="n">hasAnyMatches</span><span class="p">(</span><span class="ss">list</span><span class="p">:</span> <span class="o">[</span><span class="no">Int</span><span class="o">]</span><span class="p">,</span> <span class="ss">condition</span><span class="p">:</span> <span class="no">Int</span> <span class="o">-&gt;</span> <span class="no">Bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="no">Bool</span> <span class="p">{</span>
 </span><span class='line'>    <span class="k">for</span> <span class="n">item</span> <span class="k">in</span> <span class="n">list</span> <span class="p">{</span>
 </span><span class='line'>        <span class="k">if</span> <span class="n">condition</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>            <span class="k">return</span> <span class="nb">true</span>
+</span><span class='line'>            <span class="k">return</span> <span class="kp">true</span>
 </span><span class='line'>        <span class="p">}</span>
 </span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>    <span class="k">return</span> <span class="nb">false</span>
+</span><span class='line'>    <span class="k">return</span> <span class="kp">false</span>
 </span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="k">func</span> <span class="n">lessThanTen</span><span class="p">(</span><span class="nl">number</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bool</span> <span class="p">{</span>
+</span><span class='line'><span class="n">func</span> <span class="n">lessThanTen</span><span class="p">(</span><span class="ss">number</span><span class="p">:</span> <span class="no">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="no">Bool</span> <span class="p">{</span>
 </span><span class='line'>    <span class="k">return</span> <span class="n">number</span> <span class="o">&lt;</span> <span class="mi">10</span>
 </span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="k">var</span> <span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">20</span><span class="p">,</span><span class="mi">19</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">12</span><span class="p">]</span>
+</span><span class='line'><span class="n">var</span> <span class="n">numbers</span> <span class="o">=</span> <span class="o">[</span><span class="mi">20</span><span class="p">,</span><span class="mi">19</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">12</span><span class="o">]</span>
 </span><span class='line'><span class="n">hasAnyMatches</span><span class="p">(</span><span class="n">numbers</span><span class="p">,</span> <span class="n">lessThanTen</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure>
 
@@ -498,9 +496,9 @@ println(&quot;Hello,World&quot;) 如果你之前写过C或者Objc的代码，这
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="n">numbers</span><span class="p">.</span><span class="n">map</span><span class="p">({</span>
-</span><span class='line'>    <span class="p">(</span><span class="nl">number</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Int</span> <span class="k">in</span>
-</span><span class='line'>    <span class="k">let</span> <span class="n">result</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">number</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">numbers</span><span class="o">.</span><span class="n">map</span><span class="p">({</span>
+</span><span class='line'>    <span class="p">(</span><span class="ss">number</span><span class="p">:</span> <span class="no">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="no">Int</span> <span class="k">in</span>
+</span><span class='line'>    <span class="n">let</span> <span class="n">result</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">number</span>
 </span><span class='line'>    <span class="k">return</span> <span class="n">result</span>
 </span><span class='line'><span class="p">})</span>
 </span></code></pre></td></tr></table></div></figure>
@@ -510,7 +508,7 @@ println(&quot;Hello,World&quot;) 如果你之前写过C或者Objc的代码，这
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">let</span> <span class="n">mappedNumbers</span> <span class="o">=</span> <span class="n">numbers</span><span class="p">.</span><span class="n">map</span><span class="p">({</span> <span class="n">number</span> <span class="k">in</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">number</span> <span class="p">})</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">let</span> <span class="n">mappedNumbers</span> <span class="o">=</span> <span class="n">numbers</span><span class="o">.</span><span class="n">map</span><span class="p">({</span> <span class="n">number</span> <span class="k">in</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">number</span> <span class="p">})</span>
 </span><span class='line'><span class="n">mappedNumbers</span>
 </span></code></pre></td></tr></table></div></figure>
 
@@ -519,7 +517,7 @@ println(&quot;Hello,World&quot;) 如果你之前写过C或者Objc的代码，这
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">let</span> <span class="n">sortedNumber</span> <span class="o">=</span> <span class="n">sorted</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span> <span class="p">{</span> <span class="err">$</span><span class="mi">0</span> <span class="o">&gt;</span> <span class="err">$</span><span class="mi">1</span> <span class="p">}</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">let</span> <span class="n">sortedNumber</span> <span class="o">=</span> <span class="n">sorted</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span> <span class="p">{</span> <span class="vg">$0</span> <span class="o">&gt;</span> <span class="vg">$1</span> <span class="p">}</span>
 </span><span class='line'><span class="n">sortedNumber</span>
 </span></code></pre></td></tr></table></div></figure>
 
@@ -534,10 +532,10 @@ println(&quot;Hello,World&quot;) 如果你之前写过C或者Objc的代码，这
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">class</span> <span class="n">Shape</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">var</span> <span class="n">numberOfSides</span> <span class="o">=</span> <span class="mi">0</span>
-</span><span class='line'>    <span class="k">func</span> <span class="n">simpleDescription</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">String</span> <span class="p">{</span>
-</span><span class='line'>        <span class="k">return</span> <span class="s">&quot;A shape with \(numberOfSides) sides&quot;</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Shape</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">var</span> <span class="n">numberOfSides</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>    <span class="n">func</span> <span class="n">simpleDescription</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">String</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="s2">&quot;A shape with \(numberOfSides) sides&quot;</span>
 </span><span class='line'>    <span class="p">}</span>
 </span><span class='line'><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
@@ -548,9 +546,9 @@ println(&quot;Hello,World&quot;) 如果你之前写过C或者Objc的代码，这
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">var</span> <span class="n">shape</span> <span class="o">=</span> <span class="n">Shape</span><span class="p">()</span>
-</span><span class='line'><span class="n">shape</span><span class="p">.</span><span class="n">numberOfSides</span> <span class="o">=</span> <span class="mi">7</span>
-</span><span class='line'><span class="k">var</span> <span class="n">shapeDescription</span> <span class="o">=</span> <span class="n">shape</span><span class="p">.</span><span class="n">simpleDescription</span><span class="p">()</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">var</span> <span class="n">shape</span> <span class="o">=</span> <span class="no">Shape</span><span class="p">()</span>
+</span><span class='line'><span class="n">shape</span><span class="o">.</span><span class="n">numberOfSides</span> <span class="o">=</span> <span class="mi">7</span>
+</span><span class='line'><span class="n">var</span> <span class="n">shapeDescription</span> <span class="o">=</span> <span class="n">shape</span><span class="o">.</span><span class="n">simpleDescription</span><span class="p">()</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -566,14 +564,14 @@ println(&quot;Hello,World&quot;) 如果你之前写过C或者Objc的代码，这
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">class</span> <span class="n">NamedShape</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">var</span> <span class="n">numberOfSides</span> <span class="o">=</span> <span class="mi">0</span>
-</span><span class='line'>    <span class="k">var</span> <span class="nl">name</span> <span class="p">:</span> <span class="n">String</span>
-</span><span class='line'>    <span class="k">init</span><span class="p">(</span><span class="nl">name</span><span class="p">:</span><span class="n">String</span><span class="p">){</span>
-</span><span class='line'>        <span class="nb">self</span><span class="p">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">NamedShape</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">var</span> <span class="n">numberOfSides</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>    <span class="n">var</span> <span class="nb">name</span> <span class="p">:</span> <span class="nb">String</span>
+</span><span class='line'>    <span class="n">init</span><span class="p">(</span><span class="nb">name</span><span class="ss">:String</span><span class="p">){</span>
+</span><span class='line'>        <span class="nb">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="nb">name</span>
 </span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>    <span class="k">func</span> <span class="n">simpleDescription</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">String</span> <span class="p">{</span>
-</span><span class='line'>        <span class="k">return</span> <span class="s">&quot;A shape with \(numberOfSides) sides&quot;</span>
+</span><span class='line'>    <span class="n">func</span> <span class="n">simpleDescription</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">String</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="s2">&quot;A shape with \(numberOfSides) sides&quot;</span>
 </span><span class='line'>    <span class="p">}</span>
 </span><span class='line'><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
@@ -604,23 +602,23 @@ println(&quot;Hello,World&quot;) 如果你之前写过C或者Objc的代码，这
 <span class='line-number'>15</span>
 <span class='line-number'>16</span>
 <span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">class</span> <span class="nl">Square</span><span class="p">:</span> <span class="n">NamedShape</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">var</span> <span class="nl">sideLength</span><span class="p">:</span> <span class="n">Double</span>
-</span><span class='line'>    <span class="k">init</span><span class="p">(</span><span class="nl">sideLength</span><span class="p">:</span> <span class="n">Double</span><span class="p">,</span> <span class="nl">name</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>        <span class="nb">self</span><span class="p">.</span><span class="n">sideLength</span> <span class="o">=</span> <span class="n">sideLength</span>
-</span><span class='line'>        <span class="nb">super</span><span class="p">.</span><span class="k">init</span><span class="p">(</span><span class="nl">name</span><span class="p">:</span> <span class="n">name</span><span class="p">)</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Square</span><span class="p">:</span> <span class="no">NamedShape</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">var</span> <span class="ss">sideLength</span><span class="p">:</span> <span class="no">Double</span>
+</span><span class='line'>    <span class="n">init</span><span class="p">(</span><span class="ss">sideLength</span><span class="p">:</span> <span class="no">Double</span><span class="p">,</span> <span class="nb">name</span><span class="p">:</span> <span class="nb">String</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nb">self</span><span class="o">.</span><span class="n">sideLength</span> <span class="o">=</span> <span class="n">sideLength</span>
+</span><span class='line'>        <span class="k">super</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="nb">name</span><span class="p">:</span> <span class="nb">name</span><span class="p">)</span>
 </span><span class='line'>        <span class="n">numberOfSides</span> <span class="o">=</span> <span class="mi">4</span>
 </span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>    <span class="k">func</span> <span class="n">area</span><span class="p">()</span> <span class="o">-&gt;</span>  <span class="n">Double</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">func</span> <span class="n">area</span><span class="p">()</span> <span class="o">-&gt;</span>  <span class="no">Double</span> <span class="p">{</span>
 </span><span class='line'>        <span class="k">return</span> <span class="n">sideLength</span> <span class="o">*</span> <span class="n">sideLength</span>
 </span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>    <span class="kr">override</span> <span class="k">func</span> <span class="n">simpleDescription</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">String</span> <span class="p">{</span>
-</span><span class='line'>        <span class="k">return</span> <span class="s">&quot;A square with sides of length \(sideLength).&quot;</span>
+</span><span class='line'>    <span class="n">override</span> <span class="n">func</span> <span class="n">simpleDescription</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">String</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="s2">&quot;A square with sides of length \(sideLength).&quot;</span>
 </span><span class='line'>    <span class="p">}</span>
 </span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="k">let</span> <span class="n">test</span> <span class="o">=</span> <span class="n">Square</span><span class="p">(</span><span class="nl">sideLength</span><span class="p">:</span> <span class="mf">5.2</span><span class="p">,</span> <span class="nl">name</span><span class="p">:</span> <span class="s">&quot;my test square&quot;</span><span class="p">)</span>
-</span><span class='line'><span class="n">test</span><span class="p">.</span><span class="n">area</span><span class="p">()</span>
-</span><span class='line'><span class="n">test</span><span class="p">.</span><span class="n">simpleDescription</span><span class="p">()</span>
+</span><span class='line'><span class="n">let</span> <span class="nb">test</span> <span class="o">=</span> <span class="no">Square</span><span class="p">(</span><span class="ss">sideLength</span><span class="p">:</span> <span class="mi">5</span><span class="o">.</span><span class="mi">2</span><span class="p">,</span> <span class="nb">name</span><span class="p">:</span> <span class="s2">&quot;my test square&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="nb">test</span><span class="o">.</span><span class="n">area</span><span class="p">()</span>
+</span><span class='line'><span class="nb">test</span><span class="o">.</span><span class="n">simpleDescription</span><span class="p">()</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -649,29 +647,29 @@ println(&quot;Hello,World&quot;) 如果你之前写过C或者Objc的代码，这
 <span class='line-number'>21</span>
 <span class='line-number'>22</span>
 <span class='line-number'>23</span>
-</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">class</span> <span class="nl">EquilateralTriangle</span><span class="p">:</span> <span class="n">NamedShape</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">var</span> <span class="nl">sideLength</span><span class="p">:</span> <span class="n">Double</span> <span class="o">=</span> <span class="mf">0.0</span>
-</span><span class='line'>    <span class="k">init</span><span class="p">(</span><span class="nl">sideLength</span><span class="p">:</span> <span class="n">Double</span><span class="p">,</span> <span class="nl">name</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>        <span class="nb">self</span><span class="p">.</span><span class="n">sideLength</span> <span class="o">=</span> <span class="n">sideLength</span>
-</span><span class='line'>        <span class="nb">super</span><span class="p">.</span><span class="k">init</span><span class="p">(</span><span class="nl">name</span><span class="p">:</span> <span class="n">name</span><span class="p">)</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">EquilateralTriangle</span><span class="p">:</span> <span class="no">NamedShape</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">var</span> <span class="ss">sideLength</span><span class="p">:</span> <span class="no">Double</span> <span class="o">=</span> <span class="mi">0</span><span class="o">.</span><span class="mi">0</span>
+</span><span class='line'>    <span class="n">init</span><span class="p">(</span><span class="ss">sideLength</span><span class="p">:</span> <span class="no">Double</span><span class="p">,</span> <span class="nb">name</span><span class="p">:</span> <span class="nb">String</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nb">self</span><span class="o">.</span><span class="n">sideLength</span> <span class="o">=</span> <span class="n">sideLength</span>
+</span><span class='line'>        <span class="k">super</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="nb">name</span><span class="p">:</span> <span class="nb">name</span><span class="p">)</span>
 </span><span class='line'>        <span class="n">numberOfSides</span> <span class="o">=</span> <span class="mi">3</span>
 </span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>    <span class="k">var</span> <span class="nl">perimeter</span><span class="p">:</span> <span class="n">Double</span> <span class="p">{</span>
-</span><span class='line'>        <span class="kr">get</span> <span class="p">{</span>
-</span><span class='line'>            <span class="k">return</span> <span class="mf">3.0</span> <span class="o">*</span> <span class="n">sideLength</span>
+</span><span class='line'>    <span class="n">var</span> <span class="ss">perimeter</span><span class="p">:</span> <span class="no">Double</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">get</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">return</span> <span class="mi">3</span><span class="o">.</span><span class="mi">0</span> <span class="o">*</span> <span class="n">sideLength</span>
 </span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>        <span class="kr">set</span> <span class="p">{</span>
-</span><span class='line'>            <span class="n">sideLength</span> <span class="o">=</span> <span class="n">newValue</span> <span class="o">/</span> <span class="mf">3.0</span>
+</span><span class='line'>        <span class="n">set</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">sideLength</span> <span class="o">=</span> <span class="n">newValue</span> <span class="o">/</span> <span class="mi">3</span><span class="o">.</span><span class="mi">0</span>
 </span><span class='line'>        <span class="p">}</span>
 </span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>    <span class="kr">override</span> <span class="k">func</span> <span class="n">simpleDescription</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">String</span> <span class="p">{</span>
-</span><span class='line'>        <span class="k">return</span> <span class="s">&quot;An equilateral triangle with sides of length \(sideLength).&quot;</span>
+</span><span class='line'>    <span class="n">override</span> <span class="n">func</span> <span class="n">simpleDescription</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">String</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="s2">&quot;An equilateral triangle with sides of length \(sideLength).&quot;</span>
 </span><span class='line'>    <span class="p">}</span>
 </span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="k">var</span> <span class="n">triangle</span> <span class="o">=</span> <span class="n">EquilateralTriangle</span><span class="p">(</span><span class="nl">sideLength</span><span class="p">:</span> <span class="mf">3.1</span><span class="p">,</span> <span class="nl">name</span><span class="p">:</span> <span class="s">&quot;a triangle&quot;</span><span class="p">)</span>
-</span><span class='line'><span class="n">triangle</span><span class="p">.</span><span class="n">perimeter</span>
-</span><span class='line'><span class="n">triangle</span><span class="p">.</span><span class="n">perimeter</span> <span class="o">=</span> <span class="mf">9.9</span>
-</span><span class='line'><span class="n">triangle</span><span class="p">.</span><span class="n">sideLength</span>
+</span><span class='line'><span class="n">var</span> <span class="n">triangle</span> <span class="o">=</span> <span class="no">EquilateralTriangle</span><span class="p">(</span><span class="ss">sideLength</span><span class="p">:</span> <span class="mi">3</span><span class="o">.</span><span class="mi">1</span><span class="p">,</span> <span class="nb">name</span><span class="p">:</span> <span class="s2">&quot;a triangle&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="n">triangle</span><span class="o">.</span><span class="n">perimeter</span>
+</span><span class='line'><span class="n">triangle</span><span class="o">.</span><span class="n">perimeter</span> <span class="o">=</span> <span class="mi">9</span><span class="o">.</span><span class="mi">9</span>
+</span><span class='line'><span class="n">triangle</span><span class="o">.</span><span class="n">sideLength</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -709,27 +707,27 @@ println(&quot;Hello,World&quot;) 如果你之前写过C或者Objc的代码，这
 <span class='line-number'>19</span>
 <span class='line-number'>20</span>
 <span class='line-number'>21</span>
-</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">class</span> <span class="n">TriangleAndSquare</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">var</span> <span class="nl">triangle</span><span class="p">:</span> <span class="n">EquilateralTriangle</span> <span class="p">{</span>
-</span><span class='line'>        <span class="kr">willSet</span> <span class="p">{</span>
-</span><span class='line'>            <span class="n">square</span><span class="p">.</span><span class="n">sideLength</span> <span class="o">=</span> <span class="n">newValue</span><span class="p">.</span><span class="n">sideLength</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">TriangleAndSquare</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">var</span> <span class="ss">triangle</span><span class="p">:</span> <span class="no">EquilateralTriangle</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">willSet</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">square</span><span class="o">.</span><span class="n">sideLength</span> <span class="o">=</span> <span class="n">newValue</span><span class="o">.</span><span class="n">sideLength</span>
 </span><span class='line'>        <span class="p">}</span>
 </span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>    <span class="k">var</span> <span class="nl">square</span><span class="p">:</span> <span class="n">Square</span> <span class="p">{</span>
-</span><span class='line'>        <span class="kr">willSet</span> <span class="p">{</span>
-</span><span class='line'>            <span class="n">triangle</span><span class="p">.</span><span class="n">sideLength</span> <span class="o">=</span> <span class="n">newValue</span><span class="p">.</span><span class="n">sideLength</span>
+</span><span class='line'>    <span class="n">var</span> <span class="ss">square</span><span class="p">:</span> <span class="no">Square</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">willSet</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">triangle</span><span class="o">.</span><span class="n">sideLength</span> <span class="o">=</span> <span class="n">newValue</span><span class="o">.</span><span class="n">sideLength</span>
 </span><span class='line'>        <span class="p">}</span>
 </span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>    <span class="k">init</span><span class="p">(</span><span class="nl">size</span><span class="p">:</span> <span class="n">Double</span><span class="p">,</span> <span class="nl">name</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>        <span class="n">square</span> <span class="o">=</span> <span class="n">Square</span><span class="p">(</span><span class="nl">sideLength</span><span class="p">:</span> <span class="n">size</span><span class="p">,</span> <span class="nl">name</span><span class="p">:</span> <span class="n">name</span><span class="p">)</span>
-</span><span class='line'>        <span class="n">triangle</span> <span class="o">=</span> <span class="n">EquilateralTriangle</span><span class="p">(</span><span class="nl">sideLength</span><span class="p">:</span> <span class="n">size</span><span class="p">,</span> <span class="nl">name</span><span class="p">:</span> <span class="n">name</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">init</span><span class="p">(</span><span class="ss">size</span><span class="p">:</span> <span class="no">Double</span><span class="p">,</span> <span class="nb">name</span><span class="p">:</span> <span class="nb">String</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">square</span> <span class="o">=</span> <span class="no">Square</span><span class="p">(</span><span class="ss">sideLength</span><span class="p">:</span> <span class="n">size</span><span class="p">,</span> <span class="nb">name</span><span class="p">:</span> <span class="nb">name</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">triangle</span> <span class="o">=</span> <span class="no">EquilateralTriangle</span><span class="p">(</span><span class="ss">sideLength</span><span class="p">:</span> <span class="n">size</span><span class="p">,</span> <span class="nb">name</span><span class="p">:</span> <span class="nb">name</span><span class="p">)</span>
 </span><span class='line'>    <span class="p">}</span>
 </span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="k">var</span> <span class="n">triangleAndSquare</span> <span class="o">=</span> <span class="n">TriangleAndSquare</span><span class="p">(</span><span class="nl">size</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="nl">name</span><span class="p">:</span> <span class="s">&quot;another test shape&quot;</span><span class="p">)</span>
-</span><span class='line'><span class="n">triangleAndSquare</span><span class="p">.</span><span class="n">square</span><span class="p">.</span><span class="n">sideLength</span>
-</span><span class='line'><span class="n">triangleAndSquare</span><span class="p">.</span><span class="n">triangle</span><span class="p">.</span><span class="n">sideLength</span>
-</span><span class='line'><span class="n">triangleAndSquare</span><span class="p">.</span><span class="n">square</span> <span class="o">=</span> <span class="n">Square</span><span class="p">(</span><span class="nl">sideLength</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span> <span class="nl">name</span><span class="p">:</span> <span class="s">&quot;larger square&quot;</span><span class="p">)</span>
-</span><span class='line'><span class="n">triangleAndSquare</span><span class="p">.</span><span class="n">triangle</span><span class="p">.</span><span class="n">sideLength</span>
+</span><span class='line'><span class="n">var</span> <span class="n">triangleAndSquare</span> <span class="o">=</span> <span class="no">TriangleAndSquare</span><span class="p">(</span><span class="ss">size</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="nb">name</span><span class="p">:</span> <span class="s2">&quot;another test shape&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="n">triangleAndSquare</span><span class="o">.</span><span class="n">square</span><span class="o">.</span><span class="n">sideLength</span>
+</span><span class='line'><span class="n">triangleAndSquare</span><span class="o">.</span><span class="n">triangle</span><span class="o">.</span><span class="n">sideLength</span>
+</span><span class='line'><span class="n">triangleAndSquare</span><span class="o">.</span><span class="n">square</span> <span class="o">=</span> <span class="no">Square</span><span class="p">(</span><span class="ss">sideLength</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span> <span class="nb">name</span><span class="p">:</span> <span class="s2">&quot;larger square&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="n">triangleAndSquare</span><span class="o">.</span><span class="n">triangle</span><span class="o">.</span><span class="n">sideLength</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -743,14 +741,14 @@ println(&quot;Hello,World&quot;) 如果你之前写过C或者Objc的代码，这
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">class</span> <span class="n">Counter</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">var</span> <span class="nl">count</span><span class="p">:</span> <span class="n">Int</span> <span class="o">=</span> <span class="mi">0</span>
-</span><span class='line'>    <span class="k">func</span> <span class="n">incrementBy</span><span class="p">(</span><span class="nl">amount</span><span class="p">:</span> <span class="n">Int</span><span class="p">,</span> <span class="n">numberOfTimes</span> <span class="nl">times</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="p">{</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Counter</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">var</span> <span class="ss">count</span><span class="p">:</span> <span class="no">Int</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>    <span class="n">func</span> <span class="n">incrementBy</span><span class="p">(</span><span class="ss">amount</span><span class="p">:</span> <span class="no">Int</span><span class="p">,</span> <span class="n">numberOfTimes</span> <span class="ss">times</span><span class="p">:</span> <span class="no">Int</span><span class="p">)</span> <span class="p">{</span>
 </span><span class='line'>        <span class="n">count</span> <span class="o">+=</span> <span class="n">amount</span> <span class="o">*</span> <span class="n">times</span>
 </span><span class='line'>    <span class="p">}</span>
 </span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="k">var</span> <span class="n">counter</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">()</span>
-</span><span class='line'><span class="n">counter</span><span class="p">.</span><span class="n">incrementBy</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="nl">numberOfTimes</span><span class="p">:</span> <span class="mi">7</span><span class="p">)</span>
+</span><span class='line'><span class="n">var</span> <span class="n">counter</span> <span class="o">=</span> <span class="no">Counter</span><span class="p">()</span>
+</span><span class='line'><span class="n">counter</span><span class="o">.</span><span class="n">incrementBy</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="ss">numberOfTimes</span><span class="p">:</span> <span class="mi">7</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -758,8 +756,8 @@ println(&quot;Hello,World&quot;) 如果你之前写过C或者Objc的代码，这
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">let</span> <span class="nl">optionalSquare</span><span class="p">:</span> <span class="n">Square</span><span class="o">?</span> <span class="o">=</span> <span class="n">Square</span><span class="p">(</span><span class="nl">sideLength</span><span class="p">:</span> <span class="mf">2.5</span><span class="p">,</span> <span class="nl">name</span><span class="p">:</span> <span class="s">&quot;optional square&quot;</span><span class="p">)</span>
-</span><span class='line'><span class="k">let</span> <span class="n">sideLength</span> <span class="o">=</span> <span class="n">optionalSquare</span><span class="o">?</span><span class="p">.</span><span class="n">sideLength</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">let</span> <span class="ss">optionalSquare</span><span class="p">:</span> <span class="no">Square</span><span class="p">?</span> <span class="o">=</span> <span class="no">Square</span><span class="p">(</span><span class="ss">sideLength</span><span class="p">:</span> <span class="mi">2</span><span class="o">.</span><span class="mi">5</span><span class="p">,</span> <span class="nb">name</span><span class="p">:</span> <span class="s2">&quot;optional square&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="n">let</span> <span class="n">sideLength</span> <span class="o">=</span> <span class="n">optionalSquare?</span><span class="o">.</span><span class="n">sideLength</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -788,27 +786,27 @@ println(&quot;Hello,World&quot;) 如果你之前写过C或者Objc的代码，这
 <span class='line-number'>19</span>
 <span class='line-number'>20</span>
 <span class='line-number'>21</span>
-</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">enum</span> <span class="nl">Rank</span><span class="p">:</span> <span class="n">Int</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">case</span> <span class="n">Ace</span> <span class="o">=</span> <span class="mi">1</span>
-</span><span class='line'>    <span class="k">case</span> <span class="n">Two</span><span class="p">,</span> <span class="n">Three</span><span class="p">,</span> <span class="n">Four</span><span class="p">,</span> <span class="n">Five</span><span class="p">,</span> <span class="n">Six</span><span class="p">,</span> <span class="n">Seven</span><span class="p">,</span> <span class="n">Eight</span><span class="p">,</span> <span class="n">Nine</span><span class="p">,</span> <span class="n">Ten</span>
-</span><span class='line'>    <span class="k">case</span> <span class="n">Jack</span><span class="p">,</span> <span class="n">Queen</span><span class="p">,</span> <span class="n">King</span>
-</span><span class='line'>    <span class="k">func</span> <span class="n">simpleDescription</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">String</span> <span class="p">{</span>
-</span><span class='line'>        <span class="k">switch</span> <span class="nb">self</span> <span class="p">{</span>
-</span><span class='line'>        <span class="k">case</span> <span class="p">.</span><span class="nl">Ace</span><span class="p">:</span>
-</span><span class='line'>            <span class="k">return</span> <span class="s">&quot;ace&quot;</span>
-</span><span class='line'>        <span class="k">case</span> <span class="p">.</span><span class="nl">Jack</span><span class="p">:</span>
-</span><span class='line'>            <span class="k">return</span> <span class="s">&quot;jack&quot;</span>
-</span><span class='line'>        <span class="k">case</span> <span class="p">.</span><span class="nl">Queen</span><span class="p">:</span>
-</span><span class='line'>            <span class="k">return</span> <span class="s">&quot;queen&quot;</span>
-</span><span class='line'>        <span class="k">case</span> <span class="p">.</span><span class="nl">King</span><span class="p">:</span>
-</span><span class='line'>            <span class="k">return</span> <span class="s">&quot;king&quot;</span>
-</span><span class='line'>        <span class="k">default</span><span class="o">:</span>
-</span><span class='line'>            <span class="k">return</span> <span class="n">String</span><span class="p">(</span><span class="nb">self</span><span class="p">.</span><span class="n">toRaw</span><span class="p">())</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">enum</span> <span class="ss">Rank</span><span class="p">:</span> <span class="no">Int</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">case</span> <span class="no">Ace</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span class='line'>    <span class="k">case</span> <span class="no">Two</span><span class="p">,</span> <span class="no">Three</span><span class="p">,</span> <span class="no">Four</span><span class="p">,</span> <span class="no">Five</span><span class="p">,</span> <span class="no">Six</span><span class="p">,</span> <span class="no">Seven</span><span class="p">,</span> <span class="no">Eight</span><span class="p">,</span> <span class="no">Nine</span><span class="p">,</span> <span class="no">Ten</span>
+</span><span class='line'>    <span class="k">case</span> <span class="no">Jack</span><span class="p">,</span> <span class="no">Queen</span><span class="p">,</span> <span class="no">King</span>
+</span><span class='line'>    <span class="n">func</span> <span class="n">simpleDescription</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">String</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">switch</span> <span class="nb">self</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">case</span> <span class="o">.</span><span class="n">Ace</span><span class="p">:</span>
+</span><span class='line'>            <span class="k">return</span> <span class="s2">&quot;ace&quot;</span>
+</span><span class='line'>        <span class="k">case</span> <span class="o">.</span><span class="n">Jack</span><span class="p">:</span>
+</span><span class='line'>            <span class="k">return</span> <span class="s2">&quot;jack&quot;</span>
+</span><span class='line'>        <span class="k">case</span> <span class="o">.</span><span class="n">Queen</span><span class="p">:</span>
+</span><span class='line'>            <span class="k">return</span> <span class="s2">&quot;queen&quot;</span>
+</span><span class='line'>        <span class="k">case</span> <span class="o">.</span><span class="n">King</span><span class="p">:</span>
+</span><span class='line'>            <span class="k">return</span> <span class="s2">&quot;king&quot;</span>
+</span><span class='line'>        <span class="ss">default</span><span class="p">:</span>
+</span><span class='line'>            <span class="k">return</span> <span class="nb">String</span><span class="p">(</span><span class="nb">self</span><span class="o">.</span><span class="n">toRaw</span><span class="p">())</span>
 </span><span class='line'>        <span class="p">}</span>
 </span><span class='line'>    <span class="p">}</span>
 </span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="k">let</span> <span class="n">ace</span> <span class="o">=</span> <span class="n">Rank</span><span class="p">.</span><span class="n">Ace</span>
-</span><span class='line'><span class="k">let</span> <span class="n">aceRawValue</span> <span class="o">=</span> <span class="n">ace</span><span class="p">.</span><span class="n">toRaw</span><span class="p">()</span>
+</span><span class='line'><span class="n">let</span> <span class="n">ace</span> <span class="o">=</span> <span class="no">Rank</span><span class="o">.</span><span class="n">Ace</span>
+</span><span class='line'><span class="n">let</span> <span class="n">aceRawValue</span> <span class="o">=</span> <span class="n">ace</span><span class="o">.</span><span class="n">toRaw</span><span class="p">()</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -819,8 +817,8 @@ println(&quot;Hello,World&quot;) 如果你之前写过C或者Objc的代码，这
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">if</span> <span class="k">let</span> <span class="n">convertedRank</span> <span class="o">=</span> <span class="n">Rank</span><span class="p">.</span><span class="n">fromRaw</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">let</span> <span class="n">threeDescription</span> <span class="o">=</span> <span class="n">convertedRank</span><span class="p">.</span><span class="n">simpleDescription</span><span class="p">()</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">if</span> <span class="n">let</span> <span class="n">convertedRank</span> <span class="o">=</span> <span class="no">Rank</span><span class="o">.</span><span class="n">fromRaw</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">let</span> <span class="n">threeDescription</span> <span class="o">=</span> <span class="n">convertedRank</span><span class="o">.</span><span class="n">simpleDescription</span><span class="p">()</span>
 </span><span class='line'><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
@@ -844,23 +842,23 @@ println(&quot;Hello,World&quot;) 如果你之前写过C或者Objc的代码，这
 <span class='line-number'>15</span>
 <span class='line-number'>16</span>
 <span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">enum</span> <span class="n">Suit</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">case</span> <span class="n">Spades</span><span class="p">,</span> <span class="n">Hearts</span><span class="p">,</span> <span class="n">Diamonds</span><span class="p">,</span> <span class="n">Clubs</span>
-</span><span class='line'>    <span class="k">func</span> <span class="n">simpleDescription</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">String</span> <span class="p">{</span>
-</span><span class='line'>        <span class="k">switch</span> <span class="nb">self</span> <span class="p">{</span>
-</span><span class='line'>        <span class="k">case</span> <span class="p">.</span><span class="nl">Spades</span><span class="p">:</span>
-</span><span class='line'>            <span class="k">return</span> <span class="s">&quot;spades&quot;</span>
-</span><span class='line'>        <span class="k">case</span> <span class="p">.</span><span class="nl">Hearts</span><span class="p">:</span>
-</span><span class='line'>            <span class="k">return</span> <span class="s">&quot;hearts&quot;</span>
-</span><span class='line'>        <span class="k">case</span> <span class="p">.</span><span class="nl">Diamonds</span><span class="p">:</span>
-</span><span class='line'>            <span class="k">return</span> <span class="s">&quot;diamonds&quot;</span>
-</span><span class='line'>        <span class="k">case</span> <span class="p">.</span><span class="nl">Clubs</span><span class="p">:</span>
-</span><span class='line'>            <span class="k">return</span> <span class="s">&quot;clubs&quot;</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">enum</span> <span class="no">Suit</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">case</span> <span class="no">Spades</span><span class="p">,</span> <span class="no">Hearts</span><span class="p">,</span> <span class="no">Diamonds</span><span class="p">,</span> <span class="no">Clubs</span>
+</span><span class='line'>    <span class="n">func</span> <span class="n">simpleDescription</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">String</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">switch</span> <span class="nb">self</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">case</span> <span class="o">.</span><span class="n">Spades</span><span class="p">:</span>
+</span><span class='line'>            <span class="k">return</span> <span class="s2">&quot;spades&quot;</span>
+</span><span class='line'>        <span class="k">case</span> <span class="o">.</span><span class="n">Hearts</span><span class="p">:</span>
+</span><span class='line'>            <span class="k">return</span> <span class="s2">&quot;hearts&quot;</span>
+</span><span class='line'>        <span class="k">case</span> <span class="o">.</span><span class="n">Diamonds</span><span class="p">:</span>
+</span><span class='line'>            <span class="k">return</span> <span class="s2">&quot;diamonds&quot;</span>
+</span><span class='line'>        <span class="k">case</span> <span class="o">.</span><span class="n">Clubs</span><span class="p">:</span>
+</span><span class='line'>            <span class="k">return</span> <span class="s2">&quot;clubs&quot;</span>
 </span><span class='line'>        <span class="p">}</span>
 </span><span class='line'>    <span class="p">}</span>
 </span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="k">let</span> <span class="n">hearts</span> <span class="o">=</span> <span class="n">Suit</span><span class="p">.</span><span class="n">Hearts</span>
-</span><span class='line'><span class="k">let</span> <span class="n">heartsDescription</span> <span class="o">=</span> <span class="n">hearts</span><span class="p">.</span><span class="n">simpleDescription</span><span class="p">()</span>
+</span><span class='line'><span class="n">let</span> <span class="n">hearts</span> <span class="o">=</span> <span class="no">Suit</span><span class="o">.</span><span class="n">Hearts</span>
+</span><span class='line'><span class="n">let</span> <span class="n">heartsDescription</span> <span class="o">=</span> <span class="n">hearts</span><span class="o">.</span><span class="n">simpleDescription</span><span class="p">()</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -877,15 +875,15 @@ println(&quot;Hello,World&quot;) 如果你之前写过C或者Objc的代码，这
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">struct</span> <span class="n">Card</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">var</span> <span class="nl">rank</span><span class="p">:</span> <span class="n">Rank</span>
-</span><span class='line'>    <span class="k">var</span> <span class="nl">suit</span><span class="p">:</span> <span class="n">Suit</span>
-</span><span class='line'>    <span class="k">func</span> <span class="n">simpleDescription</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">String</span> <span class="p">{</span>
-</span><span class='line'>        <span class="k">return</span> <span class="s">&quot;The \(rank.simpleDescription()) of \(suit.simpleDescription())&quot;</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">struct</span> <span class="no">Card</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">var</span> <span class="ss">rank</span><span class="p">:</span> <span class="no">Rank</span>
+</span><span class='line'>    <span class="n">var</span> <span class="ss">suit</span><span class="p">:</span> <span class="no">Suit</span>
+</span><span class='line'>    <span class="n">func</span> <span class="n">simpleDescription</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">String</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="s2">&quot;The \(rank.simpleDescription()) of \(suit.simpleDescription())&quot;</span>
 </span><span class='line'>    <span class="p">}</span>
 </span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="k">let</span> <span class="n">threeOfSpades</span> <span class="o">=</span> <span class="n">Card</span><span class="p">(</span><span class="nl">rank</span><span class="p">:</span> <span class="p">.</span><span class="n">Three</span><span class="p">,</span> <span class="nl">suit</span><span class="p">:</span> <span class="p">.</span><span class="n">Spades</span><span class="p">)</span>
-</span><span class='line'><span class="k">let</span> <span class="n">threeOfSpadesDescription</span> <span class="o">=</span> <span class="n">threeOfSpades</span><span class="p">.</span><span class="n">simpleDescription</span><span class="p">()</span>
+</span><span class='line'><span class="n">let</span> <span class="n">threeOfSpades</span> <span class="o">=</span> <span class="no">Card</span><span class="p">(</span><span class="ss">rank</span><span class="p">:</span> <span class="o">.</span><span class="n">Three</span><span class="p">,</span> <span class="ss">suit</span><span class="p">:</span> <span class="o">.</span><span class="n">Spades</span><span class="p">)</span>
+</span><span class='line'><span class="n">let</span> <span class="n">threeOfSpadesDescription</span> <span class="o">=</span> <span class="n">threeOfSpades</span><span class="o">.</span><span class="n">simpleDescription</span><span class="p">()</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -905,17 +903,17 @@ println(&quot;Hello,World&quot;) 如果你之前写过C或者Objc的代码，这
 <span class='line-number'>10</span>
 <span class='line-number'>11</span>
 <span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">enum</span> <span class="n">ServerResponse</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">case</span> <span class="n">Result</span><span class="p">(</span><span class="n">String</span><span class="p">,</span> <span class="n">String</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">case</span> <span class="n">Error</span><span class="p">(</span><span class="n">String</span><span class="p">)</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">enum</span> <span class="no">ServerResponse</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">case</span> <span class="no">Result</span><span class="p">(</span><span class="nb">String</span><span class="p">,</span> <span class="nb">String</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">case</span> <span class="no">Error</span><span class="p">(</span><span class="nb">String</span><span class="p">)</span>
 </span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="k">let</span> <span class="n">success</span> <span class="o">=</span> <span class="n">ServerResponse</span><span class="p">.</span><span class="n">Result</span><span class="p">(</span><span class="s">&quot;6:00 am&quot;</span><span class="p">,</span> <span class="s">&quot;8:09 pm&quot;</span><span class="p">)</span>
-</span><span class='line'><span class="k">let</span> <span class="n">failure</span> <span class="o">=</span> <span class="n">ServerResponse</span><span class="p">.</span><span class="n">Error</span><span class="p">(</span><span class="s">&quot;Out of cheese.&quot;</span><span class="p">)</span>
-</span><span class='line'><span class="k">switch</span> <span class="n">success</span> <span class="p">{</span>
-</span><span class='line'><span class="k">case</span> <span class="k">let</span> <span class="p">.</span><span class="n">Result</span><span class="p">(</span><span class="n">sunrise</span><span class="p">,</span> <span class="n">sunset</span><span class="p">)</span><span class="o">:</span>
-</span><span class='line'>    <span class="k">let</span> <span class="n">serverResponse</span> <span class="o">=</span> <span class="s">&quot;Sunrise is at \(sunrise) and sunset is at \(sunset).&quot;</span>
-</span><span class='line'><span class="k">case</span> <span class="k">let</span> <span class="p">.</span><span class="n">Error</span><span class="p">(</span><span class="n">error</span><span class="p">)</span><span class="o">:</span>
-</span><span class='line'>    <span class="k">let</span> <span class="n">serverResponse</span> <span class="o">=</span> <span class="s">&quot;Failure...  \(error)&quot;</span>
+</span><span class='line'><span class="n">let</span> <span class="n">success</span> <span class="o">=</span> <span class="no">ServerResponse</span><span class="o">.</span><span class="n">Result</span><span class="p">(</span><span class="s2">&quot;6:00 am&quot;</span><span class="p">,</span> <span class="s2">&quot;8:09 pm&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="n">let</span> <span class="n">failure</span> <span class="o">=</span> <span class="no">ServerResponse</span><span class="o">.</span><span class="n">Error</span><span class="p">(</span><span class="s2">&quot;Out of cheese.&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="n">switch</span> <span class="n">success</span> <span class="p">{</span>
+</span><span class='line'><span class="k">case</span> <span class="n">let</span> <span class="o">.</span><span class="n">Result</span><span class="p">(</span><span class="n">sunrise</span><span class="p">,</span> <span class="n">sunset</span><span class="p">):</span>
+</span><span class='line'>    <span class="n">let</span> <span class="n">serverResponse</span> <span class="o">=</span> <span class="s2">&quot;Sunrise is at \(sunrise) and sunset is at \(sunset).&quot;</span>
+</span><span class='line'><span class="k">case</span> <span class="n">let</span> <span class="o">.</span><span class="n">Error</span><span class="p">(</span><span class="n">error</span><span class="p">):</span>
+</span><span class='line'>    <span class="n">let</span> <span class="n">serverResponse</span> <span class="o">=</span> <span class="s2">&quot;Failure...  \(error)&quot;</span>
 </span><span class='line'><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
@@ -930,9 +928,9 @@ println(&quot;Hello,World&quot;) 如果你之前写过C或者Objc的代码，这
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">protocol</span> <span class="n">ExampleProtocol</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">var</span> <span class="nl">simpleDescription</span><span class="p">:</span> <span class="n">String</span> <span class="p">{</span> <span class="kr">get</span> <span class="p">}</span>
-</span><span class='line'>    <span class="kr">mutating</span> <span class="k">func</span> <span class="n">adjust</span><span class="p">()</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">protocol</span> <span class="no">ExampleProtocol</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">var</span> <span class="ss">simpleDescription</span><span class="p">:</span> <span class="nb">String</span> <span class="p">{</span> <span class="n">get</span> <span class="p">}</span>
+</span><span class='line'>    <span class="n">mutating</span> <span class="n">func</span> <span class="n">adjust</span><span class="p">()</span>
 </span><span class='line'><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
@@ -958,25 +956,25 @@ println(&quot;Hello,World&quot;) 如果你之前写过C或者Objc的代码，这
 <span class='line-number'>17</span>
 <span class='line-number'>18</span>
 <span class='line-number'>19</span>
-</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">class</span> <span class="nl">SimpleClass</span><span class="p">:</span> <span class="n">ExampleProtocol</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">var</span> <span class="nl">simpleDescription</span><span class="p">:</span> <span class="n">String</span> <span class="o">=</span> <span class="s">&quot;A very simple class.&quot;</span>
-</span><span class='line'>    <span class="k">var</span> <span class="nl">anotherProperty</span><span class="p">:</span> <span class="n">Int</span> <span class="o">=</span> <span class="mi">69105</span>
-</span><span class='line'>    <span class="k">func</span> <span class="n">adjust</span><span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>        <span class="n">simpleDescription</span> <span class="o">+=</span> <span class="s">&quot;  Now 100% adjusted.&quot;</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">SimpleClass</span><span class="p">:</span> <span class="no">ExampleProtocol</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">var</span> <span class="ss">simpleDescription</span><span class="p">:</span> <span class="nb">String</span> <span class="o">=</span> <span class="s2">&quot;A very simple class.&quot;</span>
+</span><span class='line'>    <span class="n">var</span> <span class="ss">anotherProperty</span><span class="p">:</span> <span class="no">Int</span> <span class="o">=</span> <span class="mi">69105</span>
+</span><span class='line'>    <span class="n">func</span> <span class="n">adjust</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">simpleDescription</span> <span class="o">+=</span> <span class="s2">&quot;  Now 100% adjusted.&quot;</span>
 </span><span class='line'>    <span class="p">}</span>
 </span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="k">var</span> <span class="n">a</span> <span class="o">=</span> <span class="n">SimpleClass</span><span class="p">()</span>
-</span><span class='line'><span class="n">a</span><span class="p">.</span><span class="n">adjust</span><span class="p">()</span>
-</span><span class='line'><span class="k">let</span> <span class="n">aDescription</span> <span class="o">=</span> <span class="n">a</span><span class="p">.</span><span class="n">simpleDescription</span>
-</span><span class='line'><span class="k">struct</span> <span class="nl">SimpleStructure</span><span class="p">:</span> <span class="n">ExampleProtocol</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">var</span> <span class="nl">simpleDescription</span><span class="p">:</span> <span class="n">String</span> <span class="o">=</span> <span class="s">&quot;A simple structure&quot;</span>
-</span><span class='line'>    <span class="kr">mutating</span> <span class="k">func</span> <span class="n">adjust</span><span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>        <span class="n">simpleDescription</span> <span class="o">+=</span> <span class="s">&quot; (adjusted)&quot;</span>
+</span><span class='line'><span class="n">var</span> <span class="n">a</span> <span class="o">=</span> <span class="no">SimpleClass</span><span class="p">()</span>
+</span><span class='line'><span class="n">a</span><span class="o">.</span><span class="n">adjust</span><span class="p">()</span>
+</span><span class='line'><span class="n">let</span> <span class="n">aDescription</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">simpleDescription</span>
+</span><span class='line'><span class="n">struct</span> <span class="ss">SimpleStructure</span><span class="p">:</span> <span class="no">ExampleProtocol</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">var</span> <span class="ss">simpleDescription</span><span class="p">:</span> <span class="nb">String</span> <span class="o">=</span> <span class="s2">&quot;A simple structure&quot;</span>
+</span><span class='line'>    <span class="n">mutating</span> <span class="n">func</span> <span class="n">adjust</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">simpleDescription</span> <span class="o">+=</span> <span class="s2">&quot; (adjusted)&quot;</span>
 </span><span class='line'>    <span class="p">}</span>
 </span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="k">var</span> <span class="n">b</span> <span class="o">=</span> <span class="n">SimpleStructure</span><span class="p">()</span>
-</span><span class='line'><span class="n">b</span><span class="p">.</span><span class="n">adjust</span><span class="p">()</span>
-</span><span class='line'><span class="k">let</span> <span class="n">bDescription</span> <span class="o">=</span> <span class="n">b</span><span class="p">.</span><span class="n">simpleDescription</span>
+</span><span class='line'><span class="n">var</span> <span class="n">b</span> <span class="o">=</span> <span class="no">SimpleStructure</span><span class="p">()</span>
+</span><span class='line'><span class="n">b</span><span class="o">.</span><span class="n">adjust</span><span class="p">()</span>
+</span><span class='line'><span class="n">let</span> <span class="n">bDescription</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">simpleDescription</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -993,15 +991,15 @@ println(&quot;Hello,World&quot;) 如果你之前写过C或者Objc的代码，这
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">extension</span> <span class="nl">Int</span><span class="p">:</span> <span class="n">ExampleProtocol</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">var</span> <span class="nl">simpleDescription</span><span class="p">:</span> <span class="n">String</span> <span class="p">{</span>
-</span><span class='line'>        <span class="k">return</span> <span class="s">&quot;The number \(self)&quot;</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">extension</span> <span class="ss">Int</span><span class="p">:</span> <span class="no">ExampleProtocol</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">var</span> <span class="ss">simpleDescription</span><span class="p">:</span> <span class="nb">String</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="s2">&quot;The number \(self)&quot;</span>
 </span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>    <span class="kr">mutating</span> <span class="k">func</span> <span class="n">adjust</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">mutating</span> <span class="n">func</span> <span class="n">adjust</span><span class="p">()</span> <span class="p">{</span>
 </span><span class='line'>        <span class="nb">self</span> <span class="o">+=</span> <span class="mi">42</span>
 </span><span class='line'>    <span class="p">}</span>
 </span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="mf">7.</span><span class="n">simpleDescription</span>
+</span><span class='line'><span class="mi">7</span><span class="o">.</span><span class="n">simpleDescription</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -1010,9 +1008,9 @@ println(&quot;Hello,World&quot;) 如果你之前写过C或者Objc的代码，这
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">let</span> <span class="nl">protocolValue</span><span class="p">:</span> <span class="n">ExampleProtocol</span> <span class="o">=</span> <span class="n">a</span>
-</span><span class='line'><span class="n">protocolValue</span><span class="p">.</span><span class="n">simpleDescription</span>
-</span><span class='line'><span class="c1">// protocolValue.anotherProperty  // Uncomment to see the error</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">let</span> <span class="ss">protocolValue</span><span class="p">:</span> <span class="no">ExampleProtocol</span> <span class="o">=</span> <span class="n">a</span>
+</span><span class='line'><span class="n">protocolValue</span><span class="o">.</span><span class="n">simpleDescription</span>
+</span><span class='line'><span class="sr">//</span> <span class="n">protocolValue</span><span class="o">.</span><span class="n">anotherProperty</span>  <span class="sr">//</span> <span class="no">Uncomment</span> <span class="n">to</span> <span class="n">see</span> <span class="n">the</span> <span class="n">error</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -1030,14 +1028,14 @@ println(&quot;Hello,World&quot;) 如果你之前写过C或者Objc的代码，这
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">func</span> <span class="n">repeat</span><span class="o">&lt;</span><span class="n">ItemType</span><span class="o">&gt;</span><span class="p">(</span><span class="nl">item</span><span class="p">:</span> <span class="n">ItemType</span><span class="p">,</span> <span class="nl">times</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">ItemType</span><span class="p">]</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">var</span> <span class="n">result</span> <span class="o">=</span> <span class="p">[</span><span class="n">ItemType</span><span class="p">]()</span>
-</span><span class='line'>    <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mf">0.</span><span class="p">.</span><span class="o">&lt;</span><span class="n">times</span> <span class="p">{</span>
-</span><span class='line'>        <span class="n">result</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">func</span> <span class="n">repeat</span><span class="o">&lt;</span><span class="no">ItemType</span><span class="o">&gt;</span><span class="p">(</span><span class="ss">item</span><span class="p">:</span> <span class="no">ItemType</span><span class="p">,</span> <span class="ss">times</span><span class="p">:</span> <span class="no">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="o">[</span><span class="no">ItemType</span><span class="o">]</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">var</span> <span class="n">result</span> <span class="o">=</span> <span class="o">[</span><span class="no">ItemType</span><span class="o">]</span><span class="p">()</span>
+</span><span class='line'>    <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">0</span><span class="o">.</span><span class="n">.</span><span class="o">&lt;</span><span class="n">times</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
 </span><span class='line'>    <span class="p">}</span>
 </span><span class='line'>    <span class="k">return</span> <span class="n">result</span>
 </span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="n">repeat</span><span class="p">(</span><span class="s">&quot;knock&quot;</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+</span><span class='line'><span class="n">repeat</span><span class="p">(</span><span class="s2">&quot;knock&quot;</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -1049,12 +1047,12 @@ println(&quot;Hello,World&quot;) 如果你之前写过C或者Objc的代码，这
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">enum</span> <span class="n">OptionalValue</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="p">{</span> <span class="c1">// Reimplement the Swift standard library&#39;s optional type</span>
-</span><span class='line'>    <span class="k">case</span> <span class="n">None</span>
-</span><span class='line'>    <span class="k">case</span> <span class="n">Some</span><span class="p">(</span><span class="n">T</span><span class="p">)</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">enum</span> <span class="no">OptionalValue</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="p">{</span> <span class="sr">//</span> <span class="no">Reimplement</span> <span class="n">the</span> <span class="no">Swift</span> <span class="n">standard</span> <span class="n">library</span><span class="err">&#39;</span><span class="n">s</span> <span class="n">optional</span> <span class="n">type</span>
+</span><span class='line'>    <span class="k">case</span> <span class="no">None</span>
+</span><span class='line'>    <span class="k">case</span> <span class="no">Some</span><span class="p">(</span><span class="n">T</span><span class="p">)</span>
 </span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="k">var</span> <span class="nl">possibleInteger</span><span class="p">:</span> <span class="n">OptionalValue</span><span class="o">&lt;</span><span class="n">Int</span><span class="o">&gt;</span> <span class="o">=</span> <span class="p">.</span><span class="n">None</span>
-</span><span class='line'><span class="n">possibleInteger</span> <span class="o">=</span> <span class="p">.</span><span class="n">Some</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+</span><span class='line'><span class="n">var</span> <span class="ss">possibleInteger</span><span class="p">:</span> <span class="no">OptionalValue</span><span class="o">&lt;</span><span class="no">Int</span><span class="o">&gt;</span> <span class="o">=</span> <span class="o">.</span><span class="n">None</span>
+</span><span class='line'><span class="n">possibleInteger</span> <span class="o">=</span> <span class="o">.</span><span class="n">Some</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -1071,17 +1069,17 @@ println(&quot;Hello,World&quot;) 如果你之前写过C或者Objc的代码，这
 <span class='line-number'>9</span>
 <span class='line-number'>10</span>
 <span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">func</span> <span class="n">anyCommonElements</span> <span class="o">&lt;</span><span class="n">T</span><span class="p">,</span> <span class="n">U</span> <span class="k">where</span> <span class="nl">T</span><span class="p">:</span> <span class="n">SequenceType</span><span class="p">,</span> <span class="nl">U</span><span class="p">:</span> <span class="n">SequenceType</span><span class="p">,</span> <span class="n">T</span><span class="p">.</span><span class="n">Generator</span><span class="p">.</span><span class="nl">Element</span><span class="p">:</span> <span class="n">Equatable</span><span class="p">,</span> <span class="n">T</span><span class="p">.</span><span class="n">Generator</span><span class="p">.</span><span class="n">Element</span> <span class="o">==</span> <span class="n">U</span><span class="p">.</span><span class="n">Generator</span><span class="p">.</span><span class="n">Element</span><span class="o">&gt;</span> <span class="p">(</span><span class="nl">lhs</span><span class="p">:</span> <span class="n">T</span><span class="p">,</span> <span class="nl">rhs</span><span class="p">:</span> <span class="n">U</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bool</span> <span class="p">{</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">func</span> <span class="n">anyCommonElements</span> <span class="o">&lt;</span><span class="n">T</span><span class="p">,</span> <span class="n">U</span> <span class="n">where</span> <span class="ss">T</span><span class="p">:</span> <span class="no">SequenceType</span><span class="p">,</span> <span class="ss">U</span><span class="p">:</span> <span class="no">SequenceType</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">Generator</span><span class="o">.</span><span class="n">Element</span><span class="p">:</span> <span class="no">Equatable</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">Generator</span><span class="o">.</span><span class="n">Element</span> <span class="o">==</span> <span class="n">U</span><span class="o">.</span><span class="n">Generator</span><span class="o">.</span><span class="n">Element</span><span class="o">&gt;</span> <span class="p">(</span><span class="ss">lhs</span><span class="p">:</span> <span class="n">T</span><span class="p">,</span> <span class="ss">rhs</span><span class="p">:</span> <span class="n">U</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="no">Bool</span> <span class="p">{</span>
 </span><span class='line'>    <span class="k">for</span> <span class="n">lhsItem</span> <span class="k">in</span> <span class="n">lhs</span> <span class="p">{</span>
 </span><span class='line'>        <span class="k">for</span> <span class="n">rhsItem</span> <span class="k">in</span> <span class="n">rhs</span> <span class="p">{</span>
 </span><span class='line'>            <span class="k">if</span> <span class="n">lhsItem</span> <span class="o">==</span> <span class="n">rhsItem</span> <span class="p">{</span>
-</span><span class='line'>                <span class="k">return</span> <span class="nb">true</span>
+</span><span class='line'>                <span class="k">return</span> <span class="kp">true</span>
 </span><span class='line'>            <span class="p">}</span>
 </span><span class='line'>        <span class="p">}</span>
 </span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>    <span class="k">return</span> <span class="nb">false</span>
+</span><span class='line'>    <span class="k">return</span> <span class="kp">false</span>
 </span><span class='line'><span class="p">}</span>
-</span><span class='line'><span class="n">anyCommonElements</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+</span><span class='line'><span class="n">anyCommonElements</span><span class="p">(</span><span class="o">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="o">]</span><span class="p">,</span> <span class="o">[</span><span class="mi">3</span><span class="o">]</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -1125,6 +1123,8 @@ println(&quot;Hello,World&quot;) 如果你之前写过C或者Objc的代码，这
         <a class="basic-alignment left" href="/blog/2014/09/14/welcome-to-swift-about-swift/" title="Previous Post: Welcome to Swift - About Swift">&laquo; Welcome to Swift - About Swift</a>
       
       
+        <a class="basic-alignment right" href="/blog/2014/09/27/language-guide-the-basics/" title="Next Post: Language Guide: The Basics">Language Guide: The Basics &raquo;</a>
+      
     </p>
   </footer>
 </article>
@@ -1136,6 +1136,10 @@ println(&quot;Hello,World&quot;) 如果你之前写过C或者Objc的代码，这
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/09/27/language-guide-the-basics/">Language Guide: The Basics</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2014/09/14/welcome-to-swift-a-swift-tour/">Welcome to Swift - a Swift Tour</a>
