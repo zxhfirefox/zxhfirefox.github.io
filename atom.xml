@@ -4,7 +4,7 @@
   <title><![CDATA[zxhfirefox's Blog]]></title>
   <link href="http://zxhfirefox.github.io/atom.xml" rel="self"/>
   <link href="http://zxhfirefox.github.io/"/>
-  <updated>2014-10-06T15:26:42+08:00</updated>
+  <updated>2014-10-06T16:10:18+08:00</updated>
   <id>http://zxhfirefox.github.io/</id>
   <author>
     <name><![CDATA[zxhfirefox]]></name>
@@ -12,6 +12,15 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Language Guide: Classes and Structures]]></title>
+    <link href="http://zxhfirefox.github.io/blog/2014/10/06/language-guide-f-classes-and-structures/"/>
+    <updated>2014-10-06T15:31:42+08:00</updated>
+    <id>http://zxhfirefox.github.io/blog/2014/10/06/language-guide-f-classes-and-structures</id>
+    <content type="html"><![CDATA[
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Language Guide: Enumetations]]></title>
