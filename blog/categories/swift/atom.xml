@@ -4,7 +4,7 @@
   <title><![CDATA[Category: swift | zxhfirefox's Blog]]></title>
   <link href="http://zxhfirefox.github.io/blog/categories/swift/atom.xml" rel="self"/>
   <link href="http://zxhfirefox.github.io/"/>
-  <updated>2014-10-06T15:14:09+08:00</updated>
+  <updated>2014-10-06T15:26:42+08:00</updated>
   <id>http://zxhfirefox.github.io/</id>
   <author>
     <name><![CDATA[zxhfirefox]]></name>
@@ -25,6 +25,9 @@
 <p>另外，枚举成员可以给出任何类型的关联值。更像其他语言里的unions和variants。你可以把相关成员的通用集合定义为枚举的一部分，每一部分又可以和不同类型的关联值关联到一起。</p>
 
 <p>在Swift里，枚举是头等成员。它又有许多成员是以前只有类才有的特性，例如，用来更好给出枚举当前值的计算属性，和枚举值相关的成员函数。枚举还可以定义初始化函数来给出枚举初始值，也可以被扩展来增加原来没有的功能，还能够实现协议。</p>
+
+<!--more-->
+
 
 <h5>枚举语法</h5>
 
@@ -207,6 +210,9 @@ case let .QRCode(productCode):
 <li>参数名缩写。</li>
 <li>尾部闭包语法。</li>
 </ul>
+
+
+<!--more-->
 
 
 <h5>闭包表达式</h5>
@@ -424,6 +430,9 @@ incrementByTen()  // 40
 <p>Swift统一的函数语法，既可以不要参数名字来表达简单的C语言的函数，也可以给出内部和外部参数名字来表达ObjC里复杂的函数。参数可以提供默认值，也可以做为输入输出参数，在函数执行后，改变传进来的值。</p>
 
 <p>Swift里每一个函数都一个一个类型，这个类型由参数类型和返回值类型组成。我们可以把这个类型和Swift里其他类型同等对待。这样，可以非常方便的把函数作为参数或返回值。函数也可以定义在其他函数里。</p>
+
+<!--more-->
+
 
 <h6>定义和调用函数</h6>
 
@@ -788,6 +797,9 @@ println("zero!")
 
 <p><em>注：这里很多的内容都是和C，ObjC一样的，所以很多地方都省略了，重点翻译了Swift里的特性和一些需要特别注意的地方。</em></p>
 
+<!--more-->
+
+
 <h5>For循环</h5>
 
 <p>两种：</p>
@@ -958,6 +970,9 @@ case let(x,y):
 <pre><code>注意
 数组和字典底层是通过泛型容器来实现的。
 </code></pre>
+
+<!--more-->
+
 
 <h5>容器的可变性</h5>
 

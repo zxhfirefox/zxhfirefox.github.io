@@ -40,7 +40,6 @@
   
     <h2>A place to record some words.</h2>
   
-  <h3>禁止用于商业用途，转载请注明出处</h3>
 </hgroup>
 
 </header>
@@ -83,10 +82,10 @@
         
       </p>
     
+    <h3>禁止用于商业用途，转载请注明出处</h3>
   </header>
 
-
-<div class="entry-content"><p>Swift提供了和类C语言相似的流程控制语句。包括for和while来做循环，if和switch来做分支，break和continue来做打断。</p>
+  <div class="entry-content"><p>Swift提供了和类C语言相似的流程控制语句。包括for和while来做循环，if和switch来做分支，break和continue来做打断。</p>
 
 <p>除了支持for，Swift还加入了for-in来简化字符串，数组，字典，区间和其他序列的遍历。</p>
 
@@ -94,225 +93,13 @@
 
 <p><em>注：这里很多的内容都是和C，ObjC一样的，所以很多地方都省略了，重点翻译了Swift里的特性和一些需要特别注意的地方。</em></p>
 
-<h5>For循环</h5>
-
-<p>两种：</p>
-
-<ul>
-<li>for-in</li>
-<li>for</li>
-</ul>
-
-
-<h6>for-in</h6>
-
-<p>使用for-in来循环遍历一个序列的元素。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">for</span> <span class="n">index</span> <span class="k">in</span> <span class="mf">1.</span><span class="p">.</span><span class="mf">.5</span> <span class="p">{</span>
-</span><span class='line'>  <span class="n">println</span><span class="p">(</span><span class="s">&quot;\(index) times 5 is \(index * 5)&quot;</span><span class="p">)</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>上面的循环里，index是常量，每次遍历被赋予新值。</p>
-
-<p>如果不需要每次遍历给出的值，可以用 _ 来接受遍历给出值。</p>
-
-<h6>for</h6>
-
-<p>和C一样的for循环。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">for</span> <span class="n">var</span> <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">index</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">;</span> <span class="o">++</span><span class="n">index</span> <span class="p">{</span>
-</span><span class='line'>  <span class="n">println</span><span class="p">(</span><span class="s">&quot;index is \(index)&quot;</span><span class="p">)</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>index只在for循环语句内可见。如果想在for语句后访问index，必须在for语句之前声明。</p>
-
-<p>注意如果在for循环外使用index的值，那么++index和index++是不一样的。</p>
-
-<h5>while循环</h5>
-
-<p>两种：</p>
-
-<ul>
-<li>while</li>
-<li>do-while</li>
-</ul>
-
-
-<h6>while</h6>
-
-<h6>do-while</h6>
-
-<h5>条件语句</h5>
-
-<p>if和switch</p>
-
-<h6>if</h6>
-
-<h6>switch</h6>
-
-<p>switch语句必须是穷举的，这意味着，switch的所有case的组合必须覆盖了条件值可以取值的所有范围。</p>
-
-<p>switch语句，不会在执行完一个case之后继续执行下一个case。</p>
-
-<p>条件值，可以用范围来区分case。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">3</span><span class="n">_000_000_000_000</span>
-</span><span class='line'><span class="n">let</span> <span class="n">things</span> <span class="o">=</span> <span class="s">&quot;stars in the Milky Way&quot;</span>
-</span><span class='line'><span class="n">var</span> <span class="nl">naturalCount</span><span class="p">:</span> <span class="n">String</span>
-</span><span class='line'><span class="k">switch</span> <span class="n">count</span> <span class="p">{</span>
-</span><span class='line'><span class="k">case</span> <span class="mi">0</span><span class="o">:</span>
-</span><span class='line'>  <span class="n">naturalCount</span> <span class="o">=</span> <span class="s">&quot;no&quot;</span>
-</span><span class='line'><span class="k">case</span> <span class="mf">1.</span><span class="p">.</span><span class="mf">.3</span><span class="o">:</span>
-</span><span class='line'>  <span class="n">naturalCount</span> <span class="o">=</span> <span class="s">&quot;a few&quot;</span>
-</span><span class='line'><span class="k">case</span> <span class="mf">4.</span><span class="p">.</span><span class="mf">.9</span><span class="o">:</span>
-</span><span class='line'>  <span class="n">naturalCount</span> <span class="o">=</span> <span class="s">&quot;several&quot;</span>
-</span><span class='line'><span class="k">case</span> <span class="mf">10.</span><span class="p">.</span><span class="mf">.99</span><span class="o">:</span>
-</span><span class='line'>  <span class="n">naturalCount</span> <span class="o">=</span> <span class="s">&quot;tens of&quot;</span>
-</span><span class='line'><span class="k">case</span> <span class="mf">100.</span><span class="p">.</span><span class="mf">.999</span><span class="o">:</span>
-</span><span class='line'>  <span class="n">naturalCount</span> <span class="o">=</span> <span class="s">&quot;hundreds of &quot;</span>
-</span><span class='line'><span class="k">case</span> <span class="mf">1000.</span><span class="p">.</span><span class="mf">.999</span><span class="nl">_999</span><span class="p">:</span>
-</span><span class='line'>  <span class="n">naturalCount</span> <span class="o">=</span> <span class="s">&quot;thousands of&quot;</span>
-</span><span class='line'><span class="k">default</span><span class="o">:</span>
-</span><span class='line'>  <span class="n">naturalCount</span> <span class="o">=</span> <span class="s">&quot;millions of &quot;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>条件值，也可是元组。元组的每个元素都可以匹配，使用 _ 来匹配任意值。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="n">somePoint</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
-</span><span class='line'><span class="k">switch</span> <span class="n">somePoint</span> <span class="p">{</span>
-</span><span class='line'><span class="k">case</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span><span class="o">:</span>
-</span><span class='line'>  <span class="n">println</span><span class="p">(</span><span class="s">&quot;origin&quot;</span><span class="p">)</span>
-</span><span class='line'><span class="k">case</span> <span class="p">(</span><span class="err">\</span><span class="n">_</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span><span class="o">:</span>
-</span><span class='line'>  <span class="n">println</span><span class="p">(</span><span class="s">&quot;x axis&quot;</span><span class="p">)</span>
-</span><span class='line'><span class="k">case</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">_</span><span class="p">)</span><span class="o">:</span>
-</span><span class='line'>  <span class="n">println</span><span class="p">(</span><span class="s">&quot;y axis&quot;</span><span class="p">)</span>
-</span><span class='line'><span class="k">case</span> <span class="p">(</span><span class="o">-</span><span class="mf">2.</span><span class="p">.</span><span class="mf">.2</span><span class="p">,</span><span class="o">-</span><span class="mf">2.</span><span class="p">.</span><span class="mf">.2</span><span class="p">)</span><span class="o">:</span>
-</span><span class='line'>  <span class="n">println</span><span class="p">(</span><span class="s">&quot; in a square&quot;</span><span class="p">)</span>
-</span><span class='line'><span class="nl">defualt</span><span class="p">:</span>
-</span><span class='line'>  <span class="n">println</span><span class="p">(</span><span class="s">&quot;out of square&quot;</span><span class="p">)</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>上面的例子里，和C不一样，Swift允许多个case包含相同的值，（0，0）满足4个分支。然而，如果有多个匹配，那么只执行第一个匹配。</p>
-
-<p>switch的case可以把匹配的值绑定到临时变量，以便在case的代码中使用。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="n">point</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
-</span><span class='line'><span class="k">switch</span> <span class="n">point</span> <span class="p">{</span>
-</span><span class='line'><span class="k">case</span> <span class="p">(</span><span class="n">let</span> <span class="n">x</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span><span class="o">:</span>
-</span><span class='line'>  <span class="n">println</span><span class="p">(</span><span class="s">&quot;on x axis with x = \(x)&quot;</span><span class="p">)</span>
-</span><span class='line'><span class="k">case</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">let</span> <span class="n">y</span><span class="p">)</span><span class="o">:</span>
-</span><span class='line'>  <span class="n">println</span><span class="p">(</span><span class="s">&quot;on y axis with y = \(y)&quot;</span><span class="p">)</span>
-</span><span class='line'><span class="k">case</span> <span class="n">let</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span><span class="o">:</span>
-</span><span class='line'>  <span class="n">println</span><span class="p">(</span><span class="s">&quot;x = \(x), y = \(y)&quot;</span><span class="p">)</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>上面的x，y是常量，如果声明为var，也只能在case语句内改变。</p>
-
-<p>switch的case可以使用where来表达复杂的case条件。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="n">point</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-</span><span class='line'><span class="k">switch</span> <span class="n">point</span> <span class="p">{</span>
-</span><span class='line'><span class="k">case</span> <span class="n">let</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="err"></span><span class="p">)</span> <span class="n">where</span> <span class="n">x</span> <span class="o">==</span> <span class="nl">y</span><span class="p">:</span>
-</span><span class='line'>  <span class="n">println</span><span class="p">(</span><span class="s">&quot;point on the line x == y&quot;</span><span class="p">)</span>
-</span><span class='line'><span class="k">case</span> <span class="n">let</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span> <span class="n">where</span> <span class="n">x</span> <span class="o">==</span> <span class="o">-</span><span class="nl">y</span><span class="p">:</span>
-</span><span class='line'>  <span class="n">println</span><span class="p">(</span><span class="s">&quot;point on the line x == -y&quot;</span><span class="p">)</span>
-</span><span class='line'><span class="k">case</span> <span class="n">let</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span><span class="o">:</span>
-</span><span class='line'>  <span class="n">println</span><span class="p">(</span><span class="s">&quot;arbitrary point&quot;</span><span class="p">)</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h5>控制转换语句</h5>
-
-<ul>
-<li>continue</li>
-<li>break</li>
-<li>fallthrough</li>
-<li>return</li>
-</ul>
-
-
-<h6>continue</h6>
-
-<h6>break</h6>
-
-<h6>fallthrough</h6>
-
-<p>Swift里，switch的case默认不会fallthrough，如果需要，那么用fallthrough。</p>
-
-<h6>标签语句</h6>
-
-<p>嵌套switch或者循环在其他的switch和循环里，能够写出非常复杂的控制语句。然后循环和switch都使用break来终止执行。那么，如果能够明确的说明终止到哪一个循环或switch语句是很有用的。对于continue也有这样的使用场景。</p>
-
-<p>为了达到这个目标，我们可以在循环或switch语句上加上标签，然后在break和continue的时候写上标签，来告诉程序跳转到哪里继续执行。</p>
 </div>
-
+  
+  
+    <footer>
+      <a rel="full-article" href="">Read on &rarr;</a>
+    </footer>
+  
 
   <footer>
     <p class="meta">
