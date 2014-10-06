@@ -1,0 +1,488 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Language Guide: Closures - zxhfirefox&#8217;s Blog</title>
+  <meta name="author" content="zxhfirefox">
+
+  
+  <meta name="description" content="闭包是一段独立的功能，可以在代码之间传递和使用。Swift里的闭包和C，ObjC里的block，以及其他语言里的lambda表达式是相似的。 闭包可以捕获和存储定义在定义闭包的上下文里的任何变量和常量的引用。这被叫做遮盖(closing over)这些常量和变量，正说明了闭包的概念。 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://zxhfirefox.github.io/blog/2014/10/06/language-guide-closures">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="zxhfirefox's Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">zxhfirefox&#8217;s Blog</a></h1>
+  
+    <h2>A place to record some words.</h2>
+  
+  <h3>禁止用于商业用途，转载请注明出处</h3>
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:zxhfirefox.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/about">About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Language Guide: Closures</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-10-06T14:41:52+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>2:41 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>闭包是一段独立的功能，可以在代码之间传递和使用。Swift里的闭包和C，ObjC里的block，以及其他语言里的lambda表达式是相似的。</p>
+
+<p>闭包可以捕获和存储定义在定义闭包的上下文里的任何变量和常量的引用。这被叫做遮盖(closing over)这些常量和变量，正说明了闭包的概念。Swift会帮你处理所有这些捕获时的内存管理。</p>
+
+<p>在上一章函数里，全局和嵌套函数，其实是闭包的特殊情况。闭包有三种形式：</p>
+
+<ul>
+<li>全局函数是闭包，它有名字，但是不会捕获任何值。</li>
+<li>嵌套函数是闭包，它有名字，并且会捕获包含函数里值。</li>
+<li>闭包表达式是无名闭包，有简单的语法，从包裹他们的上下文里捕获值。</li>
+</ul>
+
+
+<p>Swift的闭包表达式有着清晰，简洁的风格，并被优化过，鼓励在一般情况下写出简洁，不杂乱的语法。这些优化包括：</p>
+
+<ul>
+<li>从上下文推断参数和返回值类型。</li>
+<li>从单个表达式的闭包自动返回值。</li>
+<li>参数名缩写。</li>
+<li>尾部闭包语法。</li>
+</ul>
+
+
+<h5>闭包表达式</h5>
+
+<p>嵌套函数，是在大函数里定义有名字的，独立的代码块的很方便的方法。然后，有时候我们需要写出更简短的，不需要全部定义和名字的类似函数的结构，特别是你在把函数当做参数和返回值的时候。</p>
+
+<p>闭包表达式是一种通过简洁，集中的语法来写内连(inline)闭包的方式。闭包表达式经过优化在不损失清晰性的前提写出简短的代码。</p>
+
+<h6>sorted函数</h6>
+
+<p>Swift标准库里的sorted函数用来排序一个已知类型的数组，基于你传递给它的排序闭包。一旦配需结束，它返回一个排好序的数组。原来的数组并没有被sorted函数改变。</p>
+
+<p>下面是我们要排序的数组：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;Chris&quot;</span><span class="p">,</span><span class="s">&quot;Alex&quot;</span><span class="p">,</span><span class="s">&quot;Ewa&quot;</span><span class="p">,</span><span class="s">&quot;Barry&quot;</span><span class="p">,</span><span class="s">&quot;Daniella&quot;</span><span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>sorted的函数接受2个参数，一个是要排序的数组，另一个是一个闭包，接受两个参数，他们的类型需要和数组元素的类型一致，返回一个Bool值，来表示如果第一个参数应该排在第二个参数之前，那么就是true，反之则是false。</p>
+
+<p>这个例子我们排的是String，所以闭包的类型应该是(String,String) -> Bool。</p>
+
+<p>一种方式，我们写出排序的函数，然后把它传递给sorted函数。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">func</span> <span class="n">backwards</span><span class="p">(</span><span class="nl">s1</span><span class="p">:</span><span class="n">String</span><span class="p">,</span> <span class="nl">s2</span><span class="p">:</span><span class="n">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bool</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">s1</span> <span class="o">&gt;</span> <span class="n">s2</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="n">var</span> <span class="n">reversed</span> <span class="o">=</span> <span class="n">sorted</span><span class="p">(</span><span class="n">names</span><span class="p">,</span><span class="n">backwards</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果s1大于s2，返回true，意思是如果s1大于s2，那么s1应该排在s2的前面。对于字符串里的字符来说，大于就是在字母表里排在后面。也就是说&#8217;B&#8217;大于&#8217;A&#8217;。这样就给出了字母表反序的排列。</p>
+
+<p>然而，这是一个相对比较长的写法，关键部分其实只有 a > b，我们应该用闭包表达式来写。</p>
+
+<h6>闭包表达式</h6>
+
+<p>闭包表达式的语法如下：</p>
+
+<pre><code>{ (parameters) -&gt; (return type) in 
+    statements
+}
+</code></pre>
+
+<p>闭包表达式的语法，可以使用常量参数，变量参数和inout参数。不能有默认值。不定长参数可以使用，但是必须在最后一个。元组可以作为参数和返回值使用。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">reversed</span> <span class="o">=</span> <span class="n">sorted</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="p">{</span> <span class="p">(</span><span class="nl">s1</span><span class="p">:</span> <span class="n">String</span><span class="p">,</span> <span class="nl">s2</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bool</span> <span class="k">in</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">s1</span> <span class="o">&gt;</span> <span class="n">s2</span>
+</span><span class='line'><span class="p">})</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>注意，这里的参数和返回值和之前通过定义函数来做的时候是一样的。然而，在闭包表达式里，参数和返回值是包裹在大括号里的，而不是在外面。</p>
+
+<p>闭包表达式body的开始由 in 来标记。这个关键字说明了闭包的参数和返回值声明的结束，闭包的body的开始。</p>
+
+<p>因为这个闭包的body很短，我们可以把它写在一行里。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">reversed</span> <span class="o">=</span> <span class="n">sorted</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="p">{</span> <span class="p">(</span><span class="nl">s1</span><span class="p">:</span> <span class="n">String</span><span class="p">,</span> <span class="nl">s2</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bool</span> <span class="k">in</span> <span class="k">return</span> <span class="n">s1</span> <span class="o">&gt;</span> <span class="n">s2</span> <span class="p">}</span> <span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h6>从上下文推断类型</h6>
+
+<p>因为这个排序闭包作为参数传递给一个函数，Swift可以通过sorted的第二个参数的类型来推断出这个闭包的类型。sorted函数的这个参数需要一个(String,String)->Bool类型的闭包，这意味着我们其实不用在闭包表达式里写出这个类型，因为所有的类型都可以推断出来，那->和参数名字周围的括弧可以省略掉。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">reversed</span> <span class="o">=</span> <span class="n">sorted</span><span class="p">(</span><span class="n">names</span><span class="p">,{</span><span class="n">s1</span><span class="p">,</span><span class="n">s2</span> <span class="k">in</span> <span class="k">return</span> <span class="n">s1</span> <span class="o">&gt;</span> <span class="n">s2</span><span class="p">})</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>当我们把一个内连的闭包表达式传递给一个函数时，我们总是能够推断出他的参数和返回值类型，也就是说，这种情况下，你永远都不需要把闭包的完整格式写出来。</p>
+
+<p>尽管如此，你仍热可以把类型明确的写出来，事实上，如果这样可以增加代码的可读性，就应该写出来。在上面sorted的例子里，闭包的目的就是排序，而且认为它就是在处理String类型也不会有问题，因为它是用来帮助排序一个字符串数组的。</p>
+
+<h6>从单个表达式的闭包自动返回值</h6>
+
+<p>单个表达式的闭包可以自动返回唯一的表达式的值，所以不需要写return。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">reversed</span> <span class="o">=</span> <span class="n">sorted</span><span class="p">(</span><span class="n">names</span><span class="p">,{</span><span class="n">s1</span><span class="p">,</span><span class="n">s2</span> <span class="k">in</span> <span class="n">s1</span> <span class="o">&gt;</span> <span class="n">s2</span><span class="p">})</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h6>参数名缩写</h6>
+
+<p>Swift自动为内连闭包提供参数的缩写，他们是$0,$1,$2 &hellip;。</p>
+
+<p>如果我们是用缩写的参数名，那么我们就不用写出参数列表，而这些缩写的参数的类型也会被推断出来。in 也可以被省略掉。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">reversed</span> <span class="o">=</span> <span class="n">sorted</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="p">{</span> <span class="err">$</span><span class="mi">0</span> <span class="o">&gt;</span> <span class="err">$</span><span class="mi">1</span><span class="p">})</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h6>操作符函数</h6>
+
+<p>其实，上面的例子我们可以写的更短。Swift的String类型定义了 > 作为一个函数，接受2个String，返回一个Bool。这个正好满足我们sorted函数的要求。因此，我们可以直接传入 >，Swift会推断出你想要它做的事情。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">reversed</span> <span class="o">=</span> <span class="n">sorted</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="o">&gt;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>尾部闭包</h5>
+
+<p>如果你把一个闭包做为函数参数的最后一个传递给一个函数，你可以把这个闭包用尾部闭包的语法来写。尾部闭包的写法是把这个闭包写在括弧的后面，而不是包裹在括弧里。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">func</span> <span class="nf">someFunctionThatTakesAClosure</span><span class="p">(</span><span class="nl">closure</span><span class="p">:</span> <span class="p">()</span><span class="o">-&gt;</span><span class="p">()</span> <span class="p">){</span>
+</span><span class='line'><span class="c1">// body here</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="n">someFunctionThatTakesAClosure</span><span class="p">({</span>
+</span><span class='line'><span class="c1">// body here</span>
+</span><span class='line'><span class="p">})</span>
+</span><span class='line'><span class="n">someFunctionThatTakesAClosure</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'><span class="c1">// body here</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<pre><code>注意
+如果比个闭包表达式是一个函数的唯一一个参数，你通过尾部闭包来提供这个参数。那么你可以不写（）。
+</code></pre>
+
+<p>上面的sorted的例子也可以用尾部闭包来写。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">reversed</span> <span class="o">=</span> <span class="n">sorted</span><span class="p">(</span><span class="n">names</span><span class="p">)</span> <span class="p">{</span> <span class="err">$</span><span class="mi">0</span> <span class="o">&gt;</span> <span class="err">$</span><span class="mi">1</span> <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>尾部闭包在处理闭包函数体很大的时候非常有用。例如，Swift的Array有个map函数，接受一个闭包作为唯一的参数。这个闭包会在每个数组元素上调用，然会一个新的值，然后map函数会把所有这些作为一个新的数组返回。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="n">digitNames</span> <span class="o">=</span> <span class="p">[</span>
+</span><span class='line'>  <span class="mi">0</span><span class="o">:</span> <span class="s">&quot;Zero&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="o">:</span> <span class="s">&quot;One&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="o">:</span> <span class="s">&quot;Two&quot;</span><span class="p">,</span> <span class="mi">3</span><span class="o">:</span> <span class="s">&quot;Three&quot;</span><span class="p">,</span> <span class="mi">4</span><span class="o">:</span> <span class="s">&quot;Four&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="mi">5</span><span class="o">:</span> <span class="s">&quot;Five&quot;</span><span class="p">,</span> <span class="mi">6</span><span class="o">:</span> <span class="s">&quot;Six&quot;</span><span class="p">,</span> <span class="mi">7</span><span class="o">:</span> <span class="s">&quot;Seven&quot;</span><span class="p">,</span> <span class="mi">8</span><span class="o">:</span> <span class="s">&quot;Eight&quot;</span><span class="p">,</span> <span class="mi">9</span><span class="o">:</span> <span class="s">&quot;Nine&quot;</span>
+</span><span class='line'>  <span class="p">]</span>
+</span><span class='line'><span class="n">let</span> <span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">16</span><span class="p">,</span><span class="mi">58</span><span class="p">,</span><span class="mi">510</span><span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="n">strings</span> <span class="o">=</span> <span class="n">numbers</span><span class="p">.</span><span class="n">map</span> <span class="p">{</span>
+</span><span class='line'>  <span class="p">(</span><span class="n">var</span> <span class="n">number</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">String</span> <span class="k">in</span>
+</span><span class='line'>  <span class="n">var</span> <span class="n">output</span> <span class="o">=</span> <span class="s">&quot;&quot;</span>
+</span><span class='line'>  <span class="k">while</span> <span class="n">number</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="p">{</span>
+</span><span class='line'>      <span class="n">output</span> <span class="o">=</span> <span class="n">digitNames</span><span class="p">[</span><span class="n">number</span> <span class="o">%</span> <span class="mi">10</span><span class="p">]</span><span class="o">!</span> <span class="o">+</span> <span class="n">output</span> <span class="c1">// 注意 !</span>
+</span><span class='line'>      <span class="n">number</span> <span class="o">/=</span> <span class="mi">10</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="k">return</span> <span class="n">output</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>map方法调用上面的闭包。你不需要给出number的类型。</p>
+
+<p>这个例子，number参数被定义成了var，所以你可以改变它的值。并且明确给出了闭包的返回值类型是一个String。</p>
+
+<pre><code>注意
+在通过角标访问digitNames的时候，后面的那个！，因为角标访问字典回复的时个optional，我们应该判断是否为nil。不过这个例子里，不可能出现 nil，所以没有判断直接解包。
+</code></pre>
+
+<p>这个例子很好的展示了使用尾部闭包来把闭包的功能紧凑的挨着调用函数而不用把闭包放在函数的括弧里。</p>
+
+<h5>捕获值</h5>
+
+<p>闭包从定义它自己的上下文里捕获常量和变量的值。然后，闭包就可以在闭包体内引用和修改这些值，即使最开始定义这些值的作用域已经不存在了。</p>
+
+<p>最简单的闭包就是嵌套函数。一个嵌套函数可以捕获包裹函数的参数，以及所有的定义在包裹函数内的常量和变量。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">func</span> <span class="n">makeIncrementor</span> <span class="p">(</span><span class="n">forIncrement</span> <span class="nl">amount</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Int</span> <span class="p">{</span>
+</span><span class='line'>  <span class="n">var</span> <span class="n">runningTotal</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>    <span class="n">func</span> <span class="n">incrementor</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Int</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">runningTotal</span> <span class="o">+=</span> <span class="n">amount</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">runningTotal</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">incrementor</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面例子，makeIncrementor的返回值是一个类型为() -> Int的函数。</p>
+
+<p>makeIncrementor定义了一个runningTotal，来存储当前makeIncrementor的runningTotal，初始值是0。</p>
+
+<p>makeIncrementor的唯一参数amount是一个Int值，每次调用incrementor，都会把这个amount加到runningTotal上面。</p>
+
+<p>makeIncrementor还定义了一个嵌套函数incrementor，它来做真正的增加操作。</p>
+
+<p>如果我们单独来看incrementor函数，它是很奇怪的。</p>
+
+<p>他没有定义任何参数，但是却引用了runningTotal和amount。它是把这个值捕获了。</p>
+
+<p>incrementor并没有修改amount，所以他只是拷贝的一份。然而，对于runningTotal，incrementor每次调用都会修改它的值。所以incrementor事实上是捕获了一份引用，而不是简单的拷贝值。捕获引用可以确保runningTotal在makeIncrementor调用结束后不消失，这样下次调用incrementor的时候就会存在。</p>
+
+<pre><code>注意
+Swift会决定什么值需要拷贝，什么需要捕获引用。你不需要做任何事。Swift也负责所有的内存管理。
+</code></pre>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="n">incrementByTen</span> <span class="o">=</span> <span class="n">makeIncrementor</span><span class="p">(</span><span class="nl">forIncrement</span><span class="p">:</span><span class="mi">10</span><span class="p">)</span>
+</span><span class='line'><span class="n">incrementByTen</span><span class="p">()</span> <span class="c1">// 10</span>
+</span><span class='line'><span class="n">incrementByTen</span><span class="p">()</span> <span class="c1">// 20</span>
+</span><span class='line'><span class="n">incrementByTen</span><span class="p">()</span> <span class="c1">// 30</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果你定义一个新的incrementor，他会存储它自己的，新的一个runningTotal。调用之前定义的incrementByTen并不会干扰这个新的。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="n">incrementBySeven</span> <span class="o">=</span> <span class="n">makeIncrementor</span><span class="p">(</span><span class="nl">forIncrement</span><span class="p">:</span> <span class="mi">7</span><span class="p">)</span>
+</span><span class='line'><span class="n">incrementBySeven</span><span class="p">()</span> <span class="c1">// 7</span>
+</span><span class='line'><span class="n">incrementByTen</span><span class="p">()</span>  <span class="c1">// 40</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<pre><code>注意
+如果你把闭包附值给了一个类实例的属性，并且这个闭包捕获了这个类实例或它的成员，这将是一个循环引用。你需要使用捕获列表来处理。
+</code></pre>
+
+<h5>闭包是引用类型</h5>
+
+<p>上面的例子里，incrementBySeven和incrementByTen是常量。但是这些常量引用的闭包依旧可以修改他们捕获的runningTotal的值。这是因为函数和闭包是引用类型。</p>
+
+<p>无论何时你把一个函数或闭包附值给一个常量或变量，你都是把它的引用附值给了常量或变量。上面的例子，是说incrementByTen的引用是个常量，(注：就是它不能在引用其他闭包）而不是闭包本身是常量。</p>
+
+<p>这也意味着，同一个闭包可以被多个变量或常量引用。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">zxhfirefox</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2014-10-06T14:41:52+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>2:41 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/swift/'>swift</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/10/05/language-guide-functions/" title="Previous Post: Language Guide: Functions">&laquo; Language Guide: Functions</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2014/10/06/language-guide-enumetations/" title="Next Post: Language Guide: Enumetations">Language Guide: Enumetations &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/10/06/language-guide-enumetations/">Language Guide: Enumetations</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/10/06/language-guide-closures/">Language Guide: Closures</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/10/05/language-guide-functions/">Language Guide: Functions</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/10/04/language-guide-control-flow/">Language Guide: Control Flow</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/10/03/language-guide-collection-types/">Language Guide: Collection Types</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - zxhfirefox -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

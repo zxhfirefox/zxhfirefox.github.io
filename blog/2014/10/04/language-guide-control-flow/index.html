@@ -1,0 +1,419 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Language Guide: Control Flow - zxhfirefox&#8217;s Blog</title>
+  <meta name="author" content="zxhfirefox">
+
+  
+  <meta name="description" content="Swift提供了和类C语言相似的流程控制语句。包括for和while来做循环，if和switch来做分支，break和continue来做打断。 除了支持for，Swift还加入了for-in来简化字符串，数组，字典，区间和其他序列的遍历。 Swift的switch也比C的要强大许多， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://zxhfirefox.github.io/blog/2014/10/04/language-guide-control-flow">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="zxhfirefox's Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">zxhfirefox&#8217;s Blog</a></h1>
+  
+    <h2>A place to record some words.</h2>
+  
+  <h3>禁止用于商业用途，转载请注明出处</h3>
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:zxhfirefox.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/about">About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Language Guide: Control Flow</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-10-04T14:39:29+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>4</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>2:39 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Swift提供了和类C语言相似的流程控制语句。包括for和while来做循环，if和switch来做分支，break和continue来做打断。</p>
+
+<p>除了支持for，Swift还加入了for-in来简化字符串，数组，字典，区间和其他序列的遍历。</p>
+
+<p>Swift的switch也比C的要强大许多，case不会默认的执行下一个case，避免了忘写break带来的bug。case也可以匹配其他的模式，包括字符串，区间，并且可以cast到某个特定类型。匹配的值可以绑定到临时变量，这样在case里面就可以使用，复杂的case可以通过添加where来表达。</p>
+
+<p><em>注：这里很多的内容都是和C，ObjC一样的，所以很多地方都省略了，重点翻译了Swift里的特性和一些需要特别注意的地方。</em></p>
+
+<h5>For循环</h5>
+
+<p>两种：</p>
+
+<ul>
+<li>for-in</li>
+<li>for</li>
+</ul>
+
+
+<h6>for-in</h6>
+
+<p>使用for-in来循环遍历一个序列的元素。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">for</span> <span class="n">index</span> <span class="k">in</span> <span class="mf">1.</span><span class="p">.</span><span class="mf">.5</span> <span class="p">{</span>
+</span><span class='line'>  <span class="n">println</span><span class="p">(</span><span class="s">&quot;\(index) times 5 is \(index * 5)&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面的循环里，index是常量，每次遍历被赋予新值。</p>
+
+<p>如果不需要每次遍历给出的值，可以用 _ 来接受遍历给出值。</p>
+
+<h6>for</h6>
+
+<p>和C一样的for循环。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">for</span> <span class="n">var</span> <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">index</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">;</span> <span class="o">++</span><span class="n">index</span> <span class="p">{</span>
+</span><span class='line'>  <span class="n">println</span><span class="p">(</span><span class="s">&quot;index is \(index)&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>index只在for循环语句内可见。如果想在for语句后访问index，必须在for语句之前声明。</p>
+
+<p>注意如果在for循环外使用index的值，那么++index和index++是不一样的。</p>
+
+<h5>while循环</h5>
+
+<p>两种：</p>
+
+<ul>
+<li>while</li>
+<li>do-while</li>
+</ul>
+
+
+<h6>while</h6>
+
+<h6>do-while</h6>
+
+<h5>条件语句</h5>
+
+<p>if和switch</p>
+
+<h6>if</h6>
+
+<h6>switch</h6>
+
+<p>switch语句必须是穷举的，这意味着，switch的所有case的组合必须覆盖了条件值可以取值的所有范围。</p>
+
+<p>switch语句，不会在执行完一个case之后继续执行下一个case。</p>
+
+<p>条件值，可以用范围来区分case。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">3</span><span class="n">_000_000_000_000</span>
+</span><span class='line'><span class="n">let</span> <span class="n">things</span> <span class="o">=</span> <span class="s">&quot;stars in the Milky Way&quot;</span>
+</span><span class='line'><span class="n">var</span> <span class="nl">naturalCount</span><span class="p">:</span> <span class="n">String</span>
+</span><span class='line'><span class="k">switch</span> <span class="n">count</span> <span class="p">{</span>
+</span><span class='line'><span class="k">case</span> <span class="mi">0</span><span class="o">:</span>
+</span><span class='line'>  <span class="n">naturalCount</span> <span class="o">=</span> <span class="s">&quot;no&quot;</span>
+</span><span class='line'><span class="k">case</span> <span class="mf">1.</span><span class="p">.</span><span class="mf">.3</span><span class="o">:</span>
+</span><span class='line'>  <span class="n">naturalCount</span> <span class="o">=</span> <span class="s">&quot;a few&quot;</span>
+</span><span class='line'><span class="k">case</span> <span class="mf">4.</span><span class="p">.</span><span class="mf">.9</span><span class="o">:</span>
+</span><span class='line'>  <span class="n">naturalCount</span> <span class="o">=</span> <span class="s">&quot;several&quot;</span>
+</span><span class='line'><span class="k">case</span> <span class="mf">10.</span><span class="p">.</span><span class="mf">.99</span><span class="o">:</span>
+</span><span class='line'>  <span class="n">naturalCount</span> <span class="o">=</span> <span class="s">&quot;tens of&quot;</span>
+</span><span class='line'><span class="k">case</span> <span class="mf">100.</span><span class="p">.</span><span class="mf">.999</span><span class="o">:</span>
+</span><span class='line'>  <span class="n">naturalCount</span> <span class="o">=</span> <span class="s">&quot;hundreds of &quot;</span>
+</span><span class='line'><span class="k">case</span> <span class="mf">1000.</span><span class="p">.</span><span class="mf">.999</span><span class="nl">_999</span><span class="p">:</span>
+</span><span class='line'>  <span class="n">naturalCount</span> <span class="o">=</span> <span class="s">&quot;thousands of&quot;</span>
+</span><span class='line'><span class="k">default</span><span class="o">:</span>
+</span><span class='line'>  <span class="n">naturalCount</span> <span class="o">=</span> <span class="s">&quot;millions of &quot;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>条件值，也可是元组。元组的每个元素都可以匹配，使用 _ 来匹配任意值。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="n">somePoint</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+</span><span class='line'><span class="k">switch</span> <span class="n">somePoint</span> <span class="p">{</span>
+</span><span class='line'><span class="k">case</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span><span class="o">:</span>
+</span><span class='line'>  <span class="n">println</span><span class="p">(</span><span class="s">&quot;origin&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="k">case</span> <span class="p">(</span><span class="err">\</span><span class="n">_</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span><span class="o">:</span>
+</span><span class='line'>  <span class="n">println</span><span class="p">(</span><span class="s">&quot;x axis&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="k">case</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">_</span><span class="p">)</span><span class="o">:</span>
+</span><span class='line'>  <span class="n">println</span><span class="p">(</span><span class="s">&quot;y axis&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="k">case</span> <span class="p">(</span><span class="o">-</span><span class="mf">2.</span><span class="p">.</span><span class="mf">.2</span><span class="p">,</span><span class="o">-</span><span class="mf">2.</span><span class="p">.</span><span class="mf">.2</span><span class="p">)</span><span class="o">:</span>
+</span><span class='line'>  <span class="n">println</span><span class="p">(</span><span class="s">&quot; in a square&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="nl">defualt</span><span class="p">:</span>
+</span><span class='line'>  <span class="n">println</span><span class="p">(</span><span class="s">&quot;out of square&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面的例子里，和C不一样，Swift允许多个case包含相同的值，（0，0）满足4个分支。然而，如果有多个匹配，那么只执行第一个匹配。</p>
+
+<p>switch的case可以把匹配的值绑定到临时变量，以便在case的代码中使用。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="n">point</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+</span><span class='line'><span class="k">switch</span> <span class="n">point</span> <span class="p">{</span>
+</span><span class='line'><span class="k">case</span> <span class="p">(</span><span class="n">let</span> <span class="n">x</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span><span class="o">:</span>
+</span><span class='line'>  <span class="n">println</span><span class="p">(</span><span class="s">&quot;on x axis with x = \(x)&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="k">case</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">let</span> <span class="n">y</span><span class="p">)</span><span class="o">:</span>
+</span><span class='line'>  <span class="n">println</span><span class="p">(</span><span class="s">&quot;on y axis with y = \(y)&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="k">case</span> <span class="n">let</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span><span class="o">:</span>
+</span><span class='line'>  <span class="n">println</span><span class="p">(</span><span class="s">&quot;x = \(x), y = \(y)&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面的x，y是常量，如果声明为var，也只能在case语句内改变。</p>
+
+<p>switch的case可以使用where来表达复杂的case条件。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="n">point</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</span><span class='line'><span class="k">switch</span> <span class="n">point</span> <span class="p">{</span>
+</span><span class='line'><span class="k">case</span> <span class="n">let</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="err"></span><span class="p">)</span> <span class="n">where</span> <span class="n">x</span> <span class="o">==</span> <span class="nl">y</span><span class="p">:</span>
+</span><span class='line'>  <span class="n">println</span><span class="p">(</span><span class="s">&quot;point on the line x == y&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="k">case</span> <span class="n">let</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span> <span class="n">where</span> <span class="n">x</span> <span class="o">==</span> <span class="o">-</span><span class="nl">y</span><span class="p">:</span>
+</span><span class='line'>  <span class="n">println</span><span class="p">(</span><span class="s">&quot;point on the line x == -y&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="k">case</span> <span class="n">let</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span><span class="o">:</span>
+</span><span class='line'>  <span class="n">println</span><span class="p">(</span><span class="s">&quot;arbitrary point&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>控制转换语句</h5>
+
+<ul>
+<li>continue</li>
+<li>break</li>
+<li>fallthrough</li>
+<li>return</li>
+</ul>
+
+
+<h6>continue</h6>
+
+<h6>break</h6>
+
+<h6>fallthrough</h6>
+
+<p>Swift里，switch的case默认不会fallthrough，如果需要，那么用fallthrough。</p>
+
+<h6>标签语句</h6>
+
+<p>嵌套switch或者循环在其他的switch和循环里，能够写出非常复杂的控制语句。然后循环和switch都使用break来终止执行。那么，如果能够明确的说明终止到哪一个循环或switch语句是很有用的。对于continue也有这样的使用场景。</p>
+
+<p>为了达到这个目标，我们可以在循环或switch语句上加上标签，然后在break和continue的时候写上标签，来告诉程序跳转到哪里继续执行。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">zxhfirefox</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2014-10-04T14:39:29+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>4</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>2:39 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/swift/'>swift</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/10/03/language-guide-collection-types/" title="Previous Post: Language Guide: Collection Types">&laquo; Language Guide: Collection Types</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2014/10/05/language-guide-functions/" title="Next Post: Language Guide: Functions">Language Guide: Functions &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/10/06/language-guide-enumetations/">Language Guide: Enumetations</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/10/06/language-guide-closures/">Language Guide: Closures</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/10/05/language-guide-functions/">Language Guide: Functions</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/10/04/language-guide-control-flow/">Language Guide: Control Flow</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/10/03/language-guide-collection-types/">Language Guide: Collection Types</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - zxhfirefox -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

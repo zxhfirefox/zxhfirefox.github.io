@@ -40,6 +40,7 @@
   
     <h2>A place to record some words.</h2>
   
+  <h3>禁止用于商业用途，转载请注明出处</h3>
 </hgroup>
 
 </header>
@@ -107,7 +108,7 @@
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">let</span> <span class="n">maximumNumberOfLoginAttempts</span> <span class="o">=</span> <span class="mi">10</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="n">maximumNumberOfLoginAttempts</span> <span class="o">=</span> <span class="mi">10</span>
 </span><span class='line'><span class="n">var</span> <span class="n">currentLoginAttempt</span> <span class="o">=</span> <span class="mi">0</span>
 </span></code></pre></td></tr></table></div></figure>
 
@@ -121,7 +122,7 @@
 <p>你可以在一行代码里声明多个常量或变量，用 , 分开：</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">var</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="mi">0</span><span class="o">.</span><span class="mi">0</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">var</span> <span class="n">x</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="mf">0.0</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -136,7 +137,7 @@
 <p>下面这个例子里，表示了一个字符串类型的变量 welcomeMessage:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">var</span> <span class="ss">welcomeMessage</span><span class="p">:</span> <span class="nb">String</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">var</span> <span class="nl">welcomeMessage</span><span class="p">:</span> <span class="n">String</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -147,14 +148,14 @@
 <p>welcomeMessage 现在就可以被附值给任何字符串值。</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">welcomeMessage</span> <span class="o">=</span> <span class="s2">&quot;Hello&quot;</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">welcomeMessage</span> <span class="o">=</span> <span class="s">&quot;Hello&quot;</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
 <p>你可以在一行代码里声明多个同一类型的变量，由逗号分开，只需要在最后一个变量的后面加上类型标注。</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">var</span> <span class="n">red</span><span class="p">,</span> <span class="n">green</span><span class="p">,</span> <span class="ss">blue</span><span class="p">:</span> <span class="no">Double</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">var</span> <span class="n">red</span><span class="p">,</span> <span class="n">green</span><span class="p">,</span> <span class="nl">blue</span><span class="p">:</span> <span class="n">Double</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -167,7 +168,7 @@
 <p>常量和变量的名字可以包含几乎所有的字符，包含unicode字符：</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">let</span> <span class="err">你好</span> <span class="o">=</span> <span class="s2">&quot;你好，世界&quot;</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="err">你好</span> <span class="o">=</span> <span class="s">&quot;你好，世界&quot;</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -183,8 +184,8 @@
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">var</span> <span class="n">friendlyWelcome</span> <span class="o">=</span> <span class="s2">&quot;Hello!&quot;</span>
-</span><span class='line'><span class="n">firendlyWelcome</span> <span class="o">=</span> <span class="s2">&quot;Bonjour!&quot;</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">var</span> <span class="n">friendlyWelcome</span> <span class="o">=</span> <span class="s">&quot;Hello!&quot;</span>
+</span><span class='line'><span class="n">firendlyWelcome</span> <span class="o">=</span> <span class="s">&quot;Bonjour!&quot;</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -192,8 +193,8 @@
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">let</span> <span class="n">languageName</span> <span class="o">=</span> <span class="s2">&quot;Swift&quot;</span>
-</span><span class='line'><span class="n">languageName</span> <span class="o">=</span> <span class="s2">&quot;Swift++&quot;</span> <span class="sr">//</span><span class="n">compile</span> <span class="n">error</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="n">languageName</span> <span class="o">=</span> <span class="s">&quot;Swift&quot;</span>
+</span><span class='line'><span class="n">languageName</span> <span class="o">=</span> <span class="s">&quot;Swift++&quot;</span> <span class="c1">//compile error</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -202,7 +203,7 @@
 <p>你可以用 println 函数来打印一个常量或变量的值：</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">println</span><span class="p">(</span><span class="n">friendlyWelcome</span><span class="p">)</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">println</span><span class="p">(</span><span class="n">friendlyWelcome</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -211,7 +212,7 @@
 <p>println 打印你传给它的任意字符串。</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">println</span><span class="p">(</span><span class="s2">&quot;This is a string&quot;</span><span class="p">)</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">println</span><span class="p">(</span><span class="s">&quot;This is a string&quot;</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -220,7 +221,7 @@
 <p>Swift 使用字符串插入来把常量或变量的名字作为占位符插入到一个长字符串里，并让Swift用变量或常量到值来代替这个名字。把名字放到圆括号里，在圆括号前面加一个反斜杠：</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">println</span><span class="p">(</span><span class="s2">&quot;The current value of friendlyWelcome is \(friendlyWelcome)&quot;</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">println</span><span class="p">(</span><span class="s">&quot;The current value of friendlyWelcome is \(friendlyWelcome)&quot;</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -235,7 +236,7 @@
 <p>Swift注释和C的注释很相似。 单行注释由两个斜杠开始 (//):</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="sr">//</span> <span class="n">a</span> <span class="n">comment</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="c1">// a comment</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -243,8 +244,8 @@
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="sr">/* comment</span>
-</span><span class='line'><span class="sr">with multiple lines */</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="cm">/* comment</span>
+</span><span class='line'><span class="cm">with multiple lines */</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -253,9 +254,9 @@
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="sr">/* first comment</span>
-</span><span class='line'><span class="sr">/</span><span class="o">*</span> <span class="n">senond</span> <span class="n">comment</span> <span class="n">nested</span> <span class="k">in</span> <span class="n">first</span> <span class="n">comment</span> <span class="o">*/</span>
-</span><span class='line'><span class="k">end</span> <span class="n">of</span> <span class="n">first</span> <span class="n">comment</span> <span class="o">*/</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="cm">/* first comment</span>
+</span><span class='line'><span class="cm">/* senond comment nested in first comment */</span>
+</span><span class='line'><span class="n">end</span> <span class="n">of</span> <span class="n">first</span> <span class="n">comment</span> <span class="err">*/</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -266,7 +267,7 @@
 <p>Swift不像其他很多语言，要求你在每一个语句后面都加上分号，不过如果你愿意，你可以加。但是如果你在一行代码里写了多个语句，分号就是必须的：</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">let</span> <span class="n">cat</span> <span class="o">=</span> <span class="s2">&quot;cat&quot;</span><span class="p">;</span> <span class="n">println</span><span class="p">(</span><span class="n">cat</span><span class="p">)</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="n">cat</span> <span class="o">=</span> <span class="s">&quot;cat&quot;</span><span class="p">;</span> <span class="n">println</span><span class="p">(</span><span class="n">cat</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -282,8 +283,8 @@
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">let</span> <span class="n">minValue</span> <span class="o">=</span> <span class="no">UInt8</span><span class="o">.</span><span class="n">min</span>
-</span><span class='line'><span class="n">let</span> <span class="n">maxValue</span> <span class="o">=</span> <span class="no">UInt8</span><span class="o">.</span><span class="n">max</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="n">minValue</span> <span class="o">=</span> <span class="kt">UInt8</span><span class="p">.</span><span class="n">min</span>
+</span><span class='line'><span class="n">let</span> <span class="n">maxValue</span> <span class="o">=</span> <span class="kt">UInt8</span><span class="p">.</span><span class="n">max</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -334,14 +335,14 @@ Double至少有15个小数位，Float至少有6个小数位。
 <p>比如，如果你给一个常量附值42，而没有给出类型，Swift会把它推断成为一个Int。</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">let</span> <span class="n">meaningOfLife</span> <span class="o">=</span> <span class="mi">42</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="n">meaningOfLife</span> <span class="o">=</span> <span class="mi">42</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
 <p>同样，如果你给你常量附值一个浮点数，Swift会把它推断为Double。</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">let</span> <span class="n">pi</span> <span class="o">=</span> <span class="mi">3</span><span class="o">.</span><span class="mi">14159</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="n">pi</span> <span class="o">=</span> <span class="mf">3.14159</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -350,7 +351,7 @@ Double至少有15个小数位，Float至少有6个小数位。
 <p>如果你混合整数和浮点数在同一个表达式中，那么Double会成为表达式的值的类型。</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">let</span> <span class="n">anotherPi</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">+</span> <span class="mi">0</span><span class="o">.</span><span class="mi">14159</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="n">anotherPi</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">+</span> <span class="mf">0.14159</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -370,8 +371,8 @@ Double至少有15个小数位，Float至少有6个小数位。
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">let</span> <span class="n">dec</span> <span class="o">=</span> <span class="mi">17</span>
-</span><span class='line'><span class="n">let</span> <span class="n">bin</span> <span class="o">=</span> <span class="mb">0b10001</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="n">dec</span> <span class="o">=</span> <span class="mi">17</span>
+</span><span class='line'><span class="n">let</span> <span class="n">bin</span> <span class="o">=</span> <span class="mi">0</span><span class="n">b10001</span>
 </span><span class='line'><span class="n">let</span> <span class="n">oct</span> <span class="o">=</span> <span class="mi">0</span><span class="n">o21</span>
 </span><span class='line'><span class="n">let</span> <span class="n">hex</span> <span class="o">=</span> <span class="mh">0x11</span>
 </span></code></pre></td></tr></table></div></figure>
@@ -392,9 +393,9 @@ Double至少有15个小数位，Float至少有6个小数位。
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">let</span> <span class="n">dec</span> <span class="o">=</span> <span class="mi">12</span><span class="o">.</span><span class="mi">1875</span>
-</span><span class='line'><span class="n">let</span> <span class="n">exp</span> <span class="o">=</span> <span class="mi">1</span><span class="o">.</span><span class="mi">21875</span><span class="n">e1</span>
-</span><span class='line'><span class="n">let</span> <span class="n">hex</span> <span class="o">=</span> <span class="mh">0xC</span><span class="o">.</span><span class="mi">3</span><span class="n">p0</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="n">dec</span> <span class="o">=</span> <span class="mf">12.1875</span>
+</span><span class='line'><span class="n">let</span> <span class="n">exp</span> <span class="o">=</span> <span class="mf">1.21875e1</span>
+</span><span class='line'><span class="n">let</span> <span class="n">hex</span> <span class="o">=</span> <span class="mh">0xC</span><span class="mf">.3</span><span class="n">p0</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -403,9 +404,9 @@ Double至少有15个小数位，Float至少有6个小数位。
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">let</span> <span class="n">pedding</span> <span class="o">=</span> <span class="mo">000123</span><span class="o">.</span><span class="mi">456</span>
-</span><span class='line'><span class="n">let</span> <span class="n">oneMillion</span> <span class="o">=</span> <span class="mi">1_000_000</span>
-</span><span class='line'><span class="n">let</span> <span class="n">justOverOneMillion</span> <span class="o">=</span> <span class="mi">1_000_000</span><span class="o">.</span><span class="mo">000_000_1</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="n">pedding</span> <span class="o">=</span> <span class="mf">000123.456</span>
+</span><span class='line'><span class="n">let</span> <span class="n">oneMillion</span> <span class="o">=</span> <span class="mi">1</span><span class="n">_000_000</span>
+</span><span class='line'><span class="n">let</span> <span class="n">justOverOneMillion</span> <span class="o">=</span> <span class="mi">1</span><span class="n">_000_000</span><span class="mf">.000</span><span class="n">_000_1</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -421,8 +422,8 @@ Double至少有15个小数位，Float至少有6个小数位。
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">let</span> <span class="ss">cannotBeNegative</span><span class="p">:</span> <span class="no">UInt8</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-</span><span class='line'><span class="n">let</span> <span class="ss">tooBig</span><span class="p">:</span> <span class="no">Int8</span> <span class="o">=</span> <span class="no">Int8</span><span class="o">.</span><span class="n">max</span> <span class="o">+</span> <span class="mi">1</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="nl">cannotBeNegative</span><span class="p">:</span> <span class="kt">UInt8</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+</span><span class='line'><span class="n">let</span> <span class="nl">tooBig</span><span class="p">:</span> <span class="n">Int8</span> <span class="o">=</span> <span class="n">Int8</span><span class="p">.</span><span class="n">max</span> <span class="o">+</span> <span class="mi">1</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -433,9 +434,9 @@ Double至少有15个小数位，Float至少有6个小数位。
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">let</span> <span class="nl">twoThousand</span><span class="p">:</span> <span class="kt">UInt16</span> <span class="o">=</span> <span class="mi">2</span><span class="n">_000</span>
-</span><span class='line'><span class="k">let</span> <span class="nl">one</span><span class="p">:</span> <span class="kt">UInt8</span> <span class="o">=</span> <span class="mi">1</span>
-</span><span class='line'><span class="k">let</span> <span class="n">twoThousandAndOne</span> <span class="o">=</span> <span class="n">twoThousand</span> <span class="o">+</span> <span class="kt">UInt16</span><span class="p">(</span><span class="n">one</span><span class="p">)</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="nl">twoThousand</span><span class="p">:</span> <span class="kt">UInt16</span> <span class="o">=</span> <span class="mi">2</span><span class="n">_000</span>
+</span><span class='line'><span class="n">let</span> <span class="nl">one</span><span class="p">:</span> <span class="kt">UInt8</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span class='line'><span class="n">let</span> <span class="n">twoThousandAndOne</span> <span class="o">=</span> <span class="n">twoThousand</span> <span class="o">+</span> <span class="kt">UInt16</span><span class="p">(</span><span class="n">one</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -450,9 +451,9 @@ Double至少有15个小数位，Float至少有6个小数位。
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='swift'><span class='line'><span class="k">let</span> <span class="n">three</span> <span class="o">=</span> <span class="mi">3</span>
-</span><span class='line'><span class="k">let</span> <span class="n">pointOneFourOneFiveNine</span> <span class="o">=</span> <span class="mf">0.14159</span>
-</span><span class='line'><span class="k">let</span> <span class="n">pi</span> <span class="o">=</span> <span class="n">Double</span><span class="p">(</span><span class="n">three</span><span class="p">)</span> <span class="o">+</span> <span class="n">pointOneFourOneFiveNine</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="n">three</span> <span class="o">=</span> <span class="mi">3</span>
+</span><span class='line'><span class="n">let</span> <span class="n">pointOneFourOneFiveNine</span> <span class="o">=</span> <span class="mf">0.14159</span>
+</span><span class='line'><span class="n">let</span> <span class="n">pi</span> <span class="o">=</span> <span class="n">Double</span><span class="p">(</span><span class="n">three</span><span class="p">)</span> <span class="o">+</span> <span class="n">pointOneFourOneFiveNine</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -461,7 +462,7 @@ Double至少有15个小数位，Float至少有6个小数位。
 <p>浮点数到整数的转换也必须式显式的：</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">let</span> <span class="n">integerPi</span> <span class="o">=</span> <span class="no">Int</span><span class="p">(</span><span class="n">pi</span><span class="p">)</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="n">integerPi</span> <span class="o">=</span> <span class="n">Int</span><span class="p">(</span><span class="n">pi</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -478,14 +479,14 @@ Double至少有15个小数位，Float至少有6个小数位。
 <p>当你需要使用一个更加有意义的名字来替换现有的类型的时候，类型别名是很有用的。例如：</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">typealias</span> <span class="no">AuidoSample</span> <span class="o">=</span> <span class="no">UInt16</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">typealias</span> <span class="n">AuidoSample</span> <span class="o">=</span> <span class="kt">UInt16</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
 <p>一旦你定义了一个类型别名，那你就可以把它当作原来的类型使用。</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">var</span> <span class="n">maxAmplitudeFound</span> <span class="o">=</span> <span class="no">AudioSample</span><span class="o">.</span><span class="n">min</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">var</span> <span class="n">maxAmplitudeFound</span> <span class="o">=</span> <span class="n">AudioSample</span><span class="p">.</span><span class="n">min</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -497,8 +498,8 @@ Double至少有15个小数位，Float至少有6个小数位。
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">let</span> <span class="n">orangesAreOrange</span> <span class="o">=</span> <span class="kp">true</span>
-</span><span class='line'><span class="n">let</span> <span class="n">turnipsAreDelicious</span> <span class="o">=</span> <span class="kp">false</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="n">orangesAreOrange</span> <span class="o">=</span> <span class="nb">true</span>
+</span><span class='line'><span class="n">let</span> <span class="n">turnipsAreDelicious</span> <span class="o">=</span> <span class="nb">false</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -511,10 +512,10 @@ Double至少有15个小数位，Float至少有6个小数位。
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">if</span> <span class="n">turnipsAreDelicious</span> <span class="p">{</span>
-</span><span class='line'>  <span class="n">println</span><span class="p">(</span><span class="s2">&quot;Mmm,tasty turnips!&quot;</span><span class="p">)</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">if</span> <span class="n">turnipsAreDelicious</span> <span class="p">{</span>
+</span><span class='line'>  <span class="n">println</span><span class="p">(</span><span class="s">&quot;Mmm,tasty turnips!&quot;</span><span class="p">)</span>
 </span><span class='line'><span class="p">}</span><span class="k">else</span><span class="p">{</span>
-</span><span class='line'>  <span class="n">println</span><span class="p">(</span><span class="s2">&quot;Eww,turnips are horrible.&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">println</span><span class="p">(</span><span class="s">&quot;Eww,turnips are horrible.&quot;</span><span class="p">)</span>
 </span><span class='line'><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
@@ -526,7 +527,7 @@ Double至少有15个小数位，Float至少有6个小数位。
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">let</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span>
 </span><span class='line'><span class="k">if</span> <span class="n">i</span> <span class="p">{</span>
 </span><span class='line'><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
@@ -537,7 +538,7 @@ Double至少有15个小数位，Float至少有6个小数位。
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">let</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span>
 </span><span class='line'><span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">1</span><span class="p">{</span>
 </span><span class='line'><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
@@ -554,7 +555,7 @@ Double至少有15个小数位，Float至少有6个小数位。
 <p>下面的例子里，（404,&ldquo;Not Found&rdquo;)是一个表示http状态码的元组，一个http状态码是你访问一个web服务器返回的一个特定值，404表示你请求的网页不存在。</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">let</span> <span class="n">http404Error</span> <span class="o">=</span> <span class="p">(</span><span class="mi">404</span><span class="p">,</span><span class="s2">&quot;Not Found&quot;</span><span class="p">)</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="n">http404Error</span> <span class="o">=</span> <span class="p">(</span><span class="mi">404</span><span class="p">,</span><span class="s">&quot;Not Found&quot;</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -567,9 +568,9 @@ Double至少有15个小数位，Float至少有6个小数位。
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">let</span> <span class="p">(</span><span class="n">statusCode</span><span class="p">,</span> <span class="n">statusMessage</span><span class="p">)</span> <span class="o">=</span> <span class="n">http404Error</span>
-</span><span class='line'><span class="n">println</span><span class="p">(</span><span class="s2">&quot;code is \(statusCode)&quot;</span><span class="p">)</span>
-</span><span class='line'><span class="n">println</span><span class="p">(</span><span class="s2">&quot;message is \(statusMessage)&quot;</span><span class="p">)</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="p">(</span><span class="n">statusCode</span><span class="p">,</span> <span class="n">statusMessage</span><span class="p">)</span> <span class="o">=</span> <span class="n">http404Error</span>
+</span><span class='line'><span class="n">println</span><span class="p">(</span><span class="s">&quot;code is \(statusCode)&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="n">println</span><span class="p">(</span><span class="s">&quot;message is \(statusMessage)&quot;</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -577,8 +578,8 @@ Double至少有15个小数位，Float至少有6个小数位。
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">let</span> <span class="p">(</span><span class="n">justCode</span><span class="p">,</span><span class="n">_</span><span class="p">)</span> <span class="o">=</span> <span class="n">http404Error</span>
-</span><span class='line'><span class="n">println</span><span class="p">(</span><span class="s2">&quot;code is \(justCode)&quot;</span><span class="p">)</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="p">(</span><span class="n">justCode</span><span class="p">,</span><span class="n">_</span><span class="p">)</span> <span class="o">=</span> <span class="n">http404Error</span>
+</span><span class='line'><span class="n">println</span><span class="p">(</span><span class="s">&quot;code is \(justCode)&quot;</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -586,15 +587,15 @@ Double至少有15个小数位，Float至少有6个小数位。
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">println</span><span class="p">(</span><span class="s2">&quot;code is \(http404Error.0)&quot;</span><span class="p">)</span>
-</span><span class='line'><span class="n">println</span><span class="p">(</span><span class="s2">&quot;message is \(http404Error.1)&quot;</span><span class="p">)</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">println</span><span class="p">(</span><span class="s">&quot;code is \(http404Error.0)&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="n">println</span><span class="p">(</span><span class="s">&quot;message is \(http404Error.1)&quot;</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
 <p>你也可以在创建元组时，给每一个单独的元素定一个名字：</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">let</span> <span class="n">http200Status</span> <span class="o">=</span> <span class="p">(</span><span class="ss">statusCode</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span> <span class="ss">description</span><span class="p">:</span> <span class="s2">&quot;OK&quot;</span><span class="p">)</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="n">http200Status</span> <span class="o">=</span> <span class="p">(</span><span class="nl">statusCode</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span> <span class="nl">description</span><span class="p">:</span> <span class="s">&quot;OK&quot;</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -602,8 +603,8 @@ Double至少有15个小数位，Float至少有6个小数位。
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">println</span><span class="p">(</span><span class="s2">&quot;code is \(http200Status.statusCode)&quot;</span><span class="p">)</span>
-</span><span class='line'><span class="n">println</span><span class="p">(</span><span class="s2">&quot;message is \(http200Status.description)&quot;</span><span class="p">)</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">println</span><span class="p">(</span><span class="s">&quot;code is \(http200Status.statusCode)&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="n">println</span><span class="p">(</span><span class="s">&quot;message is \(http200Status.description)&quot;</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -627,8 +628,8 @@ optional的概念在C和ObjC中不存在。最相似的是ObjC的函数可以返
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">let</span> <span class="n">possibleNumber</span> <span class="o">=</span> <span class="s2">&quot;123&quot;</span>
-</span><span class='line'><span class="n">let</span> <span class="n">convertedNumber</span> <span class="o">=</span> <span class="n">possibleNumber</span><span class="o">.</span><span class="n">toInt</span><span class="p">()</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="n">possibleNumber</span> <span class="o">=</span> <span class="s">&quot;123&quot;</span>
+</span><span class='line'><span class="n">let</span> <span class="n">convertedNumber</span> <span class="o">=</span> <span class="n">possibleNumber</span><span class="p">.</span><span class="n">toInt</span><span class="p">()</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -640,8 +641,8 @@ optional的概念在C和ObjC中不存在。最相似的是ObjC的函数可以返
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">var</span> <span class="ss">serverResponseCode</span><span class="p">:</span> <span class="no">Int</span><span class="p">?</span> <span class="o">=</span> <span class="mi">404</span>
-</span><span class='line'><span class="n">serverResponseCode</span> <span class="o">=</span> <span class="kp">nil</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">var</span> <span class="nl">serverResponseCode</span><span class="p">:</span> <span class="n">Int</span><span class="o">?</span> <span class="o">=</span> <span class="mi">404</span>
+</span><span class='line'><span class="n">serverResponseCode</span> <span class="o">=</span> <span class="nb">nil</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -652,7 +653,7 @@ nil不能用于非optional的常量或变量。如果你需要这种不存在的
 <p>如果你声明一个optional的值，而没有给初始值，那它会附值为 nil。</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">var</span> <span class="ss">surveyAnswer</span><span class="p">:</span> <span class="nb">String</span><span class="p">?</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">var</span> <span class="nl">surveyAnswer</span><span class="p">:</span> <span class="n">String</span><span class="o">?</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -669,8 +670,8 @@ Swift的nil和ObjC的nil不一样，在ObjC里，nil表示一个不存在的对�
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">if</span> <span class="n">convertedNumber</span> <span class="o">!=</span> <span class="kp">nil</span> <span class="p">{</span>
-</span><span class='line'>  <span class="n">prinln</span><span class="p">(</span><span class="s2">&quot;has a number&quot;</span><span class="p">)</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">if</span> <span class="n">convertedNumber</span> <span class="o">!=</span> <span class="nb">nil</span> <span class="p">{</span>
+</span><span class='line'>  <span class="n">prinln</span><span class="p">(</span><span class="s">&quot;has a number&quot;</span><span class="p">)</span>
 </span><span class='line'><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
@@ -680,8 +681,8 @@ Swift的nil和ObjC的nil不一样，在ObjC里，nil表示一个不存在的对�
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">if</span> <span class="n">convertedNumber</span> <span class="o">!=</span> <span class="kp">nil</span> <span class="p">{</span>
-</span><span class='line'>  <span class="n">prinln</span><span class="p">(</span><span class="s2">&quot;has an integer \(convertedNumber!)&quot;</span><span class="p">)</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">if</span> <span class="n">convertedNumber</span> <span class="o">!=</span> <span class="nb">nil</span> <span class="p">{</span>
+</span><span class='line'>  <span class="n">prinln</span><span class="p">(</span><span class="s">&quot;has an integer \(convertedNumber!)&quot;</span><span class="p">)</span>
 </span><span class='line'><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
@@ -701,10 +702,10 @@ Swift的nil和ObjC的nil不一样，在ObjC里，nil表示一个不存在的对�
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">if</span> <span class="n">let</span> <span class="n">actualNumber</span> <span class="o">=</span> <span class="n">possibleNumber</span><span class="o">.</span><span class="n">toInt</span><span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>  <span class="n">println</span><span class="p">(</span><span class="s2">&quot;actualNumber \(actualNumber)&quot;</span><span class="p">)</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">if</span> <span class="n">let</span> <span class="n">actualNumber</span> <span class="o">=</span> <span class="n">possibleNumber</span><span class="p">.</span><span class="n">toInt</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="n">println</span><span class="p">(</span><span class="s">&quot;actualNumber \(actualNumber)&quot;</span><span class="p">)</span>
 </span><span class='line'><span class="p">}</span><span class="k">else</span><span class="p">{</span>
-</span><span class='line'>  <span class="n">println</span><span class="p">(</span><span class="s2">&quot;not a number&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">println</span><span class="p">(</span><span class="s">&quot;not a number&quot;</span><span class="p">)</span>
 </span><span class='line'><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
@@ -731,12 +732,10 @@ Swift的nil和ObjC的nil不一样，在ObjC里，nil表示一个不存在的对�
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">let</span> <span class="ss">posiibleString</span><span class="p">:</span> <span class="nb">String</span><span class="p">?</span> <span class="o">=</span> <span class="s2">&quot;an optional string&quot;</span>
-</span><span class='line'><span class="n">let</span> <span class="ss">forcedString</span><span class="p">:</span> <span class="nb">String</span> <span class="o">=</span> <span class="n">possibleString!</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">let</span> <span class="ss">assumedString</span><span class="p">:</span> <span class="nb">String</span><span class="o">!</span> <span class="o">=</span> <span class="s2">&quot;an implicitly unwrapped optional string&quot;</span>
-</span><span class='line'><span class="n">let</span> <span class="ss">implicitString</span><span class="p">:</span> <span class="nb">String</span> <span class="o">=</span> <span class="n">assumedString</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="nl">posiibleString</span><span class="p">:</span> <span class="n">String</span><span class="o">?</span> <span class="o">=</span> <span class="s">&quot;an optional string&quot;</span>
+</span><span class='line'><span class="n">let</span> <span class="nl">forcedString</span><span class="p">:</span> <span class="n">String</span> <span class="o">=</span> <span class="n">possibleString</span><span class="o">!</span>
+</span><span class='line'><span class="n">let</span> <span class="nl">assumedString</span><span class="p">:</span> <span class="n">String</span><span class="o">!</span> <span class="o">=</span> <span class="s">&quot;an implicitly unwrapped optional string&quot;</span>
+</span><span class='line'><span class="n">let</span> <span class="nl">implicitString</span><span class="p">:</span> <span class="n">String</span> <span class="o">=</span> <span class="n">assumedString</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -751,7 +750,7 @@ Swift的nil和ObjC的nil不一样，在ObjC里，nil表示一个不存在的对�
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">if</span> <span class="n">assumedString</span> <span class="o">!=</span> <span class="kp">nil</span> <span class="p">{</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">if</span> <span class="n">assumedString</span> <span class="o">!=</span> <span class="nb">nil</span> <span class="p">{</span>
 </span><span class='line'>  <span class="n">println</span><span class="p">(</span><span class="n">assumedString</span><span class="p">)</span>
 </span><span class='line'><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
@@ -775,8 +774,8 @@ Swift的nil和ObjC的nil不一样，在ObjC里，nil表示一个不存在的对�
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">let</span> <span class="n">age</span> <span class="o">=</span> <span class="o">-</span><span class="mi">3</span>
-</span><span class='line'><span class="n">assert</span><span class="p">(</span><span class="n">age</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;a age can not be less than 0&quot;</span><span class="p">)</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="n">age</span> <span class="o">=</span> <span class="o">-</span><span class="mi">3</span>
+</span><span class='line'><span class="n">assert</span><span class="p">(</span><span class="n">age</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">,</span> <span class="s">&quot;a age can not be less than 0&quot;</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -785,7 +784,7 @@ Swift的nil和ObjC的nil不一样，在ObjC里，nil表示一个不存在的对�
 <p>断言信息不是必须的。</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">assert</span><span class="p">(</span><span class="n">age</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">assert</span><span class="p">(</span><span class="n">age</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -842,6 +841,8 @@ Swift的nil和ObjC的nil不一样，在ObjC里，nil表示一个不存在的对�
         <a class="basic-alignment left" href="/blog/2014/09/14/welcome-to-swift-a-swift-tour/" title="Previous Post: Welcome to Swift - A Swift Tour">&laquo; Welcome to Swift - A Swift Tour</a>
       
       
+        <a class="basic-alignment right" href="/blog/2014/10/01/language-guide-basic-operators/" title="Next Post: Language Guide: Basic Operators">Language Guide: Basic Operators &raquo;</a>
+      
     </p>
   </footer>
 </article>
@@ -855,23 +856,23 @@ Swift的nil和ObjC的nil不一样，在ObjC里，nil表示一个不存在的对�
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2014/09/27/language-guide-the-basics/">Language Guide: The Basics</a>
+        <a href="/blog/2014/10/06/language-guide-enumetations/">Language Guide: Enumetations</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2014/09/14/welcome-to-swift-a-swift-tour/">Welcome to Swift - a Swift Tour</a>
+        <a href="/blog/2014/10/06/language-guide-closures/">Language Guide: Closures</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2014/09/14/welcome-to-swift-about-swift/">Welcome to Swift - About Swift</a>
+        <a href="/blog/2014/10/05/language-guide-functions/">Language Guide: Functions</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2014/09/14/translate-the-swift-programming-language/">Translate the Swift Programming Language</a>
+        <a href="/blog/2014/10/04/language-guide-control-flow/">Language Guide: Control Flow</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2013/08/14/first-blood/">First Blood</a>
+        <a href="/blog/2014/10/03/language-guide-collection-types/">Language Guide: Collection Types</a>
       </li>
     
   </ul>
