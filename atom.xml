@@ -4,7 +4,7 @@
   <title><![CDATA[zxhfirefox's Blog]]></title>
   <link href="http://zxhfirefox.github.io/atom.xml" rel="self"/>
   <link href="http://zxhfirefox.github.io/"/>
-  <updated>2014-10-18T16:24:00+08:00</updated>
+  <updated>2014-10-19T00:41:46+08:00</updated>
   <id>http://zxhfirefox.github.io/</id>
   <author>
     <name><![CDATA[zxhfirefox]]></name>
@@ -14,11 +14,2788 @@
 
   
   <entry>
+    <title type="html"><![CDATA[Language Guide: Deinitialization]]></title>
+    <link href="http://zxhfirefox.github.io/blog/2014/10/19/language-guide-u-deinit/"/>
+    <updated>2014-10-19T00:40:13+08:00</updated>
+    <id>http://zxhfirefox.github.io/blog/2014/10/19/language-guide-u-deinit</id>
+    <content type="html"><![CDATA[<p>一个反初始化函数在类实例被销毁之前调用。我们用 deinit关键字来写反初始化函数。反初始化函数只有类类型有。</p>
+
+<h5>反初始化函数原理</h5>
+
+<p>Swift自动把不在使用的实例销毁，并释放资源。Swift使用ARC来做内存管理。一般来讲，我们不需要手动的释放资源。不过，如果我们自己处理了一些资源，我们可能就需要自己做一些清理工作。</p>
+
+<p>每个类，最多只有一个 deinit 方法。 没有任何参数。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'> <span class="n">deinit</span> <span class="p">{</span>
+</span><span class='line'> <span class="p">}</span>
+</span><span class='line'> <span class="err">```</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">反初始化函数自动在对象销毁前调用。你不能自己手动调用，父类的反初始化函数会被继承，而且在子类的实现末尾自动调用。即使子类不提供反初始化函数，父类的也会的调用。</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">因为在销毁之前调用反初始化函数，所以在反初始化函数里，所偶的属性都还可以访问。</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">#####   反初始化函数实战</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p> swift
+struct Bank {
+    static var coinsInBank = 10_000
+    static func vendCoins(var numberOfCoinsToVend: Int) -> Int {
+        numberOfCoinsToVend = min(numberOfCoinsToVend, coinsInBank)
+        coinsInBank -= numberOfCoinsToVend
+        return numberOfCoinsToVend
+    }
+    static func receiveCoins(coins: Int) {
+        coinsInBank += coins
+    }
+}</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="err">```</span> <span class="n">swift</span>
+</span><span class='line'><span class="k">class</span> <span class="n">Player</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">var</span> <span class="nl">coinsInPurse</span><span class="p">:</span> <span class="n">Int</span>
+</span><span class='line'>    <span class="n">init</span><span class="p">(</span><span class="nl">coins</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">coinsInPurse</span> <span class="o">=</span> <span class="n">Bank</span><span class="p">.</span><span class="n">vendCoins</span><span class="p">(</span><span class="n">coins</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="n">func</span> <span class="n">winCoins</span><span class="p">(</span><span class="nl">coins</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">coinsInPurse</span> <span class="o">+=</span> <span class="n">Bank</span><span class="p">.</span><span class="n">vendCoins</span><span class="p">(</span><span class="n">coins</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="n">deinit</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">Bank</span><span class="p">.</span><span class="n">receiveCoins</span><span class="p">(</span><span class="n">coinsInPurse</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">var</span> <span class="nl">playerOne</span><span class="p">:</span> <span class="n">Player</span><span class="o">?</span> <span class="o">=</span> <span class="n">Player</span><span class="p">(</span><span class="nl">coins</span><span class="p">:</span> <span class="mi">100</span><span class="p">)</span>
+</span><span class='line'><span class="n">println</span><span class="p">(</span><span class="s">&quot;A new player has joined the game with \(playerOne!.coinsInPurse) coins&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="c1">// prints &quot;A new player has joined the game with 100 coins&quot;</span>
+</span><span class='line'><span class="n">println</span><span class="p">(</span><span class="s">&quot;There are now \(Bank.coinsInBank) coins left in the bank&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="c1">// prints &quot;There are now 9900 coins left in the bank&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">playerOne</span><span class="o">!</span><span class="p">.</span><span class="n">winCoins</span><span class="p">(</span><span class="mi">2</span><span class="n">_000</span><span class="p">)</span>
+</span><span class='line'><span class="n">println</span><span class="p">(</span><span class="s">&quot;PlayerOne won 2000 coins &amp; now has \(playerOne!.coinsInPurse) coins&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="c1">// prints &quot;PlayerOne won 2000 coins &amp; now has 2100 coins&quot;</span>
+</span><span class='line'><span class="n">println</span><span class="p">(</span><span class="s">&quot;The bank now only has \(Bank.coinsInBank) coins left&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="c1">// prints &quot;The bank now only has 7900 coins left&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">playerOne</span> <span class="o">=</span> <span class="nb">nil</span>
+</span><span class='line'><span class="n">println</span><span class="p">(</span><span class="s">&quot;PlayerOne has left the game&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="c1">// prints &quot;PlayerOne has left the game&quot;</span>
+</span><span class='line'><span class="n">println</span><span class="p">(</span><span class="s">&quot;The bank now has \(Bank.coinsInBank) coins&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="c1">// prints &quot;The bank now has 10000 coins&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Language Guide: Initialization]]></title>
+    <link href="http://zxhfirefox.github.io/blog/2014/10/19/language-guide-t-init/"/>
+    <updated>2014-10-19T00:39:16+08:00</updated>
+    <id>http://zxhfirefox.github.io/blog/2014/10/19/language-guide-t-init</id>
+    <content type="html"><![CDATA[<p>初始化是让一个类，结构体，枚举的实例变的可用的过程。这个过程包含了把实例上的每一个存储属性都给与一个初始值，还有任何的确保在实例可以被使用前需要做的工作。</p>
+
+<p>我们使用初始化函数来做初始化，初始化函数是一种特殊的函数，在实例被创建时，它会被调用。和ObjC的初始化函数不同，Swift的初始化函数不返回值。他们的主要目的就是确保这个新的实例在被使用之前正确的初始化。</p>
+
+<p>类类型的实例也可以实现反初始化函数，它在实例被销毁时可以用来做任何的清理工作。</p>
+
+<h5>为存储属性设置初始值</h5>
+
+<p>类和结构体必须在实例被使用前为所有的存储属性设置初始值。存储属性不能处于未决定的状态。</p>
+
+<p>我们可以在初始化函数给存储属性初始值，也可以在定义属性时给出初始值。</p>
+
+<pre><code>注意
+在初始化函数里给属性附值和定义属性时给出初始值，都不会触发属性观察者
+</code></pre>
+
+<h6>初始化函数</h6>
+
+<p>初始化函数在创建一个类型的实例后被调用，一个最简单的初始化函数就像一个实例方法，没有参数，函数名是 init 关键字。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">init</span><span class="p">(){</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>例如：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">struct</span> <span class="n">Fahrenheit</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">var</span> <span class="nl">temperature</span><span class="p">:</span> <span class="n">Double</span>
+</span><span class='line'>    <span class="n">init</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">temperature</span> <span class="o">=</span> <span class="mf">32.0</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="n">var</span> <span class="n">f</span> <span class="o">=</span> <span class="n">Fahrenheit</span><span class="p">()</span>
+</span><span class='line'><span class="n">println</span><span class="p">(</span><span class="s">&quot;The default temperature is \(f.temperature)° Fahrenheit&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h6>默认属性值</h6>
+
+<p>我们可以像上面的例子里那样在初始化函数里设置属性初始值。也可以在属性定义时给出初始值。</p>
+
+<pre><code>注意
+如果一个属性总是有着同样的初始值，我们应该在属性定义时给出初始值，而不是在初始化函数里给出。
+</code></pre>
+
+<p>我们把上面的例子可以改写为：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">struct</span> <span class="n">Fahrenheit</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">var</span> <span class="n">temperature</span> <span class="o">=</span> <span class="mf">32.0</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>自定义初始化</h5>
+
+<p>我们可以通过给出输入参数，或optional的属性类型，或是在初始化时改变常量属性来自定义初始化过程。</p>
+
+<h6>初始化参数</h6>
+
+<p>我们可以给初始化函数定义参数，初始化参数的能力和函数，方法的一样。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">struct</span> <span class="n">Celsius</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">var</span> <span class="nl">temperatureInCelsius</span><span class="p">:</span> <span class="n">Double</span>
+</span><span class='line'>    <span class="n">init</span><span class="p">(</span><span class="n">fromFahrenheit</span> <span class="nl">fahrenheit</span><span class="p">:</span> <span class="n">Double</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">temperatureInCelsius</span> <span class="o">=</span> <span class="p">(</span><span class="n">fahrenheit</span> <span class="o">-</span> <span class="mf">32.0</span><span class="p">)</span> <span class="o">/</span> <span class="mf">1.8</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="n">init</span><span class="p">(</span><span class="n">fromKelvin</span> <span class="nl">kelvin</span><span class="p">:</span> <span class="n">Double</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">temperatureInCelsius</span> <span class="o">=</span> <span class="n">kelvin</span> <span class="o">-</span> <span class="mf">273.15</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="n">let</span> <span class="n">boilingPointOfWater</span> <span class="o">=</span> <span class="n">Celsius</span><span class="p">(</span><span class="nl">fromFahrenheit</span><span class="p">:</span> <span class="mf">212.0</span><span class="p">)</span>
+</span><span class='line'><span class="c1">// boilingPointOfWater.temperatureInCelsius is 100.0</span>
+</span><span class='line'><span class="n">let</span> <span class="n">freezingPointOfWater</span> <span class="o">=</span> <span class="n">Celsius</span><span class="p">(</span><span class="nl">fromKelvin</span><span class="p">:</span> <span class="mf">273.15</span><span class="p">)</span>
+</span><span class='line'><span class="c1">// freezingPointOfWater.temperatureInCelsius is 0.0</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面的例子里，两个初始化函数接受不同的温度值，分别转换到Celsius温度。</p>
+
+<h6>本地和外部参数名</h6>
+
+<p>和函数，方法一样，初始化参数也可以本地参数名和外部参数名。</p>
+
+<p>然而，初始化函数并不像函数和方法一样，有一个函数名。因此，参数的名字和类型将决定哪一个初始化函数被调用。因此，如果我们不给出外部参数名子，Swift会默认给每一个参数一个外部名字。这个外部名字和本地名字一样，就好像你给每个参数都写 # 一样。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">struct</span> <span class="n">Color</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">let</span> <span class="n">red</span><span class="p">,</span> <span class="n">green</span><span class="p">,</span> <span class="nl">blue</span><span class="p">:</span> <span class="n">Double</span>
+</span><span class='line'>    <span class="n">init</span><span class="p">(</span><span class="nl">red</span><span class="p">:</span> <span class="n">Double</span><span class="p">,</span> <span class="nl">green</span><span class="p">:</span> <span class="n">Double</span><span class="p">,</span> <span class="nl">blue</span><span class="p">:</span> <span class="n">Double</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nb">self</span><span class="p">.</span><span class="n">red</span>   <span class="o">=</span> <span class="n">red</span>
+</span><span class='line'>        <span class="nb">self</span><span class="p">.</span><span class="n">green</span> <span class="o">=</span> <span class="n">green</span>
+</span><span class='line'>        <span class="nb">self</span><span class="p">.</span><span class="n">blue</span>  <span class="o">=</span> <span class="n">blue</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="n">init</span><span class="p">(</span><span class="nl">white</span><span class="p">:</span> <span class="n">Double</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">red</span>   <span class="o">=</span> <span class="n">white</span>
+</span><span class='line'>        <span class="n">green</span> <span class="o">=</span> <span class="n">white</span>
+</span><span class='line'>        <span class="n">blue</span>  <span class="o">=</span> <span class="n">white</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="n">let</span> <span class="n">magenta</span> <span class="o">=</span> <span class="n">Color</span><span class="p">(</span><span class="nl">red</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span> <span class="nl">green</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span> <span class="nl">blue</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">)</span>
+</span><span class='line'><span class="n">let</span> <span class="n">halfGray</span> <span class="o">=</span> <span class="n">Color</span><span class="p">(</span><span class="nl">white</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>注意，我们无法不给外部参数名字来调用初始化函数，即使我们可以通过参数个数来确定使用哪个初始化函数。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="n">veryGreen</span> <span class="o">=</span> <span class="n">Color</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+</span><span class='line'><span class="c1">// this reports a compile-time error - external names are required</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h6>没有外部名字的初始化参数</h6>
+
+<p>如果你真的不像给出初始化参数的外部名字， 使用 _ 来作为外部参数名字给出。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">struct</span> <span class="n">Celsius</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">var</span> <span class="nl">temperatureInCelsius</span><span class="p">:</span> <span class="n">Double</span>
+</span><span class='line'>    <span class="n">init</span><span class="p">(</span><span class="n">fromFahrenheit</span> <span class="nl">fahrenheit</span><span class="p">:</span> <span class="n">Double</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">temperatureInCelsius</span> <span class="o">=</span> <span class="p">(</span><span class="n">fahrenheit</span> <span class="o">-</span> <span class="mf">32.0</span><span class="p">)</span> <span class="o">/</span> <span class="mf">1.8</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="n">init</span><span class="p">(</span><span class="n">fromKelvin</span> <span class="nl">kelvin</span><span class="p">:</span> <span class="n">Double</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">temperatureInCelsius</span> <span class="o">=</span> <span class="n">kelvin</span> <span class="o">-</span> <span class="mf">273.15</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="n">init</span><span class="p">(</span><span class="n">_</span> <span class="nl">celsius</span><span class="p">:</span> <span class="n">Double</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">temperatureInCelsius</span> <span class="o">=</span> <span class="n">celsius</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="n">let</span> <span class="n">bodyTemperature</span> <span class="o">=</span> <span class="n">Celsius</span><span class="p">(</span><span class="mf">37.0</span><span class="p">)</span>
+</span><span class='line'><span class="c1">// bodyTemperature.temperatureInCelsius is 37.0</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>因为外部参数名字是 _ ，所以可以直接调用，而不给出参数名字。</p>
+
+<h6>optional的属性类型</h6>
+
+<p>如果我们自定义的类型有一个存储属性在逻辑上可能没有值，或许因为它的值在初始化时还不能确定，或许因为它在某些时刻允许没有值，我们把它声明为optional的属性。optional的属性默认被初始化为 nil，表明这个属性在初始化时没有值。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">class</span> <span class="n">SurveyQuestion</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">var</span> <span class="nl">text</span><span class="p">:</span> <span class="n">String</span>
+</span><span class='line'>    <span class="n">var</span> <span class="nl">response</span><span class="p">:</span> <span class="n">String</span><span class="o">?</span>
+</span><span class='line'>    <span class="n">init</span><span class="p">(</span><span class="nl">text</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nb">self</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">text</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="n">func</span> <span class="n">ask</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">println</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="n">let</span> <span class="n">cheeseQuestion</span> <span class="o">=</span> <span class="n">SurveyQuestion</span><span class="p">(</span><span class="nl">text</span><span class="p">:</span> <span class="s">&quot;Do you like cheese?&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="n">cheeseQuestion</span><span class="p">.</span><span class="n">ask</span><span class="p">()</span>
+</span><span class='line'><span class="c1">// prints &quot;Do you like cheese?&quot;</span>
+</span><span class='line'><span class="n">cheeseQuestion</span><span class="p">.</span><span class="n">response</span> <span class="o">=</span> <span class="s">&quot;Yes, I do like cheese.&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面的例子里，response是一个optional的字符串。</p>
+
+<h6>在初始化阶段修改常量属性的值</h6>
+
+<p>我们可以再初始化阶段修改一个常量属性的值，只要在初始化结束之前给它一个值。</p>
+
+<pre><code>注意
+对于类实例，一个常量属性只能在定义属性的类的初始化过程里被修改，而不能在子类里被修改。
+</code></pre>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">class</span> <span class="n">SurveyQuestion</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">let</span> <span class="nl">text</span><span class="p">:</span> <span class="n">String</span>
+</span><span class='line'>    <span class="n">var</span> <span class="nl">response</span><span class="p">:</span> <span class="n">String</span><span class="o">?</span>
+</span><span class='line'>    <span class="n">init</span><span class="p">(</span><span class="nl">text</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nb">self</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">text</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="n">func</span> <span class="n">ask</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">println</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="n">let</span> <span class="n">beetsQuestion</span> <span class="o">=</span> <span class="n">SurveyQuestion</span><span class="p">(</span><span class="nl">text</span><span class="p">:</span> <span class="s">&quot;How about beets?&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="n">beetsQuestion</span><span class="p">.</span><span class="n">ask</span><span class="p">()</span>
+</span><span class='line'><span class="c1">// prints &quot;How about beets?&quot;</span>
+</span><span class='line'><span class="n">beetsQuestion</span><span class="p">.</span><span class="n">response</span> <span class="o">=</span> <span class="s">&quot;I also like beets. (But not with cheese.)&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>我们text属性改为常量，来表示问题并会改变。虽然他是常量，但是初始化过程中还是可以被改变。</p>
+
+<h5>默认初始化函数</h5>
+
+<p>对于任意的结构体或基类，当他们的所有属性都一个默认值，并且没有给出任何初始化函数的时候，Swift给出一个默认初始化函数。这个初始化函数就是简单的把所有的默认值附值给属性。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">class</span> <span class="n">ShoppingListItem</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">var</span> <span class="nl">name</span><span class="p">:</span> <span class="n">String</span><span class="o">?</span>
+</span><span class='line'>    <span class="n">var</span> <span class="n">quantity</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span class='line'>    <span class="n">var</span> <span class="n">purchased</span> <span class="o">=</span> <span class="nb">false</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="n">var</span> <span class="n">item</span> <span class="o">=</span> <span class="n">ShoppingListItem</span><span class="p">()</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>因为ShoppingListItem的所有属性都有默认值，而且他还没有基类，也没给出自己的初始化函数，Swift会为它提供一个默认的初始化函数。</p>
+
+<h6>结构体类型的按成员的初始化函数</h6>
+
+<p>结构体对象如果没有给出自己的初始化函数，将得到一个默认的按成员初始化的初始化函数。即使有些属性并没有给出默认值。</p>
+
+<p>按成员初始化的初始化函数是一种初始化结构体的一种简写，初始值根据名字传递给初始化函数。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">struct</span> <span class="n">Size</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">var</span> <span class="n">width</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="mf">0.0</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="n">let</span> <span class="n">twoByTwo</span> <span class="o">=</span> <span class="n">Size</span><span class="p">(</span><span class="nl">width</span><span class="p">:</span> <span class="mf">2.0</span><span class="p">,</span> <span class="nl">height</span><span class="p">:</span> <span class="mf">2.0</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>值类型的初始化代理</h5>
+
+<p>初始化函数可以调用其他初始化函数来执行初始化过程，这种方式叫做初始化代理，可以避免重复代码。</p>
+
+<p>初始化代理如果工作，那种形式的代理是可以的，在值类型和类类型是不一样的。值类型，不支持继承，所以他们的初始化代理比较简单，因为他们只能把初始化代理给其他的由他们自己提供的初始化函数。然而，类，可以从其他类继承。这就意味着类有着额外的责任来确保他们继承的属性也被初始化。</p>
+
+<p>对于值类型，self.init 来引用其他的初始化函数， self.init只能在一个初始化函数里被调用。</p>
+
+<p>如果我们给值类型定义了自定义的初始化函数，那么我们就无法再访问默认的初始化函数。这个限制是为了防止我们有额外的初始化步骤，而有时候不小心使用了默认的初始化函数来初始化了实例。</p>
+
+<pre><code>注意
+如果我们希望使用默认的初始化函数，还想定义自定义的初始化函数，我们可以把自定义的初始化函数写在扩展里。
+</code></pre>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">struct</span> <span class="n">Size</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">var</span> <span class="n">width</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="mf">0.0</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">struct</span> <span class="n">Point</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">var</span> <span class="n">x</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="mf">0.0</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">struct</span> <span class="n">Rect</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">var</span> <span class="n">origin</span> <span class="o">=</span> <span class="n">Point</span><span class="p">()</span>
+</span><span class='line'>    <span class="n">var</span> <span class="n">size</span> <span class="o">=</span> <span class="n">Size</span><span class="p">()</span>
+</span><span class='line'>    <span class="n">init</span><span class="p">()</span> <span class="p">{}</span>
+</span><span class='line'>    <span class="n">init</span><span class="p">(</span><span class="nl">origin</span><span class="p">:</span> <span class="n">Point</span><span class="p">,</span> <span class="nl">size</span><span class="p">:</span> <span class="n">Size</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nb">self</span><span class="p">.</span><span class="n">origin</span> <span class="o">=</span> <span class="n">origin</span>
+</span><span class='line'>        <span class="nb">self</span><span class="p">.</span><span class="n">size</span> <span class="o">=</span> <span class="n">size</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="n">init</span><span class="p">(</span><span class="nl">center</span><span class="p">:</span> <span class="n">Point</span><span class="p">,</span> <span class="nl">size</span><span class="p">:</span> <span class="n">Size</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">let</span> <span class="n">originX</span> <span class="o">=</span> <span class="n">center</span><span class="p">.</span><span class="n">x</span> <span class="o">-</span> <span class="p">(</span><span class="n">size</span><span class="p">.</span><span class="n">width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">let</span> <span class="n">originY</span> <span class="o">=</span> <span class="n">center</span><span class="p">.</span><span class="n">y</span> <span class="o">-</span> <span class="p">(</span><span class="n">size</span><span class="p">.</span><span class="n">height</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+</span><span class='line'>        <span class="nb">self</span><span class="p">.</span><span class="n">init</span><span class="p">(</span><span class="nl">origin</span><span class="p">:</span> <span class="n">Point</span><span class="p">(</span><span class="nl">x</span><span class="p">:</span> <span class="n">originX</span><span class="p">,</span> <span class="nl">y</span><span class="p">:</span> <span class="n">originY</span><span class="p">),</span> <span class="nl">size</span><span class="p">:</span> <span class="n">size</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>第一个init，就相当于默认初始化函数。
+第二个init，相当于按成员来初始化的初始化函数。
+第三个init，是我们自己的，相对复杂的初始化函数。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="n">basicRect</span> <span class="o">=</span> <span class="n">Rect</span><span class="p">()</span>
+</span><span class='line'><span class="c1">// basicRect&#39;s origin is (0.0, 0.0) and its size is (0.0, 0.0)</span>
+</span><span class='line'><span class="n">let</span> <span class="n">originRect</span> <span class="o">=</span> <span class="n">Rect</span><span class="p">(</span><span class="nl">origin</span><span class="p">:</span> <span class="n">Point</span><span class="p">(</span><span class="nl">x</span><span class="p">:</span> <span class="mf">2.0</span><span class="p">,</span> <span class="nl">y</span><span class="p">:</span> <span class="mf">2.0</span><span class="p">),</span>
+</span><span class='line'>    <span class="nl">size</span><span class="p">:</span> <span class="n">Size</span><span class="p">(</span><span class="nl">width</span><span class="p">:</span> <span class="mf">5.0</span><span class="p">,</span> <span class="nl">height</span><span class="p">:</span> <span class="mf">5.0</span><span class="p">))</span>
+</span><span class='line'><span class="c1">// originRect&#39;s origin is (2.0, 2.0) and its size is (5.0, 5.0)</span>
+</span><span class='line'><span class="n">let</span> <span class="n">centerRect</span> <span class="o">=</span> <span class="n">Rect</span><span class="p">(</span><span class="nl">center</span><span class="p">:</span> <span class="n">Point</span><span class="p">(</span><span class="nl">x</span><span class="p">:</span> <span class="mf">4.0</span><span class="p">,</span> <span class="nl">y</span><span class="p">:</span> <span class="mf">4.0</span><span class="p">),</span>
+</span><span class='line'>    <span class="nl">size</span><span class="p">:</span> <span class="n">Size</span><span class="p">(</span><span class="nl">width</span><span class="p">:</span> <span class="mf">3.0</span><span class="p">,</span> <span class="nl">height</span><span class="p">:</span> <span class="mf">3.0</span><span class="p">))</span>
+</span><span class='line'><span class="c1">// centerRect&#39;s origin is (2.5, 2.5) and its size is (3.0, 3.0)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>类继承和初始化</h5>
+
+<p>一个类的所有的存储属性，包括任何继承的属性，都必须在初始化过程中被初始化。</p>
+
+<p>Swift定义了两种初始化函数来简化并确保所有的属性都被初始化，叫做指定初始化函数和便利初始化函数。</p>
+
+<h6>指定初始化函数和便利初始化函数</h6>
+
+<p>指定初始化函数是一个类的基本初始化函数。一个指定初始化函数初始化一个类所有属性，并且调用父类的初始化函数来完成初始化过程。</p>
+
+<p>类应该只有很少的指定初始化函数，很多情况下只有一个。指定初始化函数是初始化过程的&#8221;漏斗&#8221;位置，经过它来进入父类的初始化链。</p>
+
+<p>每个类至少有一个指定初始化函数。有些时候，这个是从父类继承了一个或多个指定初始化函数。</p>
+
+<p>便利初始化函数是辅助的初始化函数。我们可以定一个便利初始化函数来调用同一个类的指定初始化函数，并给它一些属性的默认值。我们也可以定义便利初始化函数来给一个实例某些特殊的值。</p>
+
+<p>如果我们不需要，我们可以不给出任何的便利初始化函数。当我们需要时，我们定义便利初始化函数来明确和简化我们的代码。</p>
+
+<h6>语法</h6>
+
+<p>指定初始化函数和值类型的普通初始化函数语法一样</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">init</span><span class="p">(</span> <span class="p">[</span><span class="n">parameters</span><span class="p">]){</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">statements</span><span class="p">]</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>便利初始化函数写法基本一致，但是需要用 convenience 来标示出来。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">convenience</span> <span class="nf">init</span><span class="p">([</span><span class="n">parameters</span><span class="p">])</span> <span class="p">{</span>
+</span><span class='line'>    <span class="p">[</span><span class="n">statements</span><span class="p">]</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>注：  []并不是数组。</p>
+
+<h6>类类型的初始化代理</h6>
+
+<p>为了简化指定初始化函数和便利初始化函数之间的关系，Swift使用下面3条规则。</p>
+
+<ol>
+<li>一个指定的初始化函数必须调用它的直接父类的一个指定初始化函数。</li>
+<li>一个便利的初始化函数必须调用它自己同一个类的另一个初始化函数。</li>
+<li>一个便利的初始化函数必须最终调用一个指定的初始化函数。</li>
+</ol>
+
+
+<p>简单来讲就是：</p>
+
+<ul>
+<li>指定的初始化函数需要向上代理</li>
+<li>便利的初始化函数必须横向代理</li>
+</ul>
+
+
+<p>注： 有两张图片比较清楚对这一概念给出例子。</p>
+
+<h6>两步初始化</h6>
+
+<p>在Swift的类初始化里，有两步，第一步，每一个由定义这个属性类给出的存储属性被初始化。第二步，每一个类都可以进一步的修改这些属性来使得实例可用。</p>
+
+<p>这种方式可以确保初始化安全，并且仍然提供了在类继承里完整的灵活度。两步初始化防止了某些属性在被初始化之前就被使用了，也防止了某个属性被其他的初始化函数修改。</p>
+
+<pre><code>注意
+Swift的两步初始化和ObjC的很相似，主要区别在于第一步里，ObjC会把0或nil附值给每个属性，而Swift更灵活的可以把自定义的初始值附值给属性。
+</code></pre>
+
+<p>Swift编译器会做4种检查来确保两步初始化没有错误。</p>
+
+<ol>
+<li>一个指定的初始化函数必须确保在调用父类初始化之前，自己的所有属性都被初始化。</li>
+<li>一个指定的初始化函数在给继承的属性附值之前，必须调用父类的初始化函数。</li>
+<li>一个便利初始化函数必须在给属性附值之前调用另外的初始化函数，如果不这样，这个属性的值会被覆盖。</li>
+<li>一个初始化函数在第一步完成之前，不能调用任何的实例方法，不能读取任何属性，也不能把self作为值来引用。</li>
+</ol>
+
+
+<p>一个实例在第一步结束之前都不算完整初始化，而方法，属性只有在第一步结束后才能访问。</p>
+
+<p>下面就是两步初始化如何进行的：</p>
+
+<p>第一步：</p>
+
+<ul>
+<li>一个指定的或便利的初始化函数被调用。</li>
+<li>这个实例的内存被分配，但没有初始化。</li>
+<li>一个指定的初始化确保所有的由当前类引进的属性被初始化。</li>
+<li>这个指定的初始化函数向上代理调用父类的初始化函数，让父类进行初始化。</li>
+<li>这一步骤一直进行直到没有父类。</li>
+<li>直到继承链的顶端，最后的父类把自己的属性都初始化完毕之后，那么这个实例的内存就被初始化完毕。第一阶段结束。</li>
+</ul>
+
+
+<p>第二步：</p>
+
+<ul>
+<li>从继承链顶端往下，每个指定的初始化函数可以自定义属性的值。这时候，初始化函数可以访问 self，也可以修改属性值，调用方法等等。</li>
+<li>最终，任何的便利方法可以修改属性的值以及使用self。</li>
+</ul>
+
+
+<h6>初始化函数继承和重写</h6>
+
+<p>和ObjC不同，Swift子类默认不继承他们父类的初始化函数。这样可以避免，如果子类从父类继承了一个简单的初始化函数，而是得子类的实例没有完全初始化。</p>
+
+<pre><code>注意
+父类的初始化函数只在特定情况下被继承了，需要确保安全。
+</code></pre>
+
+<p>如果你想给一个子类加一个和父类一样的初始化函数，你可以在子类重新给出实现。</p>
+
+<p>如果你在子类写了一个和父类的指定的初始化函数一样的初始化函数，你实际上是重写了那个初始化函数，所以你必须加上 override 。即便你是重写了一个自动提供的默认初始化函数，也要写override。</p>
+
+<p>和重写属性，方法，角标一样，override会使得编译器去检查是否和父类相匹配。</p>
+
+<pre><code>注意
+你应该在重写父类的指定的初始化函数时总是写上 override，即使你子类的实现是一个便利的初始化函数。
+</code></pre>
+
+<p>相反的，如果你重写的初始化函数和父类的一个便利初始化函数想匹配，那父类的便利初始化函数就永远不能在你的子类里被直接调用。因此，子类其实严格来说并没有重写父类的初始化函数，所以你可以不写 override。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">class</span> <span class="n">Vehicle</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">var</span> <span class="n">numberOfWheels</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>    <span class="n">var</span> <span class="nl">description</span><span class="p">:</span> <span class="n">String</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="s">&quot;\(numberOfWheels) wheel(s)&quot;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面的例子，Vehicle给出了属性的默认值，也没有自定义初始化函数，也么有父类，那么它由一个默认的初始化函数。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="n">vehicle</span> <span class="o">=</span> <span class="n">Vehicle</span><span class="p">()</span>
+</span><span class='line'><span class="n">println</span><span class="p">(</span><span class="s">&quot;Vehicle: \(vehicle.description)&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="c1">// Vehicle: 0 wheel(s)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>我们定义一个子类</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">class</span> <span class="nl">Bicycle</span><span class="p">:</span> <span class="n">Vehicle</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">override</span> <span class="n">init</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nb">super</span><span class="p">.</span><span class="n">init</span><span class="p">()</span>
+</span><span class='line'>        <span class="n">numberOfWheels</span> <span class="o">=</span> <span class="mi">2</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Bicycle定义了一个指定的初始化函数，这个初始化函数和父类的一个指定的初始化函数匹配，所以Bicycle的初始化函数被标记为 override。</p>
+
+<p>Bicycle的init，调用了父类的init。然后修改了numberOfWheels的值。</p>
+
+<pre><code>注意
+子类可以在初始化时修改继承属性的值，但是只能修改变量属性，而不能修改常量属性。
+</code></pre>
+
+<h6>自动的初始化函数继承</h6>
+
+<p>如上所述，子类默认不能从父类继承初始化函数。然而，如果特定情况满足，父类的初始化函数自动被继承。在实际使用中，这意味着你不需要大量的重写父类的初始化函数，而是可以从父类中安全的继承初始化函数。</p>
+
+<p>假设我们在子类里给新加的属性提供默认值，下面两条规则会使用</p>
+
+<ol>
+<li>如果子类没有定义任何的制定的初始化函数，它会自动从父类继承所有的指定的初始化函数。</li>
+<li>如果子类提供了父类的所有的指定的初始化函数的实现，不管是通过 1 还是自己给出实现，它都会自动继承所有的便利初始化函数。</li>
+</ol>
+
+
+<p>这2条规则，即使子类有自定义的便利初始化函数也一样适用。</p>
+
+<pre><code>注意
+一个子类可以把一个父类的指定初始化函数实现为一个子类的一个便利初始化函数来满足规则2.
+</code></pre>
+
+<h6>指定初始化函数和便利初始化函数实战</h6>
+
+<p>下面的例子给出指定初始化函数，便利初始化函数，自动继承的初始化函数。</p>
+
+<p>基类：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">class</span> <span class="n">Food</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">var</span> <span class="nl">name</span><span class="p">:</span> <span class="n">String</span>
+</span><span class='line'>    <span class="n">init</span><span class="p">(</span><span class="nl">name</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nb">self</span><span class="p">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="n">convenience</span> <span class="n">init</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nb">self</span><span class="p">.</span><span class="n">init</span><span class="p">(</span><span class="nl">name</span><span class="p">:</span> <span class="s">&quot;[Unnamed]&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Food定义了一个属性name。一个指定的初始化函数，一个便利的初始化函数，没有默认的初始化函数。</p>
+
+<p>子类：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">class</span> <span class="nl">RecipeIngredient</span><span class="p">:</span> <span class="n">Food</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">var</span> <span class="nl">quantity</span><span class="p">:</span> <span class="n">Int</span>
+</span><span class='line'>    <span class="n">init</span><span class="p">(</span><span class="nl">name</span><span class="p">:</span> <span class="n">String</span><span class="p">,</span> <span class="nl">quantity</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nb">self</span><span class="p">.</span><span class="n">quantity</span> <span class="o">=</span> <span class="n">quantity</span>
+</span><span class='line'>        <span class="nb">super</span><span class="p">.</span><span class="n">init</span><span class="p">(</span><span class="nl">name</span><span class="p">:</span> <span class="n">name</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="n">override</span> <span class="n">convenience</span> <span class="n">init</span><span class="p">(</span><span class="nl">name</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nb">self</span><span class="p">.</span><span class="n">init</span><span class="p">(</span><span class="nl">name</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span> <span class="nl">quantity</span><span class="p">:</span> <span class="mi">1</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>RecipeIngredient定义了一个自己的指定的初始化函数，接受name和quantity参数。自己先把自己的quantity初始化，然后调用super来初始化父类。</p>
+
+<p>RecipeIngredient它还定义了一个便利的初始化函数，接受name参数，因为这个初始化函数和父类的一个指定初始化函数相匹配，所以需要加上 override关键字。</p>
+
+<p>尽管RecipeIngredient把父类的一个指定初始化函数重写为便利初始化函数，它也是实现了所有父类的指定初始化函数，所以它还继承了父类的所有便利初始化函数。因为RecipeIngredient的父类是Food，只有一个便利初始化函数，如果我们在RecipeIngredient调用这个初始化函数，会代理到RecipeIngredient，而不是Food。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="n">oneMysteryItem</span> <span class="o">=</span> <span class="n">RecipeIngredient</span><span class="p">()</span>
+</span><span class='line'><span class="n">let</span> <span class="n">oneBacon</span> <span class="o">=</span> <span class="n">RecipeIngredient</span><span class="p">(</span><span class="nl">name</span><span class="p">:</span> <span class="s">&quot;Bacon&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="n">let</span> <span class="n">sixEggs</span> <span class="o">=</span> <span class="n">RecipeIngredient</span><span class="p">(</span><span class="nl">name</span><span class="p">:</span> <span class="s">&quot;Eggs&quot;</span><span class="p">,</span> <span class="nl">quantity</span><span class="p">:</span> <span class="mi">6</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>第三个类：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">class</span> <span class="nl">ShoppingListItem</span><span class="p">:</span> <span class="n">RecipeIngredient</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">var</span> <span class="n">purchased</span> <span class="o">=</span> <span class="nb">false</span>
+</span><span class='line'>    <span class="n">var</span> <span class="nl">description</span><span class="p">:</span> <span class="n">String</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">var</span> <span class="n">output</span> <span class="o">=</span> <span class="s">&quot;\(quantity) x \(name)&quot;</span>
+</span><span class='line'>        <span class="n">output</span> <span class="o">+=</span> <span class="n">purchased</span> <span class="o">?</span> <span class="s">&quot; ✔&quot;</span> <span class="o">:</span> <span class="s">&quot; ✘&quot;</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">output</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<pre><code>注意
+ShoppingListItem没有提供初始化函数来初始化purchased，因为东西从开始都是未购买的。
+</code></pre>
+
+<p>因为ShoppingListItem的属性都有默认值而且没有定义任何的初始化函数，那么它继承了所有的指定初始化函数和便利初始化函数。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">var</span> <span class="n">breakfastList</span> <span class="o">=</span> <span class="p">[</span>
+</span><span class='line'>    <span class="n">ShoppingListItem</span><span class="p">(),</span>
+</span><span class='line'>    <span class="n">ShoppingListItem</span><span class="p">(</span><span class="nl">name</span><span class="p">:</span> <span class="s">&quot;Bacon&quot;</span><span class="p">),</span>
+</span><span class='line'>    <span class="n">ShoppingListItem</span><span class="p">(</span><span class="nl">name</span><span class="p">:</span> <span class="s">&quot;Eggs&quot;</span><span class="p">,</span> <span class="nl">quantity</span><span class="p">:</span> <span class="mi">6</span><span class="p">),</span>
+</span><span class='line'><span class="p">]</span>
+</span><span class='line'><span class="n">breakfastList</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">name</span> <span class="o">=</span> <span class="s">&quot;Orange juice&quot;</span>
+</span><span class='line'><span class="n">breakfastList</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">purchased</span> <span class="o">=</span> <span class="nb">true</span>
+</span><span class='line'><span class="k">for</span> <span class="n">item</span> <span class="k">in</span> <span class="n">breakfastList</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">println</span><span class="p">(</span><span class="n">item</span><span class="p">.</span><span class="n">description</span><span class="p">)</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="c1">// 1 x Orange juice ✔</span>
+</span><span class='line'><span class="c1">// 1 x Bacon ✘</span>
+</span><span class='line'><span class="c1">// 6 x Eggs ✘</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>可失败的初始化函数</h5>
+
+<p>有些时候，定义一个可失败的初始化函数是有意义的。这个失败可能是因为参数错误，或是缺少需要的参数，或者其他阻止初始化过程的情况。</p>
+
+<p>我们在init后面加一个 ？ 来标示这个初始化函数可能失败。</p>
+
+<pre><code>注意
+你不能定义一个可失败的和不可失败的初始化函数，接受相同的参数类型和名字。
+</code></pre>
+
+<p>可失败的初始化函数创建一个optioanl的值。如果我们在可失败的初始化函数里写了 return nil，就意味着初始化失败了。</p>
+
+<pre><code>注意
+严格来讲，初始化函数不返回值。相反，他们的目的是确保 self 在初始化结束后是完整并正确可用的。 所以虽然我们使用 return nil 来表示初始化失败，但是不用在成功初始化时使用 return。
+</code></pre>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">struct</span> <span class="n">Animal</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">let</span> <span class="nl">species</span><span class="p">:</span> <span class="n">String</span>
+</span><span class='line'>    <span class="n">init</span><span class="o">?</span><span class="p">(</span><span class="nl">species</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">if</span> <span class="n">species</span><span class="p">.</span><span class="n">isEmpty</span> <span class="p">{</span> <span class="k">return</span> <span class="nb">nil</span> <span class="p">}</span>
+</span><span class='line'>        <span class="nb">self</span><span class="p">.</span><span class="n">species</span> <span class="o">=</span> <span class="n">species</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="n">let</span> <span class="n">someCreature</span> <span class="o">=</span> <span class="n">Animal</span><span class="p">(</span><span class="nl">species</span><span class="p">:</span> <span class="s">&quot;Giraffe&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="c1">// someCreature is of type Animal?, not Animal</span>
+</span><span class='line'><span class="k">if</span> <span class="n">let</span> <span class="n">giraffe</span> <span class="o">=</span> <span class="n">someCreature</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">println</span><span class="p">(</span><span class="s">&quot;An animal was initialized with a species of \(giraffe.species)&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="c1">// prints &quot;An animal was initialized with a species of Giraffe&quot;</span>
+</span><span class='line'><span class="n">let</span> <span class="n">anonymousCreature</span> <span class="o">=</span> <span class="n">Animal</span><span class="p">(</span><span class="nl">species</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="c1">// anonymousCreature is of type Animal?, not Animal</span>
+</span><span class='line'><span class="k">if</span> <span class="n">anonymousCreature</span> <span class="o">==</span> <span class="nb">nil</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">println</span><span class="p">(</span><span class="s">&quot;The anonymous creature could not be initialized&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="c1">// prints &quot;The anonymous creature could not be initialized&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<pre><code>注意
+检查空字符串和检查 nil 是不一样的。
+</code></pre>
+
+<h6>枚举的可失败初始化函数</h6>
+
+<p>我们可以使用可失败的初始化函数根据参数来从枚举成员里选择适当值。如果没有合适的值，我们就失败了。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">enum</span> <span class="n">TemperatureUnit</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">case</span> <span class="n">Kelvin</span><span class="p">,</span> <span class="n">Celsius</span><span class="p">,</span> <span class="n">Fahrenheit</span>
+</span><span class='line'>    <span class="n">init</span><span class="o">?</span><span class="p">(</span><span class="nl">symbol</span><span class="p">:</span> <span class="n">Character</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">switch</span> <span class="n">symbol</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">case</span> <span class="s">&quot;K&quot;</span><span class="o">:</span>
+</span><span class='line'>            <span class="nb">self</span> <span class="o">=</span> <span class="p">.</span><span class="n">Kelvin</span>
+</span><span class='line'>        <span class="k">case</span> <span class="s">&quot;C&quot;</span><span class="o">:</span>
+</span><span class='line'>            <span class="nb">self</span> <span class="o">=</span> <span class="p">.</span><span class="n">Celsius</span>
+</span><span class='line'>        <span class="k">case</span> <span class="s">&quot;F&quot;</span><span class="o">:</span>
+</span><span class='line'>            <span class="nb">self</span> <span class="o">=</span> <span class="p">.</span><span class="n">Fahrenheit</span>
+</span><span class='line'>        <span class="k">default</span><span class="o">:</span>
+</span><span class='line'>            <span class="k">return</span> <span class="nb">nil</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="n">let</span> <span class="n">fahrenheitUnit</span> <span class="o">=</span> <span class="n">TemperatureUnit</span><span class="p">(</span><span class="nl">symbol</span><span class="p">:</span> <span class="s">&quot;F&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="k">if</span> <span class="n">fahrenheitUnit</span> <span class="o">!=</span> <span class="nb">nil</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">println</span><span class="p">(</span><span class="s">&quot;This is a defined temperature unit, so initialization succeeded.&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="c1">// prints &quot;This is a defined temperature unit, so initialization succeeded.&quot;</span>
+</span><span class='line'><span class="n">let</span> <span class="n">unknownUnit</span> <span class="o">=</span> <span class="n">TemperatureUnit</span><span class="p">(</span><span class="nl">symbol</span><span class="p">:</span> <span class="s">&quot;X&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="k">if</span> <span class="n">unknownUnit</span> <span class="o">==</span> <span class="nb">nil</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">println</span><span class="p">(</span><span class="s">&quot;This is not a defined temperature unit, so initialization failed.&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="c1">// prints &quot;This is not a defined temperature unit, so initialization failed.&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h6>有原始值的枚举的可失败初始化函数</h6>
+
+<p>有原始值的枚举自动的有一个可失败的初始化函数，init?(rawValue:)。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">enum</span> <span class="nl">TemperatureUnit</span><span class="p">:</span> <span class="n">Character</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">case</span> <span class="n">Kelvin</span> <span class="o">=</span> <span class="s">&quot;K&quot;</span><span class="p">,</span> <span class="n">Celsius</span> <span class="o">=</span> <span class="s">&quot;C&quot;</span><span class="p">,</span> <span class="n">Fahrenheit</span> <span class="o">=</span> <span class="s">&quot;F&quot;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="n">let</span> <span class="n">fahrenheitUnit</span> <span class="o">=</span> <span class="n">TemperatureUnit</span><span class="p">(</span><span class="nl">rawValue</span><span class="p">:</span> <span class="s">&quot;F&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="k">if</span> <span class="n">fahrenheitUnit</span> <span class="o">!=</span> <span class="nb">nil</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">println</span><span class="p">(</span><span class="s">&quot;This is a defined temperature unit, so initialization succeeded.&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="c1">// prints &quot;This is a defined temperature unit, so initialization succeeded.&quot;</span>
+</span><span class='line'><span class="n">let</span> <span class="n">unknownUnit</span> <span class="o">=</span> <span class="n">TemperatureUnit</span><span class="p">(</span><span class="nl">rawValue</span><span class="p">:</span> <span class="s">&quot;X&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="k">if</span> <span class="n">unknownUnit</span> <span class="o">==</span> <span class="nb">nil</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">println</span><span class="p">(</span><span class="s">&quot;This is not a defined temperature unit, so initialization failed.&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="c1">// prints &quot;This is not a defined temperature unit, so initialization failed.&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h6>类的可失败初始化函数</h6>
+
+<p>一个值类型的可失败的初始化函数可以在初始化的任何阶段失败。</p>
+
+<p>然而对于类，一个可失败的初始化函数，只能在所有的由当前类引进的存储属性都被初始化之后，并且任何的初始化代理开始后才能触发失败。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">class</span> <span class="n">Product</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">let</span> <span class="nl">name</span><span class="p">:</span> <span class="n">String</span><span class="o">!</span>
+</span><span class='line'>    <span class="n">init</span><span class="o">?</span><span class="p">(</span><span class="nl">name</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">if</span> <span class="n">name</span><span class="p">.</span><span class="n">isEmpty</span> <span class="p">{</span> <span class="k">return</span> <span class="nb">nil</span> <span class="p">}</span>
+</span><span class='line'>        <span class="nb">self</span><span class="p">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面的例子，name属性是个optional的，所以有初始值 nil。是满足我们的要求的。</p>
+
+<p>因为name是常量属性，所以我们一旦初始化成功，我们就可以确保name始终有值，可以不用去再检查。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">if</span> <span class="n">let</span> <span class="n">bowTie</span> <span class="o">=</span> <span class="n">Product</span><span class="p">(</span><span class="nl">name</span><span class="p">:</span> <span class="s">&quot;bow tie&quot;</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">// no need to check if bowTie.name == nil</span>
+</span><span class='line'>    <span class="n">println</span><span class="p">(</span><span class="s">&quot;The product&#39;s name is \(bowTie.name)&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="c1">// prints &quot;The product&#39;s name is bow tie&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h6>初始化失败的传递</h6>
+
+<p>一个可失败的初始化函数可以代理到同一个类的其他的可失败的初始化函数，对于类，也可以代理到父类的可失败的初始化函数。</p>
+
+<p>不论如何代理，如果一个可失败的初始化函数失败，那么整个初始化过程失败。</p>
+
+<pre><code>注意
+可失败的初始化函数也可以代理到一个不可失败的初始化函数。如果你需要在一个已有的初始化过程中添加一个潜在的失败的初始化函数，可以这种方式。
+</code></pre>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">class</span> <span class="nl">CartItem</span><span class="p">:</span> <span class="n">Product</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">let</span> <span class="nl">quantity</span><span class="p">:</span> <span class="n">Int</span><span class="o">!</span>
+</span><span class='line'>    <span class="n">init</span><span class="o">?</span><span class="p">(</span><span class="nl">name</span><span class="p">:</span> <span class="n">String</span><span class="p">,</span> <span class="nl">quantity</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nb">super</span><span class="p">.</span><span class="n">init</span><span class="p">(</span><span class="nl">name</span><span class="p">:</span> <span class="n">name</span><span class="p">)</span>
+</span><span class='line'>        <span class="k">if</span> <span class="n">quantity</span> <span class="o">&lt;</span> <span class="mi">1</span> <span class="p">{</span> <span class="k">return</span> <span class="nb">nil</span> <span class="p">}</span>
+</span><span class='line'>        <span class="nb">self</span><span class="p">.</span><span class="n">quantity</span> <span class="o">=</span> <span class="n">quantity</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面的例子中，quantity是optional的，初始值是nil。我们先调用了super.init(name: name) 来满足可失败的初始化函数的要求。如果name是空的，那么super.init就会失败，整个初始化就失败了。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">if</span> <span class="n">let</span> <span class="n">twoSocks</span> <span class="o">=</span> <span class="n">CartItem</span><span class="p">(</span><span class="nl">name</span><span class="p">:</span> <span class="s">&quot;sock&quot;</span><span class="p">,</span> <span class="nl">quantity</span><span class="p">:</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">println</span><span class="p">(</span><span class="s">&quot;Item: \(twoSocks.name), quantity: \(twoSocks.quantity)&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="c1">// prints &quot;Item: sock, quantity: 2&quot;</span>
+</span><span class='line'><span class="k">if</span> <span class="n">let</span> <span class="n">zeroShirts</span> <span class="o">=</span> <span class="n">CartItem</span><span class="p">(</span><span class="nl">name</span><span class="p">:</span> <span class="s">&quot;shirt&quot;</span><span class="p">,</span> <span class="nl">quantity</span><span class="p">:</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">println</span><span class="p">(</span><span class="s">&quot;Item: \(zeroShirts.name), quantity: \(zeroShirts.quantity)&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">println</span><span class="p">(</span><span class="s">&quot;Unable to initialize zero shirts&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="c1">// prints &quot;Unable to initialize zero shirts&quot;</span>
+</span><span class='line'><span class="k">if</span> <span class="n">let</span> <span class="n">oneUnnamed</span> <span class="o">=</span> <span class="n">CartItem</span><span class="p">(</span><span class="nl">name</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span> <span class="nl">quantity</span><span class="p">:</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">println</span><span class="p">(</span><span class="s">&quot;Item: \(oneUnnamed.name), quantity: \(oneUnnamed.quantity)&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">println</span><span class="p">(</span><span class="s">&quot;Unable to initialize one unnamed product&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="c1">// prints &quot;Unable to initialize one unnamed product&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h6>重写可失败的初始化函数</h6>
+
+<p>我们可以在子类里重写可失败的初始化函数，我们甚至可以在子类里把可失败的初始化函数重写为不可失败的初始化函数。</p>
+
+<p>如果我们在子类里把一个父类的可失败的初始化函数重写为一个不可失败的初始化函数，那么我们就不能向上代理这个初始化函数。一个不可失败的初始化函数永远都不能代理到一个可失败的初始化函数。</p>
+
+<pre><code>注意
+我们可以把一个可失败的重写为一个不可失败的，相反则不行。
+</code></pre>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">class</span> <span class="n">Document</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">var</span> <span class="nl">name</span><span class="p">:</span> <span class="n">String</span><span class="o">?</span>
+</span><span class='line'>    <span class="c1">// this initializer creates a document with a nil name value</span>
+</span><span class='line'>    <span class="n">init</span><span class="p">()</span> <span class="p">{}</span>
+</span><span class='line'>    <span class="c1">// this initializer creates a document with a non-empty name value</span>
+</span><span class='line'>    <span class="n">init</span><span class="o">?</span><span class="p">(</span><span class="nl">name</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">if</span> <span class="n">name</span><span class="p">.</span><span class="n">isEmpty</span> <span class="p">{</span> <span class="k">return</span> <span class="nb">nil</span> <span class="p">}</span>
+</span><span class='line'>        <span class="nb">self</span><span class="p">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Document的名字可以是nil，但是不能为空字符串&#8221;&ldquo;。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">class</span> <span class="nl">AutomaticallyNamedDocument</span><span class="p">:</span> <span class="n">Document</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">override</span> <span class="n">init</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nb">super</span><span class="p">.</span><span class="n">init</span><span class="p">()</span>
+</span><span class='line'>        <span class="nb">self</span><span class="p">.</span><span class="n">name</span> <span class="o">=</span> <span class="s">&quot;[Untitled]&quot;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="n">override</span> <span class="n">init</span><span class="p">(</span><span class="nl">name</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nb">super</span><span class="p">.</span><span class="n">init</span><span class="p">()</span>
+</span><span class='line'>        <span class="k">if</span> <span class="n">name</span><span class="p">.</span><span class="n">isEmpty</span> <span class="p">{</span>
+</span><span class='line'>            <span class="nb">self</span><span class="p">.</span><span class="n">name</span> <span class="o">=</span> <span class="s">&quot;[Untitled]&quot;</span>
+</span><span class='line'>        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>            <span class="nb">self</span><span class="p">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>AutomaticallyNamedDocument重写了可失败的init，但是因为AutomaticallyNamedDocument是自动提供名字的，所以它不会失败。</p>
+
+<h6>init! 可失败初始化函数</h6>
+
+<p>因为 init? 初始化一个 optional的值。</p>
+
+<p>我们也可以使用 init! 来初始化一个自动解包的otpional的值。</p>
+
+<p>我们可以在init? 和 init! 之前互相代理，也可以互相重写。我们也可以从 init 代理到 init!，但是这样做，如果init! 失败就会触发一个断言。</p>
+
+<h5>必须的初始化函数</h5>
+
+<p>在一个类的初始化函数前面加上 required 来表示任何的子类都必须实现这个初始化函数。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">class</span> <span class="n">SomeClass</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">required</span> <span class="n">init</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="c1">// initializer implementation goes here</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在子类里，你也必须加上 required 关键字，但是不需要写 override。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">class</span> <span class="nl">SomeSubclass</span><span class="p">:</span> <span class="n">SomeClass</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">required</span> <span class="n">init</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="c1">// subclass implementation of the required initializer goes here</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<pre><code>注意
+你需要显式的实现 required的初始化函数，如果你可以通过一个继承的初始化函数来实现。
+</code></pre>
+
+<h5>通过闭包或函数来设置默认的属性值</h5>
+
+<p>如果一个存储属性的默认值需要一些自定义或是配置，我们可以使用闭包或全局函数来提供默认值。每当一个实例被创建，这个闭包或函数就被调用，返回值会设置给对应的属性。</p>
+
+<p>这种类型的闭包和函数一般创建一个和属性类型一致的变量，然后返回这个变量。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">class</span> <span class="n">SomeClass</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">let</span> <span class="nl">someProperty</span><span class="p">:</span> <span class="n">SomeType</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>        <span class="c1">// create a default value for someProperty inside this closure</span>
+</span><span class='line'>        <span class="c1">// someValue must be of the same type as SomeType</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">someValue</span>
+</span><span class='line'>        <span class="p">}()</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>注意大括号后面的括弧，这是告诉Swift来执行这个闭包，如果不写括弧，其实是把闭包附值给了属性，而不是闭包执行的结果。</p>
+
+<pre><code>注意
+如果使用闭包来初始化属性，记得实例的其他的部分还没有被初始化，所以不能在闭包里使用其他属性，self也不能用，还不能调用实例方法。
+</code></pre>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">struct</span> <span class="n">Checkerboard</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">let</span> <span class="nl">boardColors</span><span class="p">:</span> <span class="p">[</span><span class="n">Bool</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">var</span> <span class="n">temporaryBoard</span> <span class="o">=</span> <span class="p">[</span><span class="n">Bool</span><span class="p">]()</span>
+</span><span class='line'>        <span class="n">var</span> <span class="n">isBlack</span> <span class="o">=</span> <span class="nb">false</span>
+</span><span class='line'>        <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mf">1.</span><span class="p">.</span><span class="mf">.10</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">for</span> <span class="n">j</span> <span class="k">in</span> <span class="mf">1.</span><span class="p">.</span><span class="mf">.10</span> <span class="p">{</span>
+</span><span class='line'>                <span class="n">temporaryBoard</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">isBlack</span><span class="p">)</span>
+</span><span class='line'>                <span class="n">isBlack</span> <span class="o">=</span> <span class="o">!</span><span class="n">isBlack</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>            <span class="n">isBlack</span> <span class="o">=</span> <span class="o">!</span><span class="n">isBlack</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">temporaryBoard</span>
+</span><span class='line'>        <span class="p">}()</span>
+</span><span class='line'>    <span class="n">func</span> <span class="n">squareIsBlackAtRow</span><span class="p">(</span><span class="nl">row</span><span class="p">:</span> <span class="n">Int</span><span class="p">,</span> <span class="nl">column</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bool</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">boardColors</span><span class="p">[(</span><span class="n">row</span> <span class="o">*</span> <span class="mi">10</span><span class="p">)</span> <span class="o">+</span> <span class="n">column</span><span class="p">]</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>每当一个Checkerboard创建时，boardColors对应的闭包都会执行。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Language Guide: Inheritance]]></title>
+    <link href="http://zxhfirefox.github.io/blog/2014/10/19/language-guide-t-inheritance/"/>
+    <updated>2014-10-19T00:38:17+08:00</updated>
+    <id>http://zxhfirefox.github.io/blog/2014/10/19/language-guide-t-inheritance</id>
+    <content type="html"><![CDATA[<p>一个类可以从其他类继承方法，属性和其他特性。当一个类继承另一个类的时候，我们把继承的类叫子类，把被继承的类叫父类。继承是Swift里类区别于其他类型非常重要的一个区别。</p>
+
+<p>在Swift里，类可以调用和访问父类的方法，属性，角标，也可以通过他们自己重写这些方法，属性，角标来实现自己的行为。Swift会通过检查重写定义是否和父类匹配来帮助你检查重写的正确性。</p>
+
+<p>类还可以给父类的属性添加观察者，来使得自己在父类属性变化的时候得到通知。观察者可以添加给任何属性，不论是存储的还是计算的。</p>
+
+<h5>定义一个基类</h5>
+
+<p>任何类，如果它没有从其他类继承，那它就是一个基类。</p>
+
+<pre><code>注意
+Swift的类并不是从一个全局基类继承的。
+</code></pre>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">class</span> <span class="n">Vehicle</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">var</span> <span class="n">currentSpeed</span> <span class="o">=</span> <span class="mf">0.0</span>
+</span><span class='line'>    <span class="n">var</span> <span class="nl">descriptioin</span><span class="p">:</span> <span class="n">String</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="s">&quot;traveling at \(currentSpeed) miles per hour&quot;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="n">func</span> <span class="n">makeNoise</span><span class="p">(){</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面的例子定义了一个Vehicle类。有1个存储属性，1个计算属性，1个实例方法。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="n">someVehicle</span> <span class="o">=</span> <span class="n">Vehicle</span><span class="p">()</span>
+</span><span class='line'><span class="n">println</span><span class="p">(</span><span class="s">&quot;Vehicle: \(someVehicle.description)&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>创建了一个实例，并调用了实例方法。</p>
+
+<h5>子类</h5>
+
+<p>子类是从一个父类继承的类。子类从父类继承特性，你也可以改进这些特性，也可以添加新的特性。</p>
+
+<p>定义子类的语法如下：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">class</span> <span class="nl">SomeSubClass</span> <span class="p">:</span> <span class="n">SomeSuperClass</span> <span class="p">{</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>我们定义一个Vehicle的子类：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">class</span> <span class="nl">Bicycle</span> <span class="p">:</span> <span class="n">Vehicle</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">var</span> <span class="n">hasBasket</span> <span class="o">=</span> <span class="nb">false</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Bicycle类继承自Vehicle类，包含Vehicle所有的特性，并添加了自己新的属性hasBasket。</p>
+
+<p>Bicycle也可以被其他类继承。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">class</span> <span class="nl">Tandem</span><span class="p">:</span> <span class="n">Bicycle</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">var</span> <span class="n">currentNumberOfPassengers</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Tandem继承了所有Bicyle的特性，也继承了所有Vehicle的特性。</p>
+
+<h5>重写</h5>
+
+<p>一个子类为一个从父类继承的方法，属性，角标提供自己的实现，叫做重写。</p>
+
+<p>使用 override关键字来标示重写。这样做可以明确标示出你在重写而不是误操作。如果错误的使用了 override关键字，编译器会报错。</p>
+
+<h6>访问父类的方法，属性和角标</h6>
+
+<p>当你自己重写一个方法，属性或角标时，你或许需要访问父类的实现。例如，你可能只是在父类的实现基础上做一些改进。</p>
+
+<p>对于这种情况，你可以使用 super 来访问父类的方法，属性，角标的实现。例如： super.someMethod(), super.someProperty, super[someIndex]。</p>
+
+<h6>重写方法</h6>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">class</span> <span class="nl">Train</span><span class="p">:</span> <span class="n">Vehicle</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">override</span> <span class="n">func</span> <span class="n">makeNoise</span><span class="p">(){</span>
+</span><span class='line'>        <span class="n">println</span><span class="p">(</span><span class="s">&quot;Choo Choo&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h6>重写属性</h6>
+
+<p>你可以重写一个父类的属性，或是给一个父类的属性添加观察者。</p>
+
+<h6># 重写属性的getter和setter</h6>
+
+<p>你可以重写任何一个继承的属性，不论是存储的还是计算的。对于子类来说，属性是计算的还是存储的时不知道的，子类只知道他继承了一个特定类型的属性以及它的名字。所有你必须正确的子类里给出类型和名字。</p>
+
+<p>你可以把父类一个只读的属性在子类实现为可读可写的属性，但是你不能把父类一个可读可写的属性重写为一个只读的属性。</p>
+
+<pre><code>注意
+如果你在重写属性时给出了setter，那你必须也得给出getter。如果你不想修改getter的返回值，可以直接返回super.someProperty。
+</code></pre>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">class</span> <span class="nl">Car</span><span class="p">:</span> <span class="n">Vehicle</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">var</span> <span class="n">gear</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span class='line'>    <span class="n">override</span> <span class="n">var</span> <span class="nl">description</span><span class="p">:</span> <span class="n">String</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="nb">super</span><span class="p">.</span><span class="n">descripton</span> <span class="o">+</span> <span class="s">&quot; in gear \(gear)&quot;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h6># 重写属性观察者</h6>
+
+<p>你可以通过重写属性来给父类的属性添加观察者。</p>
+
+<pre><code>注意
+你不能给父类的常量存储属性或只读的计算属性添加观察者。因为这些属性的值不能改变，所以也没有willSet和didSet。
+
+另外，你不即能给一个属性重写getter和setter，还给它添加观察者。
+</code></pre>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">class</span> <span class="nl">AudomaticCar</span> <span class="p">:</span> <span class="n">Car</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">override</span> <span class="n">var</span> <span class="nl">currentSpees</span><span class="p">:</span> <span class="n">Double</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">didSet</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">gear</span> <span class="o">=</span> <span class="n">Int</span><span class="p">(</span><span class="n">currentSpeed</span> <span class="o">/</span> <span class="mf">10.0</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>每当你修改一个AudomaticCar的currentSpeed属性，都会触发这个观察者来给gear设定适当的值。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="n">automatic</span> <span class="o">=</span> <span class="n">AutomaticCar</span><span class="p">()</span>
+</span><span class='line'><span class="n">automatic</span><span class="p">.</span><span class="n">currentSpeed</span> <span class="o">=</span> <span class="mf">35.0</span>
+</span><span class='line'><span class="n">println</span><span class="p">(</span><span class="s">&quot;AutomaticCar: \(automatic.description)&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>防止重写</h5>
+
+<p>你可以把一个属性，方法，角标标记为 final 来禁止子类重写。</p>
+
+<p>任何尝试重写一个 final 的方法，属性，角标都会造成编译错误。</p>
+
+<p>你可以把整个类标记为 final 来禁止这个类被继承。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Language Guide: Subscripts]]></title>
+    <link href="http://zxhfirefox.github.io/blog/2014/10/19/language-guide-subscript/"/>
+    <updated>2014-10-19T00:37:12+08:00</updated>
+    <id>http://zxhfirefox.github.io/blog/2014/10/19/language-guide-subscript</id>
+    <content type="html"><![CDATA[<p>类，结构体，枚举可以定义角标。角标是用来访问集合，列表或序列的元素的一种简写。使用角标可以访问和修改元素。例如，你访问数组的元素使用someArray[index]，访问字典的元素使用someDictionary[key]。</p>
+
+<p>我们可以给一个类型添加多个角标，选择哪个角标是由传进来的索引的类型决定。角标不限于一个维度，你可以定义为角标定义多个输入。</p>
+
+<h5>角标语法</h5>
+
+<p>角标允许你在实例后面使用方括号来通过特定的值来查询这个实例。他们的语法和方法，属性的很相似。使用subscirpt关键字定义角标，并给出参数和返回值。角标和方法不同，角标可以是可读可写，也可以是只读，这种行为是通过一个类似于计算属性的 getter和 setter来表达。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">subscript</span><span class="p">(</span><span class="nl">index</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Int</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">get</span> <span class="p">{</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="n">set</span><span class="p">(</span><span class="n">newValue</span><span class="p">){</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>newValue的类型和角标返回的类型一致。和计算属性一样，你不提供newValue的话，一个默认的newValue会给你。</p>
+
+<p>和只读的计算属性一样，你可以不写get。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">subscript</span><span class="p">(</span><span class="nl">index</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Int</span> <span class="p">{</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>例如：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">struct</span> <span class="n">TimesTable</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">let</span> <span class="nl">multiplier</span><span class="p">:</span> <span class="n">Int</span>
+</span><span class='line'>    <span class="n">subscript</span><span class="p">(</span><span class="nl">index</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Int</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">multiplier</span> <span class="o">*</span> <span class="n">index</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="n">let</span> <span class="n">threeTimesTable</span> <span class="o">=</span> <span class="n">TimesTable</span><span class="p">(</span><span class="nl">multiplier</span><span class="p">:</span> <span class="mi">3</span><span class="p">)</span>
+</span><span class='line'><span class="n">println</span><span class="p">(</span><span class="s">&quot;six times three is \(threeTimesTable[6])&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>使用角标</h5>
+
+<p>角标的确切含义取决于它使用的上下文。一般用来访问集合，列表或序列的元素。你可以使用角标实现任何适用于你自己类或结构体的方式。</p>
+
+<p>例如Swift的Dictionary实现了角标，使得我们可以使用角标来访问字典里的元素。</p>
+
+<pre><code>注意
+Swift的Dictionary实现了通过角标获取对应key的value。但是是optional的，因为对应的key可能没有值存在。
+</code></pre>
+
+<h5>角标选项</h5>
+
+<p>角标可以接受任何数量，任何类型的参数。角标也可以返回任何值。角标可以使用变量参数，变长参数，但是不能使用in-out参数，也不能有默认值参数。</p>
+
+<p>一个类或结构体可以提供它需要的任意多的角标实现，使用哪个角标实现，由传入的参数类型来决定。这样子多个角标实现的方式叫做角标重载。</p>
+
+<p>最常用的角标是获取一个单个的参数。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">struct</span> <span class="n">Matrix</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">let</span> <span class="nl">rows</span><span class="p">:</span> <span class="n">Int</span><span class="p">,</span> <span class="nl">columns</span><span class="p">:</span> <span class="n">Int</span>
+</span><span class='line'>    <span class="n">var</span> <span class="nl">grid</span><span class="p">:</span> <span class="p">[</span><span class="n">Double</span><span class="p">]</span>
+</span><span class='line'>    <span class="n">init</span><span class="p">(</span><span class="nl">rows</span><span class="p">:</span> <span class="n">Int</span><span class="p">,</span> <span class="nl">columns</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nb">self</span><span class="p">.</span><span class="n">rows</span> <span class="o">=</span> <span class="n">rows</span>
+</span><span class='line'>        <span class="nb">self</span><span class="p">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">columns</span>
+</span><span class='line'>        <span class="n">grid</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span><span class="nl">count</span><span class="p">:</span> <span class="n">rows</span> <span class="o">*</span> <span class="n">columns</span><span class="p">,</span> <span class="nl">repeatedValue</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="n">func</span> <span class="n">indexIsValidForRow</span><span class="p">(</span><span class="nl">row</span><span class="p">:</span> <span class="n">Int</span><span class="p">,</span> <span class="nl">column</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bool</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">row</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">row</span> <span class="o">&lt;</span> <span class="n">rows</span> <span class="o">&amp;&amp;</span> <span class="n">column</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">column</span> <span class="o">&lt;</span> <span class="n">columns</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="n">subscript</span><span class="p">(</span><span class="nl">row</span><span class="p">:</span> <span class="n">Int</span><span class="p">,</span> <span class="nl">column</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Double</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">get</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">assert</span><span class="p">(</span><span class="n">indexIsValidForRow</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="nl">column</span><span class="p">:</span> <span class="n">column</span><span class="p">),</span> <span class="s">&quot;Index out of range&quot;</span><span class="p">)</span>
+</span><span class='line'>            <span class="k">return</span> <span class="n">grid</span><span class="p">[(</span><span class="n">row</span> <span class="o">*</span> <span class="n">columns</span><span class="p">)</span> <span class="o">+</span> <span class="n">column</span><span class="p">]</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="n">set</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">assert</span><span class="p">(</span><span class="n">indexIsValidForRow</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="nl">column</span><span class="p">:</span> <span class="n">column</span><span class="p">),</span> <span class="s">&quot;Index out of range&quot;</span><span class="p">)</span>
+</span><span class='line'>            <span class="n">grid</span><span class="p">[(</span><span class="n">row</span> <span class="o">*</span> <span class="n">columns</span><span class="p">)</span> <span class="o">+</span> <span class="n">column</span><span class="p">]</span> <span class="o">=</span> <span class="n">newValue</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面的例子里，Matrix定义了一个需要两个参数的角标来提供元素的访问。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">var</span> <span class="n">matrix</span> <span class="o">=</span> <span class="n">Matrix</span><span class="p">(</span><span class="nl">rows</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="nl">columns</span><span class="p">:</span> <span class="mi">2</span><span class="p">)</span>
+</span><span class='line'><span class="n">matrix</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.5</span>
+</span><span class='line'><span class="n">matrix</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">3.2</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>注意grid数组的初始化方式，和角标里作为越界检查的断言。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Language Guide: Methods]]></title>
+    <link href="http://zxhfirefox.github.io/blog/2014/10/19/language-guide-q-methods/"/>
+    <updated>2014-10-19T00:36:13+08:00</updated>
+    <id>http://zxhfirefox.github.io/blog/2014/10/19/language-guide-q-methods</id>
+    <content type="html"><![CDATA[<p>方法是关联到特殊类型的函数。类，结构体，枚举都可以定义实例方法，实例方法绑定到具体的实例。他们也都可以定义类型方法，类型方法关联到类型。类型方法和ObjC的类方法是相似的。</p>
+
+<p>事实上，结构体和枚举可以定义方法是Swift和C，ObjC的主要区别之一。在ObjC里，只有类是可以定义方法的。在Swift里，类，结构体和枚举都可以定义方法。</p>
+
+<h5>实例方法</h5>
+
+<p>实例方法是属于一个类，结构体，枚举的实例的函数。他们要么提供访问实例属性，要么提供和实例相关的功能来支持这些实例。实例方法的语法和函数完全一样。</p>
+
+<p>你把一个实例方法写在一个类型的大括号里。一个实例方法默认可以访问这个类型的所有其他方法和属性。实例方法仅能被类型的某个实例调用。没有实例，是无法调用实例方法的。</p>
+
+<p>下面的例子：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">class</span> <span class="n">Counter</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">var</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>    <span class="n">func</span> <span class="n">increment</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">count</span><span class="o">++</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="n">func</span> <span class="n">incrementBy</span><span class="p">(</span><span class="nl">amount</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">count</span> <span class="o">+=</span> <span class="n">amount</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="n">func</span> <span class="n">reset</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Counter类定义了一些实例方法。还定义了一个属性。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="n">counter</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">()</span>
+</span><span class='line'><span class="c1">// the initial counter value is 0</span>
+</span><span class='line'><span class="n">counter</span><span class="p">.</span><span class="n">increment</span><span class="p">()</span>
+</span><span class='line'><span class="c1">// the counter&#39;s value is now 1</span>
+</span><span class='line'><span class="n">counter</span><span class="p">.</span><span class="n">incrementBy</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</span><span class='line'><span class="c1">// the counter&#39;s value is now 6</span>
+</span><span class='line'><span class="n">counter</span><span class="p">.</span><span class="n">reset</span><span class="p">()</span>
+</span><span class='line'><span class="c1">// the counter&#39;s value is now 0</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h6>方法的外部和本地变量名</h6>
+
+<p>函数参数可以既有一个供外部使用的名字，还可以有一个供内部使用的名字。这点对于方法也是，因为方法仅仅是关联了一个类型的函数。然而，本地和外部名字的默认表现在函数和方法之间是有区别的。</p>
+
+<p>Swift的方法和ObjC的很相似，和ObjC一样，Swift的方法的第一个参数总是有一个介词来修饰，例如with，for，by等等。使用介词，可以使方法调用读起来更像普通的句子。Swift通过使用一套不同于函数参数名字的方式来使这种命名规则得以继续。</p>
+
+<p>特别的，Swift总是会给一个方法的第一个参数一个默认的内部名字，并且默认的给其他位置的参数同时内部和外部名字。这种规则和我们熟悉ObjC的方法调用的规则是一致的。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">class</span> <span class="n">Counter</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">var</span> <span class="nl">count</span><span class="p">:</span> <span class="n">Int</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>    <span class="n">func</span> <span class="n">incrementBy</span><span class="p">(</span><span class="nl">amount</span><span class="p">:</span> <span class="n">Int</span><span class="p">,</span> <span class="nl">numberOfTimes</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">count</span> <span class="o">+=</span> <span class="n">amount</span> <span class="o">*</span> <span class="n">numberOfTimes</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>incrementBy方法有两个参数，amount和numberOfTimes。默认的，Swift认为amount只是本地名字，而numberOfTimes既是本地名字，又是外部名字。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="n">counter</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">()</span>
+</span><span class='line'><span class="n">counter</span><span class="p">.</span><span class="n">incrementBy</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="nl">numberOfTimes</span><span class="p">:</span> <span class="mi">3</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>你不需要为第一个参数定义外部的名字，因为它的目的可以从方法名得出，incrementBy。第二个参数，却需要一个外部参数来指出它的意义。</p>
+
+<p>这个默认行为相当于你在第二个参数开始的所有参数都使用了 # 来标记。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">func</span> <span class="nf">incrementBy</span><span class="p">(</span><span class="nl">amount</span><span class="p">:</span> <span class="n">Int</span><span class="p">,</span> <span class="err">#</span><span class="nl">numberOfTimes</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">count</span> <span class="o">+=</span> <span class="n">amount</span> <span class="o">*</span> <span class="n">numberOfTimes</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面描述的这种默认行为使得Swift的方法定义和ObjC很相似，调用起来更自然。</p>
+
+<h6>修改方法外部参数名字的行为</h6>
+
+<p>有时候，给方法的一个参数也给一个外部名字是有用的，尽管这不是默认行为。你可以显式给出一个名字，也可以给第一个参数加一个 # 来使用和本地名字一样的相同的外部名字。</p>
+
+<p>相反的，如果不想给第二个以及其他参数给出外部名字，你可以使用 _ 来修改外部参数。</p>
+
+<h6>self属性</h6>
+
+<p>每一个类型的实例都有一个默认的属性叫 self，它总是和实例自己相一致。在方法里，是用self来引用当前的实例。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">func</span> <span class="nf">increment</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nb">self</span><span class="p">.</span><span class="n">count</span><span class="o">++</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>事实上，你不需要经常使用self。如果你不写self，Swift会假设你在访问当前实例的一个属性或方法。</p>
+
+<p>但是，如果你的方法的一个参数和一个属性的名字一样，那么你需要明确的使用self来区分参数和自己的属性。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">struct</span> <span class="n">Point</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">var</span> <span class="n">x</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="mf">0.0</span>
+</span><span class='line'>    <span class="n">func</span> <span class="n">isToTheRightOfX</span><span class="p">(</span><span class="nl">x</span><span class="p">:</span> <span class="n">Double</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bool</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="nb">self</span><span class="p">.</span><span class="n">x</span> <span class="o">&gt;</span> <span class="n">x</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="n">let</span> <span class="n">somePoint</span> <span class="o">=</span> <span class="n">Point</span><span class="p">(</span><span class="nl">x</span><span class="p">:</span> <span class="mf">4.0</span><span class="p">,</span> <span class="nl">y</span><span class="p">:</span> <span class="mf">5.0</span><span class="p">)</span>
+</span><span class='line'><span class="k">if</span> <span class="n">somePoint</span><span class="p">.</span><span class="n">isToTheRightOfX</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">println</span><span class="p">(</span><span class="s">&quot;This point is to the right of the line where x == 1.0&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h6>在实例方法里修改值类型</h6>
+
+<p>结构体和枚举是值类型，默认的，值类型的属性是不能在自己的实例方法被修改的。</p>
+
+<p>但是，如果你需要在一个实例方法里修改结构体或枚举的属性，你可以把方法改成 mutating行为的。这个方法就可以在方法内部修改实例的属性，而且这些被修改的属性也会反映到真实的属性里。这种方法也可以直接把一个全新的实例附值给 self 属性，然后这个新实例将会在方法结束后代替原来的实例。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">struct</span> <span class="n">Point</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">var</span> <span class="n">x</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="mf">0.0</span>
+</span><span class='line'>    <span class="n">mutating</span> <span class="n">func</span> <span class="n">moveByX</span><span class="p">(</span><span class="nl">deltaX</span><span class="p">:</span> <span class="n">Double</span><span class="p">,</span> <span class="n">y</span> <span class="nl">deltaY</span><span class="p">:</span> <span class="n">Double</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">x</span> <span class="o">+=</span> <span class="n">deltaX</span>
+</span><span class='line'>        <span class="n">y</span> <span class="o">+=</span> <span class="n">deltaY</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="n">var</span> <span class="n">somePoint</span> <span class="o">=</span> <span class="n">Point</span><span class="p">(</span><span class="nl">x</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span> <span class="nl">y</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">)</span>
+</span><span class='line'><span class="n">somePoint</span><span class="p">.</span><span class="n">moveByX</span><span class="p">(</span><span class="mf">2.0</span><span class="p">,</span> <span class="nl">y</span><span class="p">:</span> <span class="mf">3.0</span><span class="p">)</span>
+</span><span class='line'><span class="n">println</span><span class="p">(</span><span class="s">&quot;The point is now at (\(somePoint.x), \(somePoint.y))&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>使用 mutating 关键字来修饰func定义。上面的例子中，moveByX方法修改了自己的属性。</p>
+
+<p>注意，你不能在一个常量结构体或枚举上调用 mutating方法，因为他们的属性不能被改变，即使他们的属性是变量。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="n">fixedPoint</span> <span class="o">=</span> <span class="n">Point</span><span class="p">(</span><span class="nl">x</span><span class="p">:</span> <span class="mf">3.0</span><span class="p">,</span> <span class="nl">y</span><span class="p">:</span> <span class="mf">3.0</span><span class="p">)</span>
+</span><span class='line'><span class="n">fixedPoint</span><span class="p">.</span><span class="n">moveByX</span><span class="p">(</span><span class="mf">2.0</span><span class="p">,</span> <span class="nl">y</span><span class="p">:</span> <span class="mf">3.0</span><span class="p">)</span>
+</span><span class='line'><span class="c1">// this will report an error</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h6>在一个 mutating 方法里给 self 附值</h6>
+
+<p>mutating 方法可以把一个全新的实例附值给 self。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">struct</span> <span class="n">Point</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">var</span> <span class="n">x</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="mf">0.0</span>
+</span><span class='line'>    <span class="n">mutating</span> <span class="n">func</span> <span class="n">moveByX</span><span class="p">(</span><span class="nl">deltaX</span><span class="p">:</span> <span class="n">Double</span><span class="p">,</span> <span class="n">y</span> <span class="nl">deltaY</span><span class="p">:</span> <span class="n">Double</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nb">self</span> <span class="o">=</span> <span class="n">Point</span><span class="p">(</span><span class="nl">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">+</span> <span class="n">deltaX</span><span class="p">,</span> <span class="nl">y</span><span class="p">:</span> <span class="n">y</span> <span class="o">+</span> <span class="n">deltaY</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这个版本的moveByX返回一个全新的Point。</p>
+
+<p>枚举的 mutating方法可以给 self 附值一个新的枚举成员。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">enum</span> <span class="n">TriStateSwitch</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">case</span> <span class="n">Off</span><span class="p">,</span> <span class="n">Low</span><span class="p">,</span> <span class="n">High</span>
+</span><span class='line'>    <span class="n">mutating</span> <span class="n">func</span> <span class="n">next</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">switch</span> <span class="nb">self</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">case</span> <span class="nl">Off</span><span class="p">:</span>
+</span><span class='line'>            <span class="nb">self</span> <span class="o">=</span> <span class="n">Low</span>
+</span><span class='line'>        <span class="k">case</span> <span class="nl">Low</span><span class="p">:</span>
+</span><span class='line'>            <span class="nb">self</span> <span class="o">=</span> <span class="n">High</span>
+</span><span class='line'>        <span class="k">case</span> <span class="nl">High</span><span class="p">:</span>
+</span><span class='line'>            <span class="nb">self</span> <span class="o">=</span> <span class="n">Off</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="n">var</span> <span class="n">ovenLight</span> <span class="o">=</span> <span class="n">TriStateSwitch</span><span class="p">.</span><span class="n">Low</span>
+</span><span class='line'><span class="n">ovenLight</span><span class="p">.</span><span class="n">next</span><span class="p">()</span>
+</span><span class='line'><span class="c1">// ovenLight is now equal to .High</span>
+</span><span class='line'><span class="n">ovenLight</span><span class="p">.</span><span class="n">next</span><span class="p">()</span>
+</span><span class='line'><span class="c1">// ovenLight is now equal to .Off</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>类型方法</h5>
+
+<p>实例方法，如上所述，是在一个类型的具体实例上调用的方法。我们也可以定义调用在类型本身的方法。这种类型的方法叫类型方法。在类里添加类型方法使用 class关键字，在结构体和枚举里定义类型方法使用 static 关键字。</p>
+
+<pre><code>注意
+在ObjC里，你只能给类定义类型方法。在Swift里，你可以给类，结构体，枚举定义类型方法。
+</code></pre>
+
+<p>类型方法也是用 . 来调用，不过 . 的左边不是实例，而是类型。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">class</span> <span class="n">SomeClass</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">class</span> <span class="n">func</span> <span class="n">someTypeMethod</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="c1">// type method implementation goes here</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="n">SomeClass</span><span class="p">.</span><span class="n">someTypeMethod</span><span class="p">()</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在类型方法里， self 属性默认指向的就是类型本身，而不是实例。对于结构体和枚举，你可以使用 self 来区分静态属性和静态方法参数，就和实例方法一样。</p>
+
+<p>更广泛来说，在类型方法里使用的任何未加修饰的方法和属性名字都会在类型级别寻找。类型方法可以调用类型方法，可以访问静态属性。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">struct</span> <span class="n">LevelTracker</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">static</span> <span class="n">var</span> <span class="n">highestUnlockedLevel</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span class='line'>    <span class="k">static</span> <span class="n">func</span> <span class="n">unlockLevel</span><span class="p">(</span><span class="nl">level</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">if</span> <span class="n">level</span> <span class="o">&gt;</span> <span class="n">highestUnlockedLevel</span> <span class="p">{</span> <span class="n">highestUnlockedLevel</span> <span class="o">=</span> <span class="n">level</span> <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">static</span> <span class="n">func</span> <span class="n">levelIsUnlocked</span><span class="p">(</span><span class="nl">level</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bool</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">level</span> <span class="o">&lt;=</span> <span class="n">highestUnlockedLevel</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="n">var</span> <span class="n">currentLevel</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span class='line'>    <span class="n">mutating</span> <span class="n">func</span> <span class="n">advanceToLevel</span><span class="p">(</span><span class="nl">level</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bool</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">if</span> <span class="n">LevelTracker</span><span class="p">.</span><span class="n">levelIsUnlocked</span><span class="p">(</span><span class="n">level</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">currentLevel</span> <span class="o">=</span> <span class="n">level</span>
+</span><span class='line'>            <span class="k">return</span> <span class="nb">true</span>
+</span><span class='line'>        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">return</span> <span class="nb">false</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">class</span> <span class="n">Player</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">var</span> <span class="n">tracker</span> <span class="o">=</span> <span class="n">LevelTracker</span><span class="p">()</span>
+</span><span class='line'>    <span class="n">let</span> <span class="nl">playerName</span><span class="p">:</span> <span class="n">String</span>
+</span><span class='line'>    <span class="n">func</span> <span class="n">completedLevel</span><span class="p">(</span><span class="nl">level</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">LevelTracker</span><span class="p">.</span><span class="n">unlockLevel</span><span class="p">(</span><span class="n">level</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">tracker</span><span class="p">.</span><span class="n">advanceToLevel</span><span class="p">(</span><span class="n">level</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="n">init</span><span class="p">(</span><span class="nl">name</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">playerName</span> <span class="o">=</span> <span class="n">name</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">var</span> <span class="n">player</span> <span class="o">=</span> <span class="n">Player</span><span class="p">(</span><span class="nl">name</span><span class="p">:</span> <span class="s">&quot;Argyrios&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="n">player</span><span class="p">.</span><span class="n">completedLevel</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span><span class='line'><span class="n">println</span><span class="p">(</span><span class="s">&quot;highest unlocked level is now \(LevelTracker.highestUnlockedLevel)&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="c1">// prints &quot;highest unlocked level is now 2&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">player</span> <span class="o">=</span> <span class="n">Player</span><span class="p">(</span><span class="nl">name</span><span class="p">:</span> <span class="s">&quot;Beto&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="k">if</span> <span class="n">player</span><span class="p">.</span><span class="n">tracker</span><span class="p">.</span><span class="n">advanceToLevel</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">println</span><span class="p">(</span><span class="s">&quot;player is now on level 6&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">println</span><span class="p">(</span><span class="s">&quot;level 6 has not yet been unlocked&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="c1">// prints &quot;level 6 has not yet been unlocked&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Language Guide: Properties]]></title>
+    <link href="http://zxhfirefox.github.io/blog/2014/10/19/language-guide-properties/"/>
+    <updated>2014-10-19T00:35:02+08:00</updated>
+    <id>http://zxhfirefox.github.io/blog/2014/10/19/language-guide-properties</id>
+    <content type="html"><![CDATA[<p>属性把相关的值关联到类，结构体，或是枚举上面。存储的属性把值作为实例的一部分一起存储，然而计算的属性是计算一个值。计算的属性可以由类，结构体和枚举提供，但存储的属性只能有类和结构体提供。</p>
+
+<p>存储和计算的属性通常和某个类型的实例相关。然而，属性可以直接和类型相关，这样的属性叫做类型属性。</p>
+
+<p>另外，你可以定义属性观察者来检测属性值的变化，然后触发自定义的操作。属性观察者可以添加给你自己定义的存储属性，和你从父类继承的属性。</p>
+
+<h5>存储属性</h5>
+
+<p>存储属性，最简单的形式，就是和一个特定类或结构体的实例一起存储的常量或变量。</p>
+
+<p>你可以给在定义属性时给它一个默认值。你可以在初始化函数里设置和改变它的初始值，即使是常量。</p>
+
+<p>下面的例子定义了一个FixedLengthRange的结构体，表示了一个区间，一旦创建，长度不能改变。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">struct</span> <span class="n">FixedLengthRange</span><span class="p">{</span>
+</span><span class='line'>  <span class="n">var</span> <span class="nl">firstValue</span><span class="p">:</span> <span class="n">Int</span>
+</span><span class='line'>  <span class="n">let</span> <span class="nl">length</span><span class="p">:</span> <span class="n">Int</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="n">var</span> <span class="n">rangeOfThree</span> <span class="o">=</span> <span class="n">FixedLengthRange</span><span class="p">(</span><span class="nl">firstVaule</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span> <span class="nl">length</span><span class="p">:</span><span class="mi">3</span><span class="p">)</span>
+</span><span class='line'><span class="n">rangeOfThree</span><span class="p">.</span><span class="n">firstValue</span> <span class="o">=</span> <span class="mi">6</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>FixedLengthRange的实例，有一个可变的存储属性firstValue，和一个常量存储属性length。在上面的例子里firstValue可以改变，但是length却不能。</p>
+
+<h6>常量结构体实例的存储变量</h6>
+
+<p>如果你把一个结构体的实例附值给一个常量，那么你就不能改变这个结构体的存储属性，即使这个属性是个变量。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="n">rangeOfFour</span> <span class="o">=</span> <span class="n">FixedLengthRange</span><span class="p">(</span><span class="nl">firstValue</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span> <span class="nl">length</span><span class="p">:</span><span class="mi">4</span><span class="p">)</span>
+</span><span class='line'><span class="n">rangeOfFour</span><span class="p">.</span><span class="n">firstValue</span> <span class="c1">// error!!!</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>因为rangeOfFour是个常量，所以不能修改firstValue，即使这个属性是变量。</p>
+
+<p>这种行为是因为结构体是值类型，当一个值类型的实例标记为常量，它的属性也是常量。</p>
+
+<p>这个对于类不是，因为类是引用类型，如果你把一个引用类型的实例附值给一个常量，你仍然可以修改这个实例的变量属性。</p>
+
+<h6>延迟的存储属性</h6>
+
+<p>一个延迟的存储属性是说它的初始值只有在第一次被使用的时候才会计算。你在需要标记为延迟的属性前面加lazy关键字。</p>
+
+<pre><code>注意
+如果一个属性是延迟的，那它必须是变量，因为他的初始值可能在初始化函数完成后依然没有被用到。而常量属性必须在初始化函数结束前有值，所以不能是lazy的。
+</code></pre>
+
+<p>如果一个属性的值取决于一些外界因素，而这些外界因素在初始化函数结束后依然不确定，这时候把属性标记为lazy就很有用了。另外，如果一个属性的计算非常复杂，所以就在不需要的时候不去计算，这样标记为lazy也很好。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">class</span> <span class="n">DataImporter</span><span class="p">{</span>
+</span><span class='line'>  <span class="n">var</span> <span class="n">filename</span> <span class="o">=</span> <span class="s">&quot;data.txt&quot;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">class</span> <span class="n">DataManager</span><span class="p">{</span>
+</span><span class='line'>  <span class="n">lazy</span> <span class="n">var</span> <span class="n">importer</span> <span class="o">=</span> <span class="n">DataImporter</span><span class="p">()</span>
+</span><span class='line'>  <span class="n">var</span> <span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">String</span><span class="p">]()</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="n">let</span> <span class="n">manager</span> <span class="o">=</span> <span class="n">DataManager</span><span class="p">()</span>
+</span><span class='line'><span class="n">manager</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="s">&quot;some data&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="n">manager</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="err">“</span><span class="n">some</span> <span class="n">more</span> <span class="n">data</span><span class="s">&quot;)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这个例子里，直到最后，manager的importer属性都没有值。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">println</span><span class="p">(</span><span class="n">manager</span><span class="p">.</span><span class="n">importer</span><span class="p">.</span><span class="n">filename</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这里，会初始化importer，并打印它的filename属性。</p>
+
+<h6>存储属性和成员变量</h6>
+
+<p>如果你熟悉ObjC，你应该直到有两种办法为一个类实例提供存储值或引用。除了属性，你还可以用成员变量作为属性的底层存储来存储值。</p>
+
+<p>Swift把这些概念统一为属性。一个Swift的属性没有对应的成员变量，而且属性的底层存储是无法访问的。这种方式避免了在不同的上下文如何访问值的困惑，也简化了属性的声明。关于属性的所有信息，包含名字，类型，内存管理，都在同一个地方。</p>
+
+<h5>计算属性</h5>
+
+<p>除了存储属性，类，结构体和枚举还可以定义计算属性，计算属性不会真实的存储值。相反，他们提供一个getter和一个可选的setter来间接的获取属性的值和修改其他属性的值。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">struct</span> <span class="n">Point</span><span class="p">{</span>
+</span><span class='line'>  <span class="n">var</span> <span class="n">x</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="mf">0.0</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">struct</span> <span class="n">Size</span> <span class="p">{</span>
+</span><span class='line'>  <span class="n">var</span> <span class="n">width</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="mf">0.0</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">struct</span> <span class="n">Rect</span> <span class="p">{</span>
+</span><span class='line'>  <span class="n">var</span> <span class="n">origin</span> <span class="o">=</span> <span class="n">Point</span><span class="p">()</span>
+</span><span class='line'>  <span class="n">var</span> <span class="n">size</span> <span class="o">=</span> <span class="n">Size</span><span class="p">()</span>
+</span><span class='line'>  <span class="n">var</span> <span class="nl">center</span><span class="p">:</span> <span class="n">Point</span> <span class="p">{</span>
+</span><span class='line'>      <span class="n">get</span> <span class="p">{</span>
+</span><span class='line'>           <span class="n">let</span> <span class="n">centerX</span> <span class="o">=</span> <span class="n">origin</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="p">(</span><span class="n">size</span><span class="p">.</span><span class="n">width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+</span><span class='line'>            <span class="n">let</span> <span class="n">centerY</span> <span class="o">=</span> <span class="n">origin</span><span class="p">.</span><span class="n">y</span> <span class="o">+</span> <span class="p">(</span><span class="n">size</span><span class="p">.</span><span class="n">height</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+</span><span class='line'>            <span class="k">return</span> <span class="n">Point</span><span class="p">(</span><span class="nl">x</span><span class="p">:</span> <span class="n">centerX</span><span class="p">,</span> <span class="nl">y</span><span class="p">:</span> <span class="n">centerY</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>      <span class="n">set</span><span class="p">(</span><span class="n">newCenter</span><span class="p">){</span>
+</span><span class='line'>          <span class="n">origin</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">newCenter</span><span class="p">.</span><span class="n">x</span> <span class="o">-</span> <span class="p">(</span><span class="n">size</span><span class="p">.</span><span class="n">width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+</span><span class='line'>          <span class="n">origin</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">newCenter</span><span class="p">.</span><span class="n">y</span> <span class="o">-</span> <span class="p">(</span><span class="n">size</span><span class="p">.</span><span class="n">height</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="n">var</span> <span class="n">square</span> <span class="o">=</span> <span class="n">Rect</span><span class="p">(</span><span class="nl">origin</span><span class="p">:</span> <span class="n">Point</span><span class="p">(</span><span class="nl">x</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span> <span class="nl">y</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">),</span>
+</span><span class='line'>    <span class="nl">size</span><span class="p">:</span> <span class="n">Size</span><span class="p">(</span><span class="nl">width</span><span class="p">:</span> <span class="mf">10.0</span><span class="p">,</span> <span class="nl">height</span><span class="p">:</span> <span class="mf">10.0</span><span class="p">))</span>
+</span><span class='line'><span class="n">let</span> <span class="n">initialSquareCenter</span> <span class="o">=</span> <span class="n">square</span><span class="p">.</span><span class="n">center</span>
+</span><span class='line'><span class="n">square</span><span class="p">.</span><span class="n">center</span> <span class="o">=</span> <span class="n">Point</span><span class="p">(</span><span class="nl">x</span><span class="p">:</span> <span class="mf">15.0</span><span class="p">,</span> <span class="nl">y</span><span class="p">:</span> <span class="mf">15.0</span><span class="p">)</span>
+</span><span class='line'><span class="n">println</span><span class="p">(</span><span class="s">&quot;square.origin is now at (\(square.origin.x), \(square.origin.y))&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面的例子定义了三个结构体来表示几何的一些概念。</p>
+
+<p>Point，Size，Rect。</p>
+
+<p>Rect还定义了一个计算属性center。一个矩形的中心，总是可以从原点和大小计算出来，所以也就不用为它再声明一个存储属性。</p>
+
+<p>上面的例子创建了一个Rect的实例square。square的属性center被访问时，结果是当时计算的；square的center被设置时，实际通过计算是修改了square的原点的值。</p>
+
+<h6>setter方法简写</h6>
+
+<p>如果一个计算属性没有给出新值的名字，那么会有一个默认的名字newValue可以使用。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">struct</span> <span class="n">AlternativeRect</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">var</span> <span class="n">origin</span> <span class="o">=</span> <span class="n">Point</span><span class="p">()</span>
+</span><span class='line'>    <span class="n">var</span> <span class="n">size</span> <span class="o">=</span> <span class="n">Size</span><span class="p">()</span>
+</span><span class='line'>    <span class="n">var</span> <span class="nl">center</span><span class="p">:</span> <span class="n">Point</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">get</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">let</span> <span class="n">centerX</span> <span class="o">=</span> <span class="n">origin</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="p">(</span><span class="n">size</span><span class="p">.</span><span class="n">width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+</span><span class='line'>            <span class="n">let</span> <span class="n">centerY</span> <span class="o">=</span> <span class="n">origin</span><span class="p">.</span><span class="n">y</span> <span class="o">+</span> <span class="p">(</span><span class="n">size</span><span class="p">.</span><span class="n">height</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+</span><span class='line'>            <span class="k">return</span> <span class="n">Point</span><span class="p">(</span><span class="nl">x</span><span class="p">:</span> <span class="n">centerX</span><span class="p">,</span> <span class="nl">y</span><span class="p">:</span> <span class="n">centerY</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="n">set</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">origin</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">newValue</span><span class="p">.</span><span class="n">x</span> <span class="o">-</span> <span class="p">(</span><span class="n">size</span><span class="p">.</span><span class="n">width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+</span><span class='line'>            <span class="n">origin</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">newValue</span><span class="p">.</span><span class="n">y</span> <span class="o">-</span> <span class="p">(</span><span class="n">size</span><span class="p">.</span><span class="n">height</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h6>只读的计算属性</h6>
+
+<p>如果计算属性，只有getter没有setter就叫做只读的计算属性。一个只读的计算属性总是返回值，但是不能被设置。</p>
+
+<pre><code>注意
+计算属性，必须是变量属性。let只能用于常量属性，这种属性一旦初始化结束后就无法改变。
+</code></pre>
+
+<p>把get关键字和大括号去掉就可以声明一个只读的属性。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">struct</span> <span class="n">Cuboid</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">var</span> <span class="n">width</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">depth</span> <span class="o">=</span> <span class="mf">0.0</span>
+</span><span class='line'>    <span class="n">var</span> <span class="nl">volume</span><span class="p">:</span> <span class="n">Double</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">width</span> <span class="o">*</span> <span class="n">height</span> <span class="o">*</span> <span class="n">depth</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="n">let</span> <span class="n">fourByFiveByTwo</span> <span class="o">=</span> <span class="n">Cuboid</span><span class="p">(</span><span class="nl">width</span><span class="p">:</span> <span class="mf">4.0</span><span class="p">,</span> <span class="nl">height</span><span class="p">:</span> <span class="mf">5.0</span><span class="p">,</span> <span class="nl">depth</span><span class="p">:</span> <span class="mf">2.0</span><span class="p">)</span>
+</span><span class='line'><span class="n">println</span><span class="p">(</span><span class="s">&quot;the volume of fourByFiveByTwo is \(fourByFiveByTwo.volume)&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>属性观察者</h5>
+
+<p>属性观察者观察和相应属性值的改变。属性观察者在每次值被设置的时候都会调用，即使新值和旧值是一样的。</p>
+
+<p>除了lazy的存储属性，可以给任何任何存储属性添加观察者。你也可以通过重写继承的属性，无论存储还是计算，添加观察者。</p>
+
+<pre><code>注意
+你不需要给非重写的计算属性添加观察者，因为你可以在setter方法里直接操作。
+</code></pre>
+
+<p>你可以给属性添加下面两个观察者：</p>
+
+<ul>
+<li>willSet，会在值被存储之前。</li>
+<li>didSet，会在值被存储之后。</li>
+</ul>
+
+
+<p>如果你实现了willSet，新值会做为一个常量参数传入，你可以给它一个名字或是使用默认的名字newValue。</p>
+
+<p>类似的，如果你实现了didSet，你会收到一个常量参数，是旧值。你可以给它一个名字，或是使用默认的oldValue。</p>
+
+<pre><code>注意
+willSet和didSet在初始化时并不会调用，只在其他情况下调用。
+</code></pre>
+
+<p>下面的例子：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">class</span> <span class="n">StepCounter</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">var</span> <span class="nl">totalSteps</span><span class="p">:</span> <span class="n">Int</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">willSet</span><span class="p">(</span><span class="n">newTotalSteps</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">println</span><span class="p">(</span><span class="s">&quot;About to set totalSteps to \(newTotalSteps)&quot;</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="n">didSet</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">if</span> <span class="n">totalSteps</span> <span class="o">&gt;</span> <span class="n">oldValue</span>  <span class="p">{</span>
+</span><span class='line'>                <span class="n">println</span><span class="p">(</span><span class="s">&quot;Added \(totalSteps - oldValue) steps&quot;</span><span class="p">)</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="n">let</span> <span class="n">stepCounter</span> <span class="o">=</span> <span class="n">StepCounter</span><span class="p">()</span>
+</span><span class='line'><span class="n">stepCounter</span><span class="p">.</span><span class="n">totalSteps</span> <span class="o">=</span> <span class="mi">200</span>
+</span><span class='line'><span class="c1">// About to set totalSteps to 200</span>
+</span><span class='line'><span class="c1">// Added 200 steps</span>
+</span><span class='line'><span class="n">stepCounter</span><span class="p">.</span><span class="n">totalSteps</span> <span class="o">=</span> <span class="mi">360</span>
+</span><span class='line'><span class="c1">// About to set totalSteps to 360</span>
+</span><span class='line'><span class="c1">// Added 160 steps</span>
+</span><span class='line'><span class="n">stepCounter</span><span class="p">.</span><span class="n">totalSteps</span> <span class="o">=</span> <span class="mi">896</span>
+</span><span class='line'><span class="c1">// About to set totalSteps to 896</span>
+</span><span class='line'><span class="c1">// Added 536 steps</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>类StepCounter声明了一个totalSteps属性，还有willSet和didSet观察者。</p>
+
+<p>例子里，willSet接收一个自定义的参数名newTotalSteps，而didSet用了默认的参数名oldValuew。</p>
+
+<pre><code>注意
+如果你在didSet里给属性自己附值，那么这个新的值将取代刚刚赋给的值。
+</code></pre>
+
+<h5>全局和局部变量</h5>
+
+<p>上面描述的关于计算和观察属性的能力对于全局和局部变量也使用。全局变量就是定义在任何函数，方法，闭包和类型上下文外部的变量。局部变量是定义在函数，方法和闭包上下文的变量。</p>
+
+<p>在此前的文章中，所有的全局和局部变量都是存储变量。存储变量和存储属性一样，提供一个特定类型的值的存储，并且可以获取和改变它。</p>
+
+<p>然而，你也可以定义计算变量和存储变量的观察者，无论在全局还是局部。计算变量不存储值，而是计算值。</p>
+
+<pre><code>注意
+全局变量和常量总是延迟计算的。和延迟存储属性一样。和延迟存储属性不一样，全局常量和变量不需要标示为lazy。局部变量和常量永远不会延迟计算。
+</code></pre>
+
+<h5>类型属性</h5>
+
+<p>实例属性是属于某一类型的实例的属性。每当一个新的实例被创建，它有自己的一套属性，和其他属性是分开的。</p>
+
+<p>你可以给类型本身定义属性。这样的属性永远都只会有一份，无论创建了多少个实例。这种属性叫做类型属性。</p>
+
+<p>类型属性用来定义一些对于所有实例都一样的值。例如一个所有实例都可以使用的常量（类似于C里的static常量）或一个对于所有实例相当于全局的一个变量（类似于C里的static变量）。</p>
+
+<p>对于值类型，（结构体和枚举），你可以定义存储和计算的类型属性。对于类，你只能定义计算的类型属性。</p>
+
+<p>值类型的存储属性可以是变量或常量。计算属性则永远是变量。</p>
+
+<pre><code>注意
+和存储的实例属性不一样，你必须给类型存储属性一个默认值。这是因为类型本身并没有初始化的时刻。
+</code></pre>
+
+<h6>类型属性语法</h6>
+
+<p>在C和ObjC里，用static来定义关联到一个类型的常量或变量作为全局静态变量。在Swift，类型属性作为类型定义的一部分，写在类型定义的大括号里，而且每个类型属性都限制在它的类型里。</p>
+
+<p>使用static为值类型定义类型属性，用class为类定义类型属性。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">struct</span> <span class="n">SomeStructure</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">static</span> <span class="n">var</span> <span class="n">storedTypeProperty</span> <span class="o">=</span> <span class="s">&quot;Some value.&quot;</span>
+</span><span class='line'>    <span class="k">static</span> <span class="n">var</span> <span class="nl">computedTypeProperty</span><span class="p">:</span> <span class="n">Int</span> <span class="p">{</span>
+</span><span class='line'>        <span class="c1">// return an Int value here</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">enum</span> <span class="n">SomeEnumeration</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">static</span> <span class="n">var</span> <span class="n">storedTypeProperty</span> <span class="o">=</span> <span class="s">&quot;Some value.&quot;</span>
+</span><span class='line'>    <span class="k">static</span> <span class="n">var</span> <span class="nl">computedTypeProperty</span><span class="p">:</span> <span class="n">Int</span> <span class="p">{</span>
+</span><span class='line'>        <span class="c1">// return an Int value here</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">class</span> <span class="n">SomeClass</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">class</span> <span class="n">var</span> <span class="nl">computedTypeProperty</span><span class="p">:</span> <span class="n">Int</span> <span class="p">{</span>
+</span><span class='line'>        <span class="c1">// return an Int value here</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<pre><code>注意
+上面例子的计算属性都是只读的，但是你可以定义可读可写的。
+</code></pre>
+
+<h6>访问或设置类型属性</h6>
+
+<p>类型属性也用点语法来访问，但是，是通过类型，而不是类型的实例。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">println</span><span class="p">(</span><span class="n">SomeClass</span><span class="p">.</span><span class="n">computedTypeProperty</span><span class="p">)</span>
+</span><span class='line'><span class="c1">// prints &quot;42&quot;</span>
+</span><span class='line'><span class="n">println</span><span class="p">(</span><span class="n">SomeStructure</span><span class="p">.</span><span class="n">storedTypeProperty</span><span class="p">)</span>
+</span><span class='line'><span class="c1">// prints &quot;Some value.&quot;</span>
+</span><span class='line'><span class="n">SomeStructure</span><span class="p">.</span><span class="n">storedTypeProperty</span> <span class="o">=</span> <span class="s">&quot;Another value.&quot;</span>
+</span><span class='line'><span class="n">println</span><span class="p">(</span><span class="n">SomeStructure</span><span class="p">.</span><span class="n">storedTypeProperty</span><span class="p">)</span>
+</span><span class='line'><span class="c1">// prints &quot;Another value.&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>下面的例子：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">struct</span> <span class="n">AudioChannel</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">static</span> <span class="n">let</span> <span class="n">thresholdLevel</span> <span class="o">=</span> <span class="mi">10</span>
+</span><span class='line'>    <span class="k">static</span> <span class="n">var</span> <span class="n">maxInputLevelForAllChannels</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>    <span class="n">var</span> <span class="nl">currentLevel</span><span class="p">:</span> <span class="n">Int</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">didSet</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">if</span> <span class="n">currentLevel</span> <span class="o">&gt;</span> <span class="n">AudioChannel</span><span class="p">.</span><span class="n">thresholdLevel</span> <span class="p">{</span>
+</span><span class='line'>                <span class="c1">// cap the new audio level to the threshold level</span>
+</span><span class='line'>                <span class="n">currentLevel</span> <span class="o">=</span> <span class="n">AudioChannel</span><span class="p">.</span><span class="n">thresholdLevel</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>            <span class="k">if</span> <span class="n">currentLevel</span> <span class="o">&gt;</span> <span class="n">AudioChannel</span><span class="p">.</span><span class="n">maxInputLevelForAllChannels</span> <span class="p">{</span>
+</span><span class='line'>                <span class="c1">// store this as the new overall maximum input level</span>
+</span><span class='line'>                <span class="n">AudioChannel</span><span class="p">.</span><span class="n">maxInputLevelForAllChannels</span> <span class="o">=</span> <span class="n">currentLevel</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面的例子里，currentLevel是实例属性，而thresholdLevel是常量类型属性，maxInputLevelForAllChannels是变量类型属性。</p>
+
+<p>在currentLevel的didSet观察者里，使用类型属性做一些检查和判断。</p>
+
+<pre><code>注意
+上面第一个检查里，重新设置了currentLevel的值，这样并不会触发新的观察者调用。
+</code></pre>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">var</span> <span class="n">leftChannel</span> <span class="o">=</span> <span class="n">AudioChannel</span><span class="p">()</span>
+</span><span class='line'><span class="n">var</span> <span class="n">rightChannel</span> <span class="o">=</span> <span class="n">AudioChannel</span><span class="p">()</span>
+</span><span class='line'><span class="n">leftChannel</span><span class="p">.</span><span class="n">currentLevel</span> <span class="o">=</span> <span class="mi">7</span>
+</span><span class='line'><span class="n">println</span><span class="p">(</span><span class="n">leftChannel</span><span class="p">.</span><span class="n">currentLevel</span><span class="p">)</span>
+</span><span class='line'><span class="c1">// prints &quot;7&quot;</span>
+</span><span class='line'><span class="n">println</span><span class="p">(</span><span class="n">AudioChannel</span><span class="p">.</span><span class="n">maxInputLevelForAllChannels</span><span class="p">)</span>
+</span><span class='line'><span class="c1">// prints &quot;7&quot;</span>
+</span><span class='line'><span class="n">rightChannel</span><span class="p">.</span><span class="n">currentLevel</span> <span class="o">=</span> <span class="mi">11</span>
+</span><span class='line'><span class="n">println</span><span class="p">(</span><span class="n">rightChannel</span><span class="p">.</span><span class="n">currentLevel</span><span class="p">)</span>
+</span><span class='line'><span class="c1">// prints &quot;10&quot;</span>
+</span><span class='line'><span class="n">println</span><span class="p">(</span><span class="n">AudioChannel</span><span class="p">.</span><span class="n">maxInputLevelForAllChannels</span><span class="p">)</span>
+</span><span class='line'><span class="c1">// prints &quot;10&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[Language Guide: Classes and Structures]]></title>
     <link href="http://zxhfirefox.github.io/blog/2014/10/06/language-guide-f-classes-and-structures/"/>
     <updated>2014-10-06T15:31:42+08:00</updated>
     <id>http://zxhfirefox.github.io/blog/2014/10/06/language-guide-f-classes-and-structures</id>
-    <content type="html"><![CDATA[
+    <content type="html"><![CDATA[<p>类和结构将成为构建你程序的基础，他们是通用的，灵活的结构。你用和常量，变量，函数一样的语法来给它们添加属性和方法。</p>
+
+<p>和其他语言不同，Swift并不需要你为自定义的类和结构体分开定义接口和实现。在Swift里，你把它们定义在一个文件里，然后它们的对外接口就自动对于其他代码可见了。</p>
+
+<pre><code>注意
+一个类的实例一般叫做对象（object）。但是因为在Swift里类和结构体的功能非常相似，所以我们主要适用实例（instance）来讲解。
+</code></pre>
+
+<h5>类 VS 结构体</h5>
+
+<p>类和结构体有很多相同的地方，例如：</p>
+
+<ul>
+<li>可以定义属性来存储值</li>
+<li>可以定义方法类提供功能</li>
+<li>可以定义角标来使用角标语法访问他们的值</li>
+<li>可以定义初始化函数来初始化他们</li>
+<li>可以在默认实现的基础上通过扩展来增加功能</li>
+<li>可以实现特定的协议来提供一些预先定义的功能</li>
+</ul>
+
+
+<p>类有些额外的结构体没有的功能，例如：</p>
+
+<ul>
+<li>类可以有继承</li>
+<li>类型转换可以让你在运行时检查实例的类型</li>
+<li>反初始化函数可以让实例释放任何它占有资源</li>
+<li><p>引用计数允许一个实例被多次引用</p>
+
+<p>注意
+结构体在把它们来回传递的时候是被拷贝的，它们没有引用计数</p></li>
+</ul>
+
+
+<h6>定义语法</h6>
+
+<p>类和结构体有相似的定义语法，使用class来定义类，使用struct来定义结构体。都需要把它们放到一对大括号前面。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">class</span> <span class="n">SomeClass</span><span class="p">{</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">struct</span> <span class="n">SomeStruct</span><span class="p">{</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<pre><code>注意
+无论什么时候你定义一个类或结构体，你都在定义一个新的Swift类型。类型的名字使用首字母大写的驼峰风格来和Swift里标准类相匹配。反之，属性和方法的名字一般都用首字母小写的驼峰风格。
+</code></pre>
+
+<p>下面是一个结构体和类的定义。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">struct</span> <span class="n">Resolution</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">var</span> <span class="n">width</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>    <span class="n">var</span> <span class="n">height</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">class</span> <span class="n">VideoMode</span><span class="p">{</span>
+</span><span class='line'>    <span class="n">var</span> <span class="n">resolution</span> <span class="o">=</span> <span class="n">Resolution</span><span class="p">()</span>
+</span><span class='line'>    <span class="n">var</span> <span class="n">interlaced</span> <span class="o">=</span> <span class="nb">false</span>
+</span><span class='line'>    <span class="n">var</span> <span class="n">frameRate</span> <span class="o">=</span> <span class="mf">0.0</span>
+</span><span class='line'>    <span class="n">var</span> <span class="nl">name</span><span class="p">:</span> <span class="n">String</span><span class="o">?</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面的例子里定义了一个用来描述基于像素的Resolution结构体，有两个存储属性，宽和高。存储属性是和类或者结构体一起存储的常量或变量。他们的类型由初始值推断为Int。</p>
+
+<p>上面的例子还定义了一个叫VideoMode的类，来描述一个视频显示的特殊模式。这个类有四个存储属性。第一个，初始化为一个Resolution结构体，它的类型就是Resolution。其他三个分别是一个Bool，一个Double，一个optional的String。</p>
+
+<h6>类和结构体实例</h6>
+
+<p>上面的Resolution和VideoMode只是定义了他们长什么样子。他们自己并没有表示一个真正的分辨率或视频模式。你需要他们的实例来表示他们。</p>
+
+<p>创建实例的语法对于类和结构体是一样的。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="n">someResolution</span> <span class="o">=</span> <span class="n">Resolution</span><span class="p">()</span>
+</span><span class='line'><span class="n">let</span> <span class="n">someVideoMode</span> <span class="o">=</span> <span class="n">VideoMode</span><span class="p">()</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>结构体和类都是用初始化函数来来初始化实例。最简单就是类或实例的名字后面加上括弧。这样子一个新的类或结构体的实例就被创建了，他们的属性也会被初始化为默认值。</p>
+
+<h6>访问属性</h6>
+
+<p>你可以 . 来访问实例的属性。在点语法里，你把属性的名字紧跟着写在实例的名字的后面，用 . 来分割，没有空格。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">println</span><span class="p">(</span><span class="s">&quot;the width is \(someResolution.width)&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>你可以一直使用 . 来访问更深层次的属性：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">someVideoMode</span><span class="p">.</span><span class="n">resulotion</span><span class="p">.</span><span class="n">width</span> <span class="o">=</span> <span class="mi">1280</span>
+</span><span class='line'><span class="n">println</span><span class="p">(</span><span class="s">&quot;the width of videoMode is \(someVideo.resolution.width)&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<pre><code>注意
+和ObjC不一样，Swift允许你直接设置一个结构体属性的子属性（注：在ObjC里，没有办法直接设置，例如frame.size.height。）
+</code></pre>
+
+<h6>按成员初始化结构体的初始化函数</h6>
+
+<p>所有的机构体都一个自动生成的按成员来初始化的初始化函数。属性的初始化值可以做通过名字来传递给初始化函数。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="n">vga</span> <span class="o">=</span> <span class="n">Resolution</span><span class="p">(</span><span class="nl">width</span><span class="p">:</span> <span class="mi">640</span><span class="p">,</span> <span class="nl">height</span><span class="p">:</span> <span class="mi">480</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>类没有默认的按成员来初始化的初始化函数。</p>
+
+<h5>结构体和枚举是值类型</h5>
+
+<p>一个值类型是说这种类型在被赋值给常量或变量时，或是作为参数传递给一个函数时，它的值是被拷贝的。</p>
+
+<p>事实上，Swift所有的基础类型，整数，浮点数，布尔值，字符串，数组，字典都是值类型，底层都是由结构体实现的。</p>
+
+<p>所有的结构体和枚举都是值类型。这意味着任何的结构体，枚举实例，在传递时，都是被拷贝的。</p>
+
+<p>例如：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="n">hd</span> <span class="o">=</span> <span class="n">Resolution</span><span class="p">(</span><span class="nl">width</span><span class="p">:</span> <span class="mi">1920</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="mi">1080</span><span class="p">)</span>
+</span><span class='line'><span class="n">var</span> <span class="n">cinema</span> <span class="o">=</span> <span class="n">hd</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面的例子，定义了一个Resolution的实例hd，然后把它赋值给了cinema变量。因为Resolution是结构体，所以cinema是得到了一份hd的拷贝。</p>
+
+<p>如果我们修改cinema的属性，例如：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">cinema</span><span class="p">.</span><span class="n">width</span> <span class="o">=</span> <span class="mi">2048</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这时候，我们分别查看hd和cinema的width属性，就发现hd的width并没有变化。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">println</span><span class="p">(</span><span class="s">&quot;width of hd is \(hd.width)&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="n">println</span><span class="p">(</span><span class="s">&quot;width of cinema is \(cinema.width)&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>枚举也有着同样的行为。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">enum</span> <span class="n">CompassPoint</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">case</span> <span class="n">North</span><span class="p">,</span> <span class="n">South</span><span class="p">,</span> <span class="n">East</span><span class="p">,</span> <span class="n">West</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="n">var</span> <span class="n">currentDirection</span> <span class="o">=</span> <span class="n">CompassPoint</span><span class="p">.</span><span class="n">West</span>
+</span><span class='line'><span class="n">let</span> <span class="n">rememberedDirection</span> <span class="o">=</span> <span class="n">currentDirection</span>
+</span><span class='line'><span class="n">currentDirection</span> <span class="o">=</span> <span class="p">.</span><span class="n">East</span>
+</span><span class='line'><span class="k">if</span> <span class="n">rememberedDirection</span> <span class="o">==</span> <span class="p">.</span><span class="n">West</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">println</span><span class="p">(</span><span class="s">&quot;The remembered direction is still .West&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>类是引用类型</h5>
+
+<p>和值类型不一样，引用类型在被复制和作为参数传递时不会被拷贝，而是用了同一实例的一份引用。</p>
+
+<p>例如：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="n">tenEighty</span> <span class="o">=</span> <span class="n">VideoMode</span><span class="p">()</span>
+</span><span class='line'><span class="n">tenEighty</span><span class="p">.</span><span class="n">resolution</span> <span class="o">=</span> <span class="n">hd</span>
+</span><span class='line'><span class="n">tenEighty</span><span class="p">.</span><span class="n">interlaced</span> <span class="o">=</span> <span class="nb">true</span>
+</span><span class='line'><span class="n">tenEighty</span><span class="p">.</span><span class="n">name</span> <span class="o">=</span> <span class="s">&quot;1080i&quot;</span>
+</span><span class='line'><span class="n">tenEighty</span><span class="p">.</span><span class="n">frameRate</span> <span class="o">=</span> <span class="mf">25.0</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这个例子创建了一个VideoMode的实例tenEighty，并给它的属性做了赋值。下面</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="n">alsoTenEighty</span> <span class="o">=</span> <span class="n">tenEighty</span>
+</span><span class='line'><span class="n">alsoTenEighty</span><span class="p">.</span><span class="n">frameRate</span> <span class="o">=</span> <span class="mf">30.0</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这段代码把tenEighty赋值给了一个常量alsoTenEighty，并改变了frameRate属性。因为类是引用类型，所以，事实上他们只是引用了同一个实例。</p>
+
+<p>检查tenEighty的frameRate属性，会发现它的值将是30.0。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">println</span><span class="p">(</span><span class="s">&quot;the frame rate of tenEighty is \(tenEighty.frameRate)&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>注意，tenEighty和alsoTenEighty都是常量，但是你依然可以改变他们的属性，因为tenEighty和alsoTenEighty他们自己的值并没有改变，他们自己并没有存储VideoMode实例，相反他们存储的一个指向VideoMode实例的引用。所以，是这个VideoMode的实例的frameRate属性被改变了，而不是指向这个实例的常量引用（constant reference）。</p>
+
+<h6>Identity操作符</h6>
+
+<p>因为类是引用类型，所有有可能多个常量和变量引用到同一个类型。（结构体和枚举就不会出现这个问题）。</p>
+
+<p>有时候判断两个变量或常量是否准确的引用了同一个实例是很有用的，所以Swift提供了两个同一性操作符</p>
+
+<ul>
+<li><hr /></li>
+<li>!==</li>
+</ul>
+
+
+<p>用这个操作符来判断两个变量或常量是否引用了同一个实例。</p>
+
+<p>注意同一性操作符和相等操作符（两个=）不一样的。</p>
+
+<ul>
+<li>同一性是指两个变量或常量引用了同一个实例。</li>
+<li>相等是指两个实例被认为他们的值相等或是他们类型定义的某种相等</li>
+</ul>
+
+
+<p>当你定义自己的类和结构体时，你有责任给出两个实例相等的规则。</p>
+
+<h6>指针</h6>
+
+<p>如果你使用过C, C++, ObjC，你应该知道这些语言用指针来指向内存地址。在Swift里，一个常量或变量指向一个引用类型和指针是类似的，但是不是一个直接指向内存的指针，也不需要你使用 * 来表示你在使用引用。相反，这些引用和Swift其他常量和变量一样的。</p>
+
+<h5>在类和结构体之间选择</h5>
+
+<p>你可以选择使用类和结构体来实现的你的程序。</p>
+
+<p>然而，因为结构体是按值传递，类是按引用传递，这意味着他们适用于不同的场景。所以你需要考虑在哪些情况使用类，哪些使用结构体。</p>
+
+<p>一般来讲，如果有下面的情况，你该考虑使用结构体：</p>
+
+<ul>
+<li>这个结构体的主要目的就是封装一些简单的数据值</li>
+<li>你需要明确在传递时要拷贝数据而不是引用</li>
+<li>任何存储在结构体的属性也是值类型</li>
+<li>这个结构不需要从其他地方继承属性或方法</li>
+</ul>
+
+
+<p>例如，几何图形的大小，一个区间，一个三维空间的点，这些都很适合用结构体类定义。</p>
+
+<p>其他情况，一般来说都应该使用类来定义。</p>
+
+<h5>字符串，数组，字典的赋值和拷贝</h5>
+
+<p>Swift里，字符串，数组，字典都是值类型。用结构体实现。这意味着他们被赋值或传递给函数时是被拷贝的。</p>
+
+<p>这个行为和Foundation里的NSString，NSArray，NSDictionary是不一样的，他们由类实现。</p>
+
+<pre><code>注意
+上面的描述指的是字符串，数组，字典的拷贝。这种行为总是看上去拷贝发生了，然而，Swift只在需要真正拷贝的时候才会拷贝。Swift管理了所有的值拷贝来保证性能，所以你不需要考虑赋值带来的影响。
+</code></pre>
 ]]></content>
   </entry>
   

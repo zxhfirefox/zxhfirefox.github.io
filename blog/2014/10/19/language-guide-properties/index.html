@@ -1,0 +1,712 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Language Guide: Properties - zxhfirefox&#8217;s Blog</title>
+  <meta name="author" content="zxhfirefox">
+
+  
+  <meta name="description" content="属性把相关的值关联到类，结构体，或是枚举上面。存储的属性把值作为实例的一部分一起存储，然而计算的属性是计算一个值。计算的属性可以由类，结构体和枚举提供，但存储的属性只能有类和结构体提供。 存储和计算的属性通常和某个类型的实例相关。然而，属性可以直接和类型相关，这样的属性叫做类型属性。 另外， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://zxhfirefox.github.io/blog/2014/10/19/language-guide-properties">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="zxhfirefox's Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-55876830-1']);
+    _gaq.push(['_trackPageview']);
+    _gaq.push(['_setDomainName','github.io']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">zxhfirefox&#8217;s Blog</a></h1>
+  
+    <h2>A place to record some words.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:zxhfirefox.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/about">About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Language Guide: Properties</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-10-19T00:35:02+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>12:35 am</span></time>
+        
+      </p>
+    
+    
+    <h5>禁止用于商业用途，转载请注明出处</h5>
+    
+  </header>
+
+  
+    <div class="entry-content"><p>属性把相关的值关联到类，结构体，或是枚举上面。存储的属性把值作为实例的一部分一起存储，然而计算的属性是计算一个值。计算的属性可以由类，结构体和枚举提供，但存储的属性只能有类和结构体提供。</p>
+
+<p>存储和计算的属性通常和某个类型的实例相关。然而，属性可以直接和类型相关，这样的属性叫做类型属性。</p>
+
+<p>另外，你可以定义属性观察者来检测属性值的变化，然后触发自定义的操作。属性观察者可以添加给你自己定义的存储属性，和你从父类继承的属性。</p>
+
+<h5>存储属性</h5>
+
+<p>存储属性，最简单的形式，就是和一个特定类或结构体的实例一起存储的常量或变量。</p>
+
+<p>你可以给在定义属性时给它一个默认值。你可以在初始化函数里设置和改变它的初始值，即使是常量。</p>
+
+<p>下面的例子定义了一个FixedLengthRange的结构体，表示了一个区间，一旦创建，长度不能改变。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">struct</span> <span class="n">FixedLengthRange</span><span class="p">{</span>
+</span><span class='line'>  <span class="n">var</span> <span class="nl">firstValue</span><span class="p">:</span> <span class="n">Int</span>
+</span><span class='line'>  <span class="n">let</span> <span class="nl">length</span><span class="p">:</span> <span class="n">Int</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="n">var</span> <span class="n">rangeOfThree</span> <span class="o">=</span> <span class="n">FixedLengthRange</span><span class="p">(</span><span class="nl">firstVaule</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span> <span class="nl">length</span><span class="p">:</span><span class="mi">3</span><span class="p">)</span>
+</span><span class='line'><span class="n">rangeOfThree</span><span class="p">.</span><span class="n">firstValue</span> <span class="o">=</span> <span class="mi">6</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>FixedLengthRange的实例，有一个可变的存储属性firstValue，和一个常量存储属性length。在上面的例子里firstValue可以改变，但是length却不能。</p>
+
+<h6>常量结构体实例的存储变量</h6>
+
+<p>如果你把一个结构体的实例附值给一个常量，那么你就不能改变这个结构体的存储属性，即使这个属性是个变量。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="n">rangeOfFour</span> <span class="o">=</span> <span class="n">FixedLengthRange</span><span class="p">(</span><span class="nl">firstValue</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span> <span class="nl">length</span><span class="p">:</span><span class="mi">4</span><span class="p">)</span>
+</span><span class='line'><span class="n">rangeOfFour</span><span class="p">.</span><span class="n">firstValue</span> <span class="c1">// error!!!</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>因为rangeOfFour是个常量，所以不能修改firstValue，即使这个属性是变量。</p>
+
+<p>这种行为是因为结构体是值类型，当一个值类型的实例标记为常量，它的属性也是常量。</p>
+
+<p>这个对于类不是，因为类是引用类型，如果你把一个引用类型的实例附值给一个常量，你仍然可以修改这个实例的变量属性。</p>
+
+<h6>延迟的存储属性</h6>
+
+<p>一个延迟的存储属性是说它的初始值只有在第一次被使用的时候才会计算。你在需要标记为延迟的属性前面加lazy关键字。</p>
+
+<pre><code>注意
+如果一个属性是延迟的，那它必须是变量，因为他的初始值可能在初始化函数完成后依然没有被用到。而常量属性必须在初始化函数结束前有值，所以不能是lazy的。
+</code></pre>
+
+<p>如果一个属性的值取决于一些外界因素，而这些外界因素在初始化函数结束后依然不确定，这时候把属性标记为lazy就很有用了。另外，如果一个属性的计算非常复杂，所以就在不需要的时候不去计算，这样标记为lazy也很好。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">class</span> <span class="n">DataImporter</span><span class="p">{</span>
+</span><span class='line'>  <span class="n">var</span> <span class="n">filename</span> <span class="o">=</span> <span class="s">&quot;data.txt&quot;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">class</span> <span class="n">DataManager</span><span class="p">{</span>
+</span><span class='line'>  <span class="n">lazy</span> <span class="n">var</span> <span class="n">importer</span> <span class="o">=</span> <span class="n">DataImporter</span><span class="p">()</span>
+</span><span class='line'>  <span class="n">var</span> <span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">String</span><span class="p">]()</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="n">let</span> <span class="n">manager</span> <span class="o">=</span> <span class="n">DataManager</span><span class="p">()</span>
+</span><span class='line'><span class="n">manager</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="s">&quot;some data&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="n">manager</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="err">“</span><span class="n">some</span> <span class="n">more</span> <span class="n">data</span><span class="s">&quot;)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这个例子里，直到最后，manager的importer属性都没有值。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">println</span><span class="p">(</span><span class="n">manager</span><span class="p">.</span><span class="n">importer</span><span class="p">.</span><span class="n">filename</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这里，会初始化importer，并打印它的filename属性。</p>
+
+<h6>存储属性和成员变量</h6>
+
+<p>如果你熟悉ObjC，你应该直到有两种办法为一个类实例提供存储值或引用。除了属性，你还可以用成员变量作为属性的底层存储来存储值。</p>
+
+<p>Swift把这些概念统一为属性。一个Swift的属性没有对应的成员变量，而且属性的底层存储是无法访问的。这种方式避免了在不同的上下文如何访问值的困惑，也简化了属性的声明。关于属性的所有信息，包含名字，类型，内存管理，都在同一个地方。</p>
+
+<h5>计算属性</h5>
+
+<p>除了存储属性，类，结构体和枚举还可以定义计算属性，计算属性不会真实的存储值。相反，他们提供一个getter和一个可选的setter来间接的获取属性的值和修改其他属性的值。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">struct</span> <span class="n">Point</span><span class="p">{</span>
+</span><span class='line'>  <span class="n">var</span> <span class="n">x</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="mf">0.0</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">struct</span> <span class="n">Size</span> <span class="p">{</span>
+</span><span class='line'>  <span class="n">var</span> <span class="n">width</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="mf">0.0</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">struct</span> <span class="n">Rect</span> <span class="p">{</span>
+</span><span class='line'>  <span class="n">var</span> <span class="n">origin</span> <span class="o">=</span> <span class="n">Point</span><span class="p">()</span>
+</span><span class='line'>  <span class="n">var</span> <span class="n">size</span> <span class="o">=</span> <span class="n">Size</span><span class="p">()</span>
+</span><span class='line'>  <span class="n">var</span> <span class="nl">center</span><span class="p">:</span> <span class="n">Point</span> <span class="p">{</span>
+</span><span class='line'>      <span class="n">get</span> <span class="p">{</span>
+</span><span class='line'>           <span class="n">let</span> <span class="n">centerX</span> <span class="o">=</span> <span class="n">origin</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="p">(</span><span class="n">size</span><span class="p">.</span><span class="n">width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+</span><span class='line'>            <span class="n">let</span> <span class="n">centerY</span> <span class="o">=</span> <span class="n">origin</span><span class="p">.</span><span class="n">y</span> <span class="o">+</span> <span class="p">(</span><span class="n">size</span><span class="p">.</span><span class="n">height</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+</span><span class='line'>            <span class="k">return</span> <span class="n">Point</span><span class="p">(</span><span class="nl">x</span><span class="p">:</span> <span class="n">centerX</span><span class="p">,</span> <span class="nl">y</span><span class="p">:</span> <span class="n">centerY</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>      <span class="n">set</span><span class="p">(</span><span class="n">newCenter</span><span class="p">){</span>
+</span><span class='line'>          <span class="n">origin</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">newCenter</span><span class="p">.</span><span class="n">x</span> <span class="o">-</span> <span class="p">(</span><span class="n">size</span><span class="p">.</span><span class="n">width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+</span><span class='line'>          <span class="n">origin</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">newCenter</span><span class="p">.</span><span class="n">y</span> <span class="o">-</span> <span class="p">(</span><span class="n">size</span><span class="p">.</span><span class="n">height</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="n">var</span> <span class="n">square</span> <span class="o">=</span> <span class="n">Rect</span><span class="p">(</span><span class="nl">origin</span><span class="p">:</span> <span class="n">Point</span><span class="p">(</span><span class="nl">x</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span> <span class="nl">y</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">),</span>
+</span><span class='line'>    <span class="nl">size</span><span class="p">:</span> <span class="n">Size</span><span class="p">(</span><span class="nl">width</span><span class="p">:</span> <span class="mf">10.0</span><span class="p">,</span> <span class="nl">height</span><span class="p">:</span> <span class="mf">10.0</span><span class="p">))</span>
+</span><span class='line'><span class="n">let</span> <span class="n">initialSquareCenter</span> <span class="o">=</span> <span class="n">square</span><span class="p">.</span><span class="n">center</span>
+</span><span class='line'><span class="n">square</span><span class="p">.</span><span class="n">center</span> <span class="o">=</span> <span class="n">Point</span><span class="p">(</span><span class="nl">x</span><span class="p">:</span> <span class="mf">15.0</span><span class="p">,</span> <span class="nl">y</span><span class="p">:</span> <span class="mf">15.0</span><span class="p">)</span>
+</span><span class='line'><span class="n">println</span><span class="p">(</span><span class="s">&quot;square.origin is now at (\(square.origin.x), \(square.origin.y))&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面的例子定义了三个结构体来表示几何的一些概念。</p>
+
+<p>Point，Size，Rect。</p>
+
+<p>Rect还定义了一个计算属性center。一个矩形的中心，总是可以从原点和大小计算出来，所以也就不用为它再声明一个存储属性。</p>
+
+<p>上面的例子创建了一个Rect的实例square。square的属性center被访问时，结果是当时计算的；square的center被设置时，实际通过计算是修改了square的原点的值。</p>
+
+<h6>setter方法简写</h6>
+
+<p>如果一个计算属性没有给出新值的名字，那么会有一个默认的名字newValue可以使用。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">struct</span> <span class="n">AlternativeRect</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">var</span> <span class="n">origin</span> <span class="o">=</span> <span class="n">Point</span><span class="p">()</span>
+</span><span class='line'>    <span class="n">var</span> <span class="n">size</span> <span class="o">=</span> <span class="n">Size</span><span class="p">()</span>
+</span><span class='line'>    <span class="n">var</span> <span class="nl">center</span><span class="p">:</span> <span class="n">Point</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">get</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">let</span> <span class="n">centerX</span> <span class="o">=</span> <span class="n">origin</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="p">(</span><span class="n">size</span><span class="p">.</span><span class="n">width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+</span><span class='line'>            <span class="n">let</span> <span class="n">centerY</span> <span class="o">=</span> <span class="n">origin</span><span class="p">.</span><span class="n">y</span> <span class="o">+</span> <span class="p">(</span><span class="n">size</span><span class="p">.</span><span class="n">height</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+</span><span class='line'>            <span class="k">return</span> <span class="n">Point</span><span class="p">(</span><span class="nl">x</span><span class="p">:</span> <span class="n">centerX</span><span class="p">,</span> <span class="nl">y</span><span class="p">:</span> <span class="n">centerY</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="n">set</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">origin</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">newValue</span><span class="p">.</span><span class="n">x</span> <span class="o">-</span> <span class="p">(</span><span class="n">size</span><span class="p">.</span><span class="n">width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+</span><span class='line'>            <span class="n">origin</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">newValue</span><span class="p">.</span><span class="n">y</span> <span class="o">-</span> <span class="p">(</span><span class="n">size</span><span class="p">.</span><span class="n">height</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h6>只读的计算属性</h6>
+
+<p>如果计算属性，只有getter没有setter就叫做只读的计算属性。一个只读的计算属性总是返回值，但是不能被设置。</p>
+
+<pre><code>注意
+计算属性，必须是变量属性。let只能用于常量属性，这种属性一旦初始化结束后就无法改变。
+</code></pre>
+
+<p>把get关键字和大括号去掉就可以声明一个只读的属性。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">struct</span> <span class="n">Cuboid</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">var</span> <span class="n">width</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">depth</span> <span class="o">=</span> <span class="mf">0.0</span>
+</span><span class='line'>    <span class="n">var</span> <span class="nl">volume</span><span class="p">:</span> <span class="n">Double</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">width</span> <span class="o">*</span> <span class="n">height</span> <span class="o">*</span> <span class="n">depth</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="n">let</span> <span class="n">fourByFiveByTwo</span> <span class="o">=</span> <span class="n">Cuboid</span><span class="p">(</span><span class="nl">width</span><span class="p">:</span> <span class="mf">4.0</span><span class="p">,</span> <span class="nl">height</span><span class="p">:</span> <span class="mf">5.0</span><span class="p">,</span> <span class="nl">depth</span><span class="p">:</span> <span class="mf">2.0</span><span class="p">)</span>
+</span><span class='line'><span class="n">println</span><span class="p">(</span><span class="s">&quot;the volume of fourByFiveByTwo is \(fourByFiveByTwo.volume)&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>属性观察者</h5>
+
+<p>属性观察者观察和相应属性值的改变。属性观察者在每次值被设置的时候都会调用，即使新值和旧值是一样的。</p>
+
+<p>除了lazy的存储属性，可以给任何任何存储属性添加观察者。你也可以通过重写继承的属性，无论存储还是计算，添加观察者。</p>
+
+<pre><code>注意
+你不需要给非重写的计算属性添加观察者，因为你可以在setter方法里直接操作。
+</code></pre>
+
+<p>你可以给属性添加下面两个观察者：</p>
+
+<ul>
+<li>willSet，会在值被存储之前。</li>
+<li>didSet，会在值被存储之后。</li>
+</ul>
+
+
+<p>如果你实现了willSet，新值会做为一个常量参数传入，你可以给它一个名字或是使用默认的名字newValue。</p>
+
+<p>类似的，如果你实现了didSet，你会收到一个常量参数，是旧值。你可以给它一个名字，或是使用默认的oldValue。</p>
+
+<pre><code>注意
+willSet和didSet在初始化时并不会调用，只在其他情况下调用。
+</code></pre>
+
+<p>下面的例子：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">class</span> <span class="n">StepCounter</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">var</span> <span class="nl">totalSteps</span><span class="p">:</span> <span class="n">Int</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">willSet</span><span class="p">(</span><span class="n">newTotalSteps</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">println</span><span class="p">(</span><span class="s">&quot;About to set totalSteps to \(newTotalSteps)&quot;</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="n">didSet</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">if</span> <span class="n">totalSteps</span> <span class="o">&gt;</span> <span class="n">oldValue</span>  <span class="p">{</span>
+</span><span class='line'>                <span class="n">println</span><span class="p">(</span><span class="s">&quot;Added \(totalSteps - oldValue) steps&quot;</span><span class="p">)</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="n">let</span> <span class="n">stepCounter</span> <span class="o">=</span> <span class="n">StepCounter</span><span class="p">()</span>
+</span><span class='line'><span class="n">stepCounter</span><span class="p">.</span><span class="n">totalSteps</span> <span class="o">=</span> <span class="mi">200</span>
+</span><span class='line'><span class="c1">// About to set totalSteps to 200</span>
+</span><span class='line'><span class="c1">// Added 200 steps</span>
+</span><span class='line'><span class="n">stepCounter</span><span class="p">.</span><span class="n">totalSteps</span> <span class="o">=</span> <span class="mi">360</span>
+</span><span class='line'><span class="c1">// About to set totalSteps to 360</span>
+</span><span class='line'><span class="c1">// Added 160 steps</span>
+</span><span class='line'><span class="n">stepCounter</span><span class="p">.</span><span class="n">totalSteps</span> <span class="o">=</span> <span class="mi">896</span>
+</span><span class='line'><span class="c1">// About to set totalSteps to 896</span>
+</span><span class='line'><span class="c1">// Added 536 steps</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>类StepCounter声明了一个totalSteps属性，还有willSet和didSet观察者。</p>
+
+<p>例子里，willSet接收一个自定义的参数名newTotalSteps，而didSet用了默认的参数名oldValuew。</p>
+
+<pre><code>注意
+如果你在didSet里给属性自己附值，那么这个新的值将取代刚刚赋给的值。
+</code></pre>
+
+<h5>全局和局部变量</h5>
+
+<p>上面描述的关于计算和观察属性的能力对于全局和局部变量也使用。全局变量就是定义在任何函数，方法，闭包和类型上下文外部的变量。局部变量是定义在函数，方法和闭包上下文的变量。</p>
+
+<p>在此前的文章中，所有的全局和局部变量都是存储变量。存储变量和存储属性一样，提供一个特定类型的值的存储，并且可以获取和改变它。</p>
+
+<p>然而，你也可以定义计算变量和存储变量的观察者，无论在全局还是局部。计算变量不存储值，而是计算值。</p>
+
+<pre><code>注意
+全局变量和常量总是延迟计算的。和延迟存储属性一样。和延迟存储属性不一样，全局常量和变量不需要标示为lazy。局部变量和常量永远不会延迟计算。
+</code></pre>
+
+<h5>类型属性</h5>
+
+<p>实例属性是属于某一类型的实例的属性。每当一个新的实例被创建，它有自己的一套属性，和其他属性是分开的。</p>
+
+<p>你可以给类型本身定义属性。这样的属性永远都只会有一份，无论创建了多少个实例。这种属性叫做类型属性。</p>
+
+<p>类型属性用来定义一些对于所有实例都一样的值。例如一个所有实例都可以使用的常量（类似于C里的static常量）或一个对于所有实例相当于全局的一个变量（类似于C里的static变量）。</p>
+
+<p>对于值类型，（结构体和枚举），你可以定义存储和计算的类型属性。对于类，你只能定义计算的类型属性。</p>
+
+<p>值类型的存储属性可以是变量或常量。计算属性则永远是变量。</p>
+
+<pre><code>注意
+和存储的实例属性不一样，你必须给类型存储属性一个默认值。这是因为类型本身并没有初始化的时刻。
+</code></pre>
+
+<h6>类型属性语法</h6>
+
+<p>在C和ObjC里，用static来定义关联到一个类型的常量或变量作为全局静态变量。在Swift，类型属性作为类型定义的一部分，写在类型定义的大括号里，而且每个类型属性都限制在它的类型里。</p>
+
+<p>使用static为值类型定义类型属性，用class为类定义类型属性。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">struct</span> <span class="n">SomeStructure</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">static</span> <span class="n">var</span> <span class="n">storedTypeProperty</span> <span class="o">=</span> <span class="s">&quot;Some value.&quot;</span>
+</span><span class='line'>    <span class="k">static</span> <span class="n">var</span> <span class="nl">computedTypeProperty</span><span class="p">:</span> <span class="n">Int</span> <span class="p">{</span>
+</span><span class='line'>        <span class="c1">// return an Int value here</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">enum</span> <span class="n">SomeEnumeration</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">static</span> <span class="n">var</span> <span class="n">storedTypeProperty</span> <span class="o">=</span> <span class="s">&quot;Some value.&quot;</span>
+</span><span class='line'>    <span class="k">static</span> <span class="n">var</span> <span class="nl">computedTypeProperty</span><span class="p">:</span> <span class="n">Int</span> <span class="p">{</span>
+</span><span class='line'>        <span class="c1">// return an Int value here</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">class</span> <span class="n">SomeClass</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">class</span> <span class="n">var</span> <span class="nl">computedTypeProperty</span><span class="p">:</span> <span class="n">Int</span> <span class="p">{</span>
+</span><span class='line'>        <span class="c1">// return an Int value here</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<pre><code>注意
+上面例子的计算属性都是只读的，但是你可以定义可读可写的。
+</code></pre>
+
+<h6>访问或设置类型属性</h6>
+
+<p>类型属性也用点语法来访问，但是，是通过类型，而不是类型的实例。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">println</span><span class="p">(</span><span class="n">SomeClass</span><span class="p">.</span><span class="n">computedTypeProperty</span><span class="p">)</span>
+</span><span class='line'><span class="c1">// prints &quot;42&quot;</span>
+</span><span class='line'><span class="n">println</span><span class="p">(</span><span class="n">SomeStructure</span><span class="p">.</span><span class="n">storedTypeProperty</span><span class="p">)</span>
+</span><span class='line'><span class="c1">// prints &quot;Some value.&quot;</span>
+</span><span class='line'><span class="n">SomeStructure</span><span class="p">.</span><span class="n">storedTypeProperty</span> <span class="o">=</span> <span class="s">&quot;Another value.&quot;</span>
+</span><span class='line'><span class="n">println</span><span class="p">(</span><span class="n">SomeStructure</span><span class="p">.</span><span class="n">storedTypeProperty</span><span class="p">)</span>
+</span><span class='line'><span class="c1">// prints &quot;Another value.&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>下面的例子：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">struct</span> <span class="n">AudioChannel</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">static</span> <span class="n">let</span> <span class="n">thresholdLevel</span> <span class="o">=</span> <span class="mi">10</span>
+</span><span class='line'>    <span class="k">static</span> <span class="n">var</span> <span class="n">maxInputLevelForAllChannels</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>    <span class="n">var</span> <span class="nl">currentLevel</span><span class="p">:</span> <span class="n">Int</span> <span class="o">=</span> <span class="mi">0</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">didSet</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">if</span> <span class="n">currentLevel</span> <span class="o">&gt;</span> <span class="n">AudioChannel</span><span class="p">.</span><span class="n">thresholdLevel</span> <span class="p">{</span>
+</span><span class='line'>                <span class="c1">// cap the new audio level to the threshold level</span>
+</span><span class='line'>                <span class="n">currentLevel</span> <span class="o">=</span> <span class="n">AudioChannel</span><span class="p">.</span><span class="n">thresholdLevel</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>            <span class="k">if</span> <span class="n">currentLevel</span> <span class="o">&gt;</span> <span class="n">AudioChannel</span><span class="p">.</span><span class="n">maxInputLevelForAllChannels</span> <span class="p">{</span>
+</span><span class='line'>                <span class="c1">// store this as the new overall maximum input level</span>
+</span><span class='line'>                <span class="n">AudioChannel</span><span class="p">.</span><span class="n">maxInputLevelForAllChannels</span> <span class="o">=</span> <span class="n">currentLevel</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面的例子里，currentLevel是实例属性，而thresholdLevel是常量类型属性，maxInputLevelForAllChannels是变量类型属性。</p>
+
+<p>在currentLevel的didSet观察者里，使用类型属性做一些检查和判断。</p>
+
+<pre><code>注意
+上面第一个检查里，重新设置了currentLevel的值，这样并不会触发新的观察者调用。
+</code></pre>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">var</span> <span class="n">leftChannel</span> <span class="o">=</span> <span class="n">AudioChannel</span><span class="p">()</span>
+</span><span class='line'><span class="n">var</span> <span class="n">rightChannel</span> <span class="o">=</span> <span class="n">AudioChannel</span><span class="p">()</span>
+</span><span class='line'><span class="n">leftChannel</span><span class="p">.</span><span class="n">currentLevel</span> <span class="o">=</span> <span class="mi">7</span>
+</span><span class='line'><span class="n">println</span><span class="p">(</span><span class="n">leftChannel</span><span class="p">.</span><span class="n">currentLevel</span><span class="p">)</span>
+</span><span class='line'><span class="c1">// prints &quot;7&quot;</span>
+</span><span class='line'><span class="n">println</span><span class="p">(</span><span class="n">AudioChannel</span><span class="p">.</span><span class="n">maxInputLevelForAllChannels</span><span class="p">)</span>
+</span><span class='line'><span class="c1">// prints &quot;7&quot;</span>
+</span><span class='line'><span class="n">rightChannel</span><span class="p">.</span><span class="n">currentLevel</span> <span class="o">=</span> <span class="mi">11</span>
+</span><span class='line'><span class="n">println</span><span class="p">(</span><span class="n">rightChannel</span><span class="p">.</span><span class="n">currentLevel</span><span class="p">)</span>
+</span><span class='line'><span class="c1">// prints &quot;10&quot;</span>
+</span><span class='line'><span class="n">println</span><span class="p">(</span><span class="n">AudioChannel</span><span class="p">.</span><span class="n">maxInputLevelForAllChannels</span><span class="p">)</span>
+</span><span class='line'><span class="c1">// prints &quot;10&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+  
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">zxhfirefox</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2014-10-19T00:35:02+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>12:35 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/swift/'>swift</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/10/06/language-guide-f-classes-and-structures/" title="Previous Post: Language Guide: Classes and Structures">&laquo; Language Guide: Classes and Structures</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2014/10/19/language-guide-q-methods/" title="Next Post: Language Guide: Methods">Language Guide: Methods &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/10/19/language-guide-u-deinit/">Language Guide: Deinitialization</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/10/19/language-guide-t-init/">Language Guide: Initialization</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/10/19/language-guide-t-inheritance/">Language Guide: Inheritance</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/10/19/language-guide-subscript/">Language Guide: Subscripts</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/10/19/language-guide-q-methods/">Language Guide: Methods</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - zxhfirefox -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'zxhfirefoxblog';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://zxhfirefox.github.io/blog/2014/10/19/language-guide-properties/';
+        var disqus_url = 'http://zxhfirefox.github.io/blog/2014/10/19/language-guide-properties/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

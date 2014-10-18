@@ -3,6 +3,54 @@
   
   
   <url>
+    <loc>http://zxhfirefox.github.io/blog/2014/10/19/language-guide-u-deinit/</loc>
+    
+    <lastmod>2014-10-19T00:40:13+08:00</lastmod>
+    
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>http://zxhfirefox.github.io/blog/2014/10/19/language-guide-t-init/</loc>
+    
+    <lastmod>2014-10-19T00:39:16+08:00</lastmod>
+    
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>http://zxhfirefox.github.io/blog/2014/10/19/language-guide-t-inheritance/</loc>
+    
+    <lastmod>2014-10-19T00:38:17+08:00</lastmod>
+    
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>http://zxhfirefox.github.io/blog/2014/10/19/language-guide-subscript/</loc>
+    
+    <lastmod>2014-10-19T00:37:12+08:00</lastmod>
+    
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>http://zxhfirefox.github.io/blog/2014/10/19/language-guide-q-methods/</loc>
+    
+    <lastmod>2014-10-19T00:36:13+08:00</lastmod>
+    
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>http://zxhfirefox.github.io/blog/2014/10/19/language-guide-properties/</loc>
+    
+    <lastmod>2014-10-19T00:35:02+08:00</lastmod>
+    
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
     <loc>http://zxhfirefox.github.io/blog/2014/10/06/language-guide-f-classes-and-structures/</loc>
     
     <lastmod>2014-10-06T15:31:42+08:00</lastmod>
@@ -109,21 +157,21 @@
   
   <url>
     <loc>http://zxhfirefox.github.io/blog/archives/</loc>
-    <lastmod>2014-10-18T16:24:00+08:00</lastmod>
+    <lastmod>2014-10-19T00:41:46+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>http://zxhfirefox.github.io/</loc>
-    <lastmod>2014-10-18T16:24:00+08:00</lastmod>
+    <lastmod>2014-10-19T00:41:46+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   
   <url>
     <loc>http://zxhfirefox.github.io/about/</loc>
-    <lastmod>2014-10-18T16:24:00+08:00</lastmod>
+    <lastmod>2014-10-19T00:41:46+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: swift | zxhfirefox's Blog]]></title>
   <link href="http://zxhfirefox.github.io/blog/categories/swift/atom.xml" rel="self"/>
   <link href="http://zxhfirefox.github.io/"/>
-  <updated>2014-10-18T16:24:00+08:00</updated>
+  <updated>2014-10-19T00:41:46+08:00</updated>
   <id>http://zxhfirefox.github.io/</id>
   <author>
     <name><![CDATA[zxhfirefox]]></name>
@@ -14,956 +14,1335 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Language Guide: Classes and Structures]]></title>
-    <link href="http://zxhfirefox.github.io/blog/2014/10/06/language-guide-f-classes-and-structures/"/>
-    <updated>2014-10-06T15:31:42+08:00</updated>
-    <id>http://zxhfirefox.github.io/blog/2014/10/06/language-guide-f-classes-and-structures</id>
-    <content type="html"><![CDATA[
+    <title type="html"><![CDATA[Language Guide: Deinitialization]]></title>
+    <link href="http://zxhfirefox.github.io/blog/2014/10/19/language-guide-u-deinit/"/>
+    <updated>2014-10-19T00:40:13+08:00</updated>
+    <id>http://zxhfirefox.github.io/blog/2014/10/19/language-guide-u-deinit</id>
+    <content type="html"><![CDATA[<p>一个反初始化函数在类实例被销毁之前调用。我们用 deinit关键字来写反初始化函数。反初始化函数只有类类型有。</p>
+
+<h5>反初始化函数原理</h5>
+
+<p>Swift自动把不在使用的实例销毁，并释放资源。Swift使用ARC来做内存管理。一般来讲，我们不需要手动的释放资源。不过，如果我们自己处理了一些资源，我们可能就需要自己做一些清理工作。</p>
+
+<p>每个类，最多只有一个 deinit 方法。 没有任何参数。</p>
+
+<pre><code class="swift"> deinit {
+ }
+</code></pre>
+
+<p>反初始化函数自动在对象销毁前调用。你不能自己手动调用，父类的反初始化函数会被继承，而且在子类的实现末尾自动调用。即使子类不提供反初始化函数，父类的也会的调用。</p>
+
+<p>因为在销毁之前调用反初始化函数，所以在反初始化函数里，所偶的属性都还可以访问。</p>
+
+<h5>反初始化函数实战</h5>
+
+<pre><code class="swift">struct Bank {
+    static var coinsInBank = 10_000
+    static func vendCoins(var numberOfCoinsToVend: Int) -&gt; Int {
+        numberOfCoinsToVend = min(numberOfCoinsToVend, coinsInBank)
+        coinsInBank -= numberOfCoinsToVend
+        return numberOfCoinsToVend
+    }
+    static func receiveCoins(coins: Int) {
+        coinsInBank += coins
+    }
+}
+</code></pre>
+
+<pre><code class="swift">class Player {
+    var coinsInPurse: Int
+    init(coins: Int) {
+        coinsInPurse = Bank.vendCoins(coins)
+    }
+    func winCoins(coins: Int) {
+        coinsInPurse += Bank.vendCoins(coins)
+    }
+    deinit {
+        Bank.receiveCoins(coinsInPurse)
+    }
+}
+</code></pre>
+
+<pre><code class="swift">var playerOne: Player? = Player(coins: 100)
+println("A new player has joined the game with \(playerOne!.coinsInPurse) coins")
+// prints "A new player has joined the game with 100 coins"
+println("There are now \(Bank.coinsInBank) coins left in the bank")
+// prints "There are now 9900 coins left in the bank"
+</code></pre>
+
+<pre><code class="swift">playerOne!.winCoins(2_000)
+println("PlayerOne won 2000 coins &amp; now has \(playerOne!.coinsInPurse) coins")
+// prints "PlayerOne won 2000 coins &amp; now has 2100 coins"
+println("The bank now only has \(Bank.coinsInBank) coins left")
+// prints "The bank now only has 7900 coins left"
+</code></pre>
+
+<pre><code class="swift">playerOne = nil
+println("PlayerOne has left the game")
+// prints "PlayerOne has left the game"
+println("The bank now has \(Bank.coinsInBank) coins")
+// prints "The bank now has 10000 coins"
+</code></pre>
 ]]></content>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Language Guide: Enumerations]]></title>
-    <link href="http://zxhfirefox.github.io/blog/2014/10/06/language-guide-enumetations/"/>
-    <updated>2014-10-06T14:42:46+08:00</updated>
-    <id>http://zxhfirefox.github.io/blog/2014/10/06/language-guide-enumetations</id>
-    <content type="html"><![CDATA[<p>枚举是给一系列相关的值定义一个通用的类型，让你在使用这些值的时候可以保证类型安全。</p>
+    <title type="html"><![CDATA[Language Guide: Initialization]]></title>
+    <link href="http://zxhfirefox.github.io/blog/2014/10/19/language-guide-t-init/"/>
+    <updated>2014-10-19T00:39:16+08:00</updated>
+    <id>http://zxhfirefox.github.io/blog/2014/10/19/language-guide-t-init</id>
+    <content type="html"><![CDATA[<p>初始化是让一个类，结构体，枚举的实例变的可用的过程。这个过程包含了把实例上的每一个存储属性都给与一个初始值，还有任何的确保在实例可以被使用前需要做的工作。</p>
 
-<p>如果你熟悉C，你应该知道C里的枚举是把一些有意义的名字附值给一系列整数。Swift里的枚举更加灵活，你不需要为每一个成员都定义一个值。如果枚举成员有对应的值（raw值），这个值可以是整数，字符串，字符，或是浮点数。（注：没有关联值的枚举是Hashable的）</p>
+<p>我们使用初始化函数来做初始化，初始化函数是一种特殊的函数，在实例被创建时，它会被调用。和ObjC的初始化函数不同，Swift的初始化函数不返回值。他们的主要目的就是确保这个新的实例在被使用之前正确的初始化。</p>
 
-<p>另外，枚举成员可以给出任何类型的关联值。更像其他语言里的unions和variants。你可以把相关成员的通用集合定义为枚举的一部分，每一部分又可以和不同类型的关联值关联到一起。</p>
+<p>类类型的实例也可以实现反初始化函数，它在实例被销毁时可以用来做任何的清理工作。</p>
 
-<p>在Swift里，枚举是头等成员。它又有许多成员是以前只有类才有的特性，例如，用来更好给出枚举当前值的计算属性，和枚举值相关的成员函数。枚举还可以定义初始化函数来给出枚举初始值，也可以被扩展来增加原来没有的功能，还能够实现协议。</p>
+<h5>为存储属性设置初始值</h5>
 
-<!--more-->
+<p>类和结构体必须在实例被使用前为所有的存储属性设置初始值。存储属性不能处于未决定的状态。</p>
 
+<p>我们可以在初始化函数给存储属性初始值，也可以在定义属性时给出初始值。</p>
 
-<h5>枚举语法</h5>
+<pre><code>注意
+在初始化函数里给属性附值和定义属性时给出初始值，都不会触发属性观察者
+</code></pre>
 
-<p>用enum关键字定义枚举。</p>
+<h6>初始化函数</h6>
 
-<pre><code class="swift">enum SomeEnumeration {
+<p>初始化函数在创建一个类型的实例后被调用，一个最简单的初始化函数就像一个实例方法，没有参数，函数名是 init 关键字。</p>
+
+<pre><code class="swift">init(){
 }
 </code></pre>
 
 <p>例如：</p>
 
-<pre><code class="swift">enum CompassPoint {
-    case North
-    case South
-    case East
-    case West
+<pre><code class="swift">struct Fahrenheit {
+    var temperature: Double
+    init() {
+        temperature = 32.0
+    }
 }
+var f = Fahrenheit()
+println("The default temperature is \(f.temperature)° Fahrenheit")
 </code></pre>
 
-<p>定义在枚举里的值（North&hellip;)叫做枚举成员值（或成员）。case关键字用来标示新的成员。</p>
+<h6>默认属性值</h6>
+
+<p>我们可以像上面的例子里那样在初始化函数里设置属性初始值。也可以在属性定义时给出初始值。</p>
 
 <pre><code>注意
-和C,ObjC不一样，Swift的枚举成员并没有默认的和整数相关联。
+如果一个属性总是有着同样的初始值，我们应该在属性定义时给出初始值，而不是在初始化函数里给出。
 </code></pre>
 
-<p>多个枚举值可以写在同一行，用逗号隔开。</p>
+<p>我们把上面的例子可以改写为：</p>
 
-<pre><code class="swift">enum Planet{
-    case Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, Neptune
+<pre><code class="swift">struct Fahrenheit {
+    var temperature = 32.0
 }
 </code></pre>
 
-<p>每个枚举都定义了一个新的类型。和其他类型一样，都应该由大写字母开头。用单数不要用复数。</p>
+<h5>自定义初始化</h5>
 
-<pre><code class="swift">var direction = CompassPoint.West
+<p>我们可以通过给出输入参数，或optional的属性类型，或是在初始化时改变常量属性来自定义初始化过程。</p>
+
+<h6>初始化参数</h6>
+
+<p>我们可以给初始化函数定义参数，初始化参数的能力和函数，方法的一样。</p>
+
+<pre><code class="swift">struct Celsius {
+    var temperatureInCelsius: Double
+    init(fromFahrenheit fahrenheit: Double) {
+        temperatureInCelsius = (fahrenheit - 32.0) / 1.8
+    }
+    init(fromKelvin kelvin: Double) {
+        temperatureInCelsius = kelvin - 273.15
+    }
+}
+let boilingPointOfWater = Celsius(fromFahrenheit: 212.0)
+// boilingPointOfWater.temperatureInCelsius is 100.0
+let freezingPointOfWater = Celsius(fromKelvin: 273.15)
+// freezingPointOfWater.temperatureInCelsius is 0.0
 </code></pre>
 
-<p>上面direction的类型被推断为CompassPoint。在此之后，你可以直接用 . 来更新它的值。</p>
+<p>上面的例子里，两个初始化函数接受不同的温度值，分别转换到Celsius温度。</p>
 
-<pre><code class="swift">direction = .East
+<h6>本地和外部参数名</h6>
+
+<p>和函数，方法一样，初始化参数也可以本地参数名和外部参数名。</p>
+
+<p>然而，初始化函数并不像函数和方法一样，有一个函数名。因此，参数的名字和类型将决定哪一个初始化函数被调用。因此，如果我们不给出外部参数名子，Swift会默认给每一个参数一个外部名字。这个外部名字和本地名字一样，就好像你给每个参数都写 # 一样。</p>
+
+<pre><code class="swift">struct Color {
+    let red, green, blue: Double
+    init(red: Double, green: Double, blue: Double) {
+        self.red   = red
+        self.green = green
+        self.blue  = blue
+    }
+    init(white: Double) {
+        red   = white
+        green = white
+        blue  = white
+    }
+}
+let magenta = Color(red: 1.0, green: 0.0, blue: 1.0)
+let halfGray = Color(white: 0.5)
 </code></pre>
 
-<p>因为它的类型已经知道了，所以你不用再写出它的类型。</p>
+<p>注意，我们无法不给外部参数名字来调用初始化函数，即使我们可以通过参数个数来确定使用哪个初始化函数。</p>
 
-<h5>用switch语句来匹配枚举值</h5>
+<pre><code class="swift">let veryGreen = Color(0.0, 1.0, 0.0)
+// this reports a compile-time error - external names are required
+</code></pre>
 
-<pre><code class="swift">direction = .South
-switch direction {
-case .North:
-    println("Lots of planets have a north")
-case .South:
-    println("Watch out for penguins")
-case .East:
-    println("Where the sun rises")
-case .West:
-    println("Where the skies are blue")
+<h6>没有外部名字的初始化参数</h6>
+
+<p>如果你真的不像给出初始化参数的外部名字， 使用 _ 来作为外部参数名字给出。</p>
+
+<pre><code class="swift">struct Celsius {
+    var temperatureInCelsius: Double
+    init(fromFahrenheit fahrenheit: Double) {
+        temperatureInCelsius = (fahrenheit - 32.0) / 1.8
+    }
+    init(fromKelvin kelvin: Double) {
+        temperatureInCelsius = kelvin - 273.15
+    }
+    init(_ celsius: Double) {
+        temperatureInCelsius = celsius
+    }
+}
+let bodyTemperature = Celsius(37.0)
+// bodyTemperature.temperatureInCelsius is 37.0
+</code></pre>
+
+<p>因为外部参数名字是 _ ，所以可以直接调用，而不给出参数名字。</p>
+
+<h6>optional的属性类型</h6>
+
+<p>如果我们自定义的类型有一个存储属性在逻辑上可能没有值，或许因为它的值在初始化时还不能确定，或许因为它在某些时刻允许没有值，我们把它声明为optional的属性。optional的属性默认被初始化为 nil，表明这个属性在初始化时没有值。</p>
+
+<pre><code class="swift">class SurveyQuestion {
+    var text: String
+    var response: String?
+    init(text: String) {
+        self.text = text
+    }
+    func ask() {
+        println(text)
+    }
+}
+let cheeseQuestion = SurveyQuestion(text: "Do you like cheese?")
+cheeseQuestion.ask()
+// prints "Do you like cheese?"
+cheeseQuestion.response = "Yes, I do like cheese."
+</code></pre>
+
+<p>上面的例子里，response是一个optional的字符串。</p>
+
+<h6>在初始化阶段修改常量属性的值</h6>
+
+<p>我们可以再初始化阶段修改一个常量属性的值，只要在初始化结束之前给它一个值。</p>
+
+<pre><code>注意
+对于类实例，一个常量属性只能在定义属性的类的初始化过程里被修改，而不能在子类里被修改。
+</code></pre>
+
+<pre><code class="swift">class SurveyQuestion {
+    let text: String
+    var response: String?
+    init(text: String) {
+        self.text = text
+    }
+    func ask() {
+        println(text)
+    }
+}
+let beetsQuestion = SurveyQuestion(text: "How about beets?")
+beetsQuestion.ask()
+// prints "How about beets?"
+beetsQuestion.response = "I also like beets. (But not with cheese.)"
+</code></pre>
+
+<p>我们text属性改为常量，来表示问题并会改变。虽然他是常量，但是初始化过程中还是可以被改变。</p>
+
+<h5>默认初始化函数</h5>
+
+<p>对于任意的结构体或基类，当他们的所有属性都一个默认值，并且没有给出任何初始化函数的时候，Swift给出一个默认初始化函数。这个初始化函数就是简单的把所有的默认值附值给属性。</p>
+
+<pre><code class="swift">class ShoppingListItem {
+    var name: String?
+    var quantity = 1
+    var purchased = false
+}
+var item = ShoppingListItem()
+</code></pre>
+
+<p>因为ShoppingListItem的所有属性都有默认值，而且他还没有基类，也没给出自己的初始化函数，Swift会为它提供一个默认的初始化函数。</p>
+
+<h6>结构体类型的按成员的初始化函数</h6>
+
+<p>结构体对象如果没有给出自己的初始化函数，将得到一个默认的按成员初始化的初始化函数。即使有些属性并没有给出默认值。</p>
+
+<p>按成员初始化的初始化函数是一种初始化结构体的一种简写，初始值根据名字传递给初始化函数。</p>
+
+<pre><code class="swift">struct Size {
+    var width = 0.0, height = 0.0
+}
+let twoByTwo = Size(width: 2.0, height: 2.0)
+</code></pre>
+
+<h5>值类型的初始化代理</h5>
+
+<p>初始化函数可以调用其他初始化函数来执行初始化过程，这种方式叫做初始化代理，可以避免重复代码。</p>
+
+<p>初始化代理如果工作，那种形式的代理是可以的，在值类型和类类型是不一样的。值类型，不支持继承，所以他们的初始化代理比较简单，因为他们只能把初始化代理给其他的由他们自己提供的初始化函数。然而，类，可以从其他类继承。这就意味着类有着额外的责任来确保他们继承的属性也被初始化。</p>
+
+<p>对于值类型，self.init 来引用其他的初始化函数， self.init只能在一个初始化函数里被调用。</p>
+
+<p>如果我们给值类型定义了自定义的初始化函数，那么我们就无法再访问默认的初始化函数。这个限制是为了防止我们有额外的初始化步骤，而有时候不小心使用了默认的初始化函数来初始化了实例。</p>
+
+<pre><code>注意
+如果我们希望使用默认的初始化函数，还想定义自定义的初始化函数，我们可以把自定义的初始化函数写在扩展里。
+</code></pre>
+
+<pre><code class="swift">struct Size {
+    var width = 0.0, height = 0.0
+}
+struct Point {
+    var x = 0.0, y = 0.0
+}
+struct Rect {
+    var origin = Point()
+    var size = Size()
+    init() {}
+    init(origin: Point, size: Size) {
+        self.origin = origin
+        self.size = size
+    }
+    init(center: Point, size: Size) {
+        let originX = center.x - (size.width / 2)
+        let originY = center.y - (size.height / 2)
+        self.init(origin: Point(x: originX, y: originY), size: size)
+    }
 }
 </code></pre>
 
-<p>在流程控制里，我们提到switch语句必须是穷举的。如果上面我们没有写.West的case，这段代码就无法编译。穷举保证了枚举值不会被忽略。</p>
+<p>第一个init，就相当于默认初始化函数。
+第二个init，相当于按成员来初始化的初始化函数。
+第三个init，是我们自己的，相对复杂的初始化函数。</p>
 
-<p>如果不适合给每个枚举值都写case，可以使用default来做。</p>
+<pre><code class="swift">let basicRect = Rect()
+// basicRect's origin is (0.0, 0.0) and its size is (0.0, 0.0)
+let originRect = Rect(origin: Point(x: 2.0, y: 2.0),
+    size: Size(width: 5.0, height: 5.0))
+// originRect's origin is (2.0, 2.0) and its size is (5.0, 5.0)
+let centerRect = Rect(center: Point(x: 4.0, y: 4.0),
+    size: Size(width: 3.0, height: 3.0))
+// centerRect's origin is (2.5, 2.5) and its size is (3.0, 3.0)
+</code></pre>
 
-<pre><code class="swift">let somePlanet = Planet.Earth
-switch somePlanet {
-case .Earth:
-    println("Mostly harmless")
-default:
-    println("Not a safe place for humans")
+<h5>类继承和初始化</h5>
+
+<p>一个类的所有的存储属性，包括任何继承的属性，都必须在初始化过程中被初始化。</p>
+
+<p>Swift定义了两种初始化函数来简化并确保所有的属性都被初始化，叫做指定初始化函数和便利初始化函数。</p>
+
+<h6>指定初始化函数和便利初始化函数</h6>
+
+<p>指定初始化函数是一个类的基本初始化函数。一个指定初始化函数初始化一个类所有属性，并且调用父类的初始化函数来完成初始化过程。</p>
+
+<p>类应该只有很少的指定初始化函数，很多情况下只有一个。指定初始化函数是初始化过程的&#8221;漏斗&#8221;位置，经过它来进入父类的初始化链。</p>
+
+<p>每个类至少有一个指定初始化函数。有些时候，这个是从父类继承了一个或多个指定初始化函数。</p>
+
+<p>便利初始化函数是辅助的初始化函数。我们可以定一个便利初始化函数来调用同一个类的指定初始化函数，并给它一些属性的默认值。我们也可以定义便利初始化函数来给一个实例某些特殊的值。</p>
+
+<p>如果我们不需要，我们可以不给出任何的便利初始化函数。当我们需要时，我们定义便利初始化函数来明确和简化我们的代码。</p>
+
+<h6>语法</h6>
+
+<p>指定初始化函数和值类型的普通初始化函数语法一样</p>
+
+<pre><code class="swift">init( [parameters]){
+    [statements]
 }
 </code></pre>
 
-<h5>关联值（associated value）</h5>
+<p>便利初始化函数写法基本一致，但是需要用 convenience 来标示出来。</p>
 
-<p>上面的例子里，枚举值都是使用他们自己作为值。但是有时候，你如果能够给枚举值关联一些其他类型的值会很有用。这将让你可以存储额外的信息到每个枚举值，并使他们在用的时候可以变化。</p>
-
-<p>你可以给枚举值定义任何类型的关联值，而且同一个枚举下不同枚举值可以有不同类型的关联值。像这样子的枚举在其他语言里，可能叫discriminated unions，tagged unions，或variants。</p>
-
-<p>例如，一个库存管理系统，需要记录两种不同的条码，有些商品用的UPC-A的1维条码，只用到了0-9这些数字，每一个条码都有一个数字系统号，然后5个制造商号，5个产品号和一个校检号。另外一个些商品使用二维码来标示，可以使用IOS 8859-1的任何字符，可以编码一个长度达2953的字符串。</p>
-
-<p>如果我们可以把UPC-A条码表示为4个整数，二维码表示为一个字符串将会很方便。</p>
-
-<p>在Swift里，定义如下：</p>
-
-<pre><code class="swift">enum Barcode {
-    case UPCA(Int,Int,Int,Int)
-    case QRCode(String)
+<pre><code class="swift">convenience init([parameters]) {
+    [statements]
 }
 </code></pre>
 
-<p>这段代码理解为，定义一个枚举类型，叫Barcode，它要么是一个关联了4个整数的UPCA值，要么是一个关联了一个字符串的QRCode值。</p>
+<p>注：  []并不是数组。</p>
 
-<p>这个定义只是定义了类型，并没有给出真实的值。任何Barcode类型的常量或变量都可以存储Barcode.UPCA或Barcode.QRCode。</p>
+<h6>类类型的初始化代理</h6>
 
-<p>新的barcode可以用任何一个case来创建。</p>
+<p>为了简化指定初始化函数和便利初始化函数之间的关系，Swift使用下面3条规则。</p>
 
-<pre><code class="swift">var code = Barcode.UPCA(8,85909,51226,3)
+<ol>
+<li>一个指定的初始化函数必须调用它的直接父类的一个指定初始化函数。</li>
+<li>一个便利的初始化函数必须调用它自己同一个类的另一个初始化函数。</li>
+<li>一个便利的初始化函数必须最终调用一个指定的初始化函数。</li>
+</ol>
+
+
+<p>简单来讲就是：</p>
+
+<ul>
+<li>指定的初始化函数需要向上代理</li>
+<li>便利的初始化函数必须横向代理</li>
+</ul>
+
+
+<p>注： 有两张图片比较清楚对这一概念给出例子。</p>
+
+<h6>两步初始化</h6>
+
+<p>在Swift的类初始化里，有两步，第一步，每一个由定义这个属性类给出的存储属性被初始化。第二步，每一个类都可以进一步的修改这些属性来使得实例可用。</p>
+
+<p>这种方式可以确保初始化安全，并且仍然提供了在类继承里完整的灵活度。两步初始化防止了某些属性在被初始化之前就被使用了，也防止了某个属性被其他的初始化函数修改。</p>
+
+<pre><code>注意
+Swift的两步初始化和ObjC的很相似，主要区别在于第一步里，ObjC会把0或nil附值给每个属性，而Swift更灵活的可以把自定义的初始值附值给属性。
 </code></pre>
 
-<p>同一个产品可以被赋给不同的枚举值。</p>
+<p>Swift编译器会做4种检查来确保两步初始化没有错误。</p>
 
-<pre><code class="swift">code = .QRCode("ABCDEFGHIJKLMNOP")
+<ol>
+<li>一个指定的初始化函数必须确保在调用父类初始化之前，自己的所有属性都被初始化。</li>
+<li>一个指定的初始化函数在给继承的属性附值之前，必须调用父类的初始化函数。</li>
+<li>一个便利初始化函数必须在给属性附值之前调用另外的初始化函数，如果不这样，这个属性的值会被覆盖。</li>
+<li>一个初始化函数在第一步完成之前，不能调用任何的实例方法，不能读取任何属性，也不能把self作为值来引用。</li>
+</ol>
+
+
+<p>一个实例在第一步结束之前都不算完整初始化，而方法，属性只有在第一步结束后才能访问。</p>
+
+<p>下面就是两步初始化如何进行的：</p>
+
+<p>第一步：</p>
+
+<ul>
+<li>一个指定的或便利的初始化函数被调用。</li>
+<li>这个实例的内存被分配，但没有初始化。</li>
+<li>一个指定的初始化确保所有的由当前类引进的属性被初始化。</li>
+<li>这个指定的初始化函数向上代理调用父类的初始化函数，让父类进行初始化。</li>
+<li>这一步骤一直进行直到没有父类。</li>
+<li>直到继承链的顶端，最后的父类把自己的属性都初始化完毕之后，那么这个实例的内存就被初始化完毕。第一阶段结束。</li>
+</ul>
+
+
+<p>第二步：</p>
+
+<ul>
+<li>从继承链顶端往下，每个指定的初始化函数可以自定义属性的值。这时候，初始化函数可以访问 self，也可以修改属性值，调用方法等等。</li>
+<li>最终，任何的便利方法可以修改属性的值以及使用self。</li>
+</ul>
+
+
+<h6>初始化函数继承和重写</h6>
+
+<p>和ObjC不同，Swift子类默认不继承他们父类的初始化函数。这样可以避免，如果子类从父类继承了一个简单的初始化函数，而是得子类的实例没有完全初始化。</p>
+
+<pre><code>注意
+父类的初始化函数只在特定情况下被继承了，需要确保安全。
 </code></pre>
 
-<p>Barcode类型的常量或变量可以存储UPCA和QRCode任意一种，但是在任何时间都只能是一种。</p>
+<p>如果你想给一个子类加一个和父类一样的初始化函数，你可以在子类重新给出实现。</p>
 
-<p>barcode的值也可以通过switch来区分，不过，这次，关联值可以被拆解出来作为switch语句的一部分。</p>
+<p>如果你在子类写了一个和父类的指定的初始化函数一样的初始化函数，你实际上是重写了那个初始化函数，所以你必须加上 override 。即便你是重写了一个自动提供的默认初始化函数，也要写override。</p>
 
-<pre><code class="swift">switch productBarcode {
-case let .UPCA(numberSystem, manufacturer, product, check):
-    println("UPC-A: \(numberSystem), \(manufacturer), \(product), \(check).")
-case let .QRCode(productCode):
-    println("QR code: \(productCode).")
+<p>和重写属性，方法，角标一样，override会使得编译器去检查是否和父类相匹配。</p>
+
+<pre><code>注意
+你应该在重写父类的指定的初始化函数时总是写上 override，即使你子类的实现是一个便利的初始化函数。
+</code></pre>
+
+<p>相反的，如果你重写的初始化函数和父类的一个便利初始化函数想匹配，那父类的便利初始化函数就永远不能在你的子类里被直接调用。因此，子类其实严格来说并没有重写父类的初始化函数，所以你可以不写 override。</p>
+
+<pre><code class="swift">class Vehicle {
+    var numberOfWheels = 0
+    var description: String {
+        return "\(numberOfWheels) wheel(s)"
+    }
 }
 </code></pre>
 
-<p>注：这里我们也可以在多写一些分支加上where语句。</p>
+<p>上面的例子，Vehicle给出了属性的默认值，也没有自定义初始化函数，也么有父类，那么它由一个默认的初始化函数。</p>
 
-<h6>原始值（raw value）</h6>
+<pre><code class="swift">let vehicle = Vehicle()
+println("Vehicle: \(vehicle.description)")
+// Vehicle: 0 wheel(s)
+</code></pre>
 
-<p>除了上面说的关联值，作为另外一种方式，枚举可以有原始值，他们必须是同一类型的。</p>
+<p>我们定义一个子类</p>
 
-<pre><code class="swift">enum ASCIIControlCharacter : Character {
-    case Tab = "\t"
-    case LineFeed = "\n"
-    case CarriageReturn = "\r"
+<pre><code class="swift">class Bicycle: Vehicle {
+    override init() {
+        super.init()
+        numberOfWheels = 2
+    }
 }
 </code></pre>
 
-<p>这里ASCIIControlCharacter的原始值的类型是Character。</p>
+<p>Bicycle定义了一个指定的初始化函数，这个初始化函数和父类的一个指定的初始化函数匹配，所以Bicycle的初始化函数被标记为 override。</p>
 
-<p>注意原始值和关联值是不一样的。原始值在你定义枚举时就已经给出了。对于某一个枚举成员，原始值是固定不变的。关联值是你在给一个常量或变量赋值时才给出，而且每次都可以不一样。</p>
+<p>Bicycle的init，调用了父类的init。然后修改了numberOfWheels的值。</p>
 
-<p>原始值可以是字符串，字符，整数或浮点数。每一个原始值在枚举定义时必须唯一。如果是整数，会自动递增。</p>
+<pre><code>注意
+子类可以在初始化时修改继承属性的值，但是只能修改变量属性，而不能修改常量属性。
+</code></pre>
 
-<pre><code class="swift">enum Planet: Int {
-    case Mercury = 1, Venus, Earth, Mars, Jupiter, Saturn, Uranus, Neptune
+<h6>自动的初始化函数继承</h6>
+
+<p>如上所述，子类默认不能从父类继承初始化函数。然而，如果特定情况满足，父类的初始化函数自动被继承。在实际使用中，这意味着你不需要大量的重写父类的初始化函数，而是可以从父类中安全的继承初始化函数。</p>
+
+<p>假设我们在子类里给新加的属性提供默认值，下面两条规则会使用</p>
+
+<ol>
+<li>如果子类没有定义任何的制定的初始化函数，它会自动从父类继承所有的指定的初始化函数。</li>
+<li>如果子类提供了父类的所有的指定的初始化函数的实现，不管是通过 1 还是自己给出实现，它都会自动继承所有的便利初始化函数。</li>
+</ol>
+
+
+<p>这2条规则，即使子类有自定义的便利初始化函数也一样适用。</p>
+
+<pre><code>注意
+一个子类可以把一个父类的指定初始化函数实现为一个子类的一个便利初始化函数来满足规则2.
+</code></pre>
+
+<h6>指定初始化函数和便利初始化函数实战</h6>
+
+<p>下面的例子给出指定初始化函数，便利初始化函数，自动继承的初始化函数。</p>
+
+<p>基类：</p>
+
+<pre><code class="swift">class Food {
+    var name: String
+    init(name: String) {
+        self.name = name
+    }
+    convenience init() {
+        self.init(name: "[Unnamed]")
+    }
 }
 </code></pre>
 
-<p>上面重新定义了Planet枚举，它的原始值是整数，第一个从1开始，后面的依次递增。</p>
+<p>Food定义了一个属性name。一个指定的初始化函数，一个便利的初始化函数，没有默认的初始化函数。</p>
 
-<p>使用 toRaw 来访问枚举的原始值。</p>
+<p>子类：</p>
 
-<pre><code class="swift">let earthIndex = Planet.Earth.toRaw() //earthIndex is 3 and is an Int.
+<pre><code class="swift">class RecipeIngredient: Food {
+    var quantity: Int
+    init(name: String, quantity: Int) {
+        self.quantity = quantity
+        super.init(name: name)
+    }
+    override convenience init(name: String) {
+        self.init(name: name, quantity: 1)
+    }
+}
 </code></pre>
 
-<p>用 fromRaw 来尝试把一个值作为原始值转换到枚举值。</p>
+<p>RecipeIngredient定义了一个自己的指定的初始化函数，接受name和quantity参数。自己先把自己的quantity初始化，然后调用super来初始化父类。</p>
 
-<pre><code class="swift">let possiblePlanet = Planet.fromRaw(7) //possiblePlanet的类型是 Planet?。
+<p>RecipeIngredient它还定义了一个便利的初始化函数，接受name参数，因为这个初始化函数和父类的一个指定初始化函数相匹配，所以需要加上 override关键字。</p>
+
+<p>尽管RecipeIngredient把父类的一个指定初始化函数重写为便利初始化函数，它也是实现了所有父类的指定初始化函数，所以它还继承了父类的所有便利初始化函数。因为RecipeIngredient的父类是Food，只有一个便利初始化函数，如果我们在RecipeIngredient调用这个初始化函数，会代理到RecipeIngredient，而不是Food。</p>
+
+<pre><code class="swift">let oneMysteryItem = RecipeIngredient()
+let oneBacon = RecipeIngredient(name: "Bacon")
+let sixEggs = RecipeIngredient(name: "Eggs", quantity: 6)
 </code></pre>
 
-<p>因为不是所有的整数都能转换到这个枚举值，所以 fromRaw返回的是一个optional。如果你给出的值无法转换到枚举，那么 fromRaw返回的就是nil。</p>
+<p>第三个类：</p>
+
+<pre><code class="swift">class ShoppingListItem: RecipeIngredient {
+    var purchased = false
+    var description: String {
+        var output = "\(quantity) x \(name)"
+        output += purchased ? " ✔" : " ✘"
+        return output
+    }
+}
+</code></pre>
+
+<pre><code>注意
+ShoppingListItem没有提供初始化函数来初始化purchased，因为东西从开始都是未购买的。
+</code></pre>
+
+<p>因为ShoppingListItem的属性都有默认值而且没有定义任何的初始化函数，那么它继承了所有的指定初始化函数和便利初始化函数。</p>
+
+<pre><code class="swift">var breakfastList = [
+    ShoppingListItem(),
+    ShoppingListItem(name: "Bacon"),
+    ShoppingListItem(name: "Eggs", quantity: 6),
+]
+breakfastList[0].name = "Orange juice"
+breakfastList[0].purchased = true
+for item in breakfastList {
+    println(item.description)
+}
+// 1 x Orange juice ✔
+// 1 x Bacon ✘
+// 6 x Eggs ✘
+</code></pre>
+
+<h5>可失败的初始化函数</h5>
+
+<p>有些时候，定义一个可失败的初始化函数是有意义的。这个失败可能是因为参数错误，或是缺少需要的参数，或者其他阻止初始化过程的情况。</p>
+
+<p>我们在init后面加一个 ？ 来标示这个初始化函数可能失败。</p>
+
+<pre><code>注意
+你不能定义一个可失败的和不可失败的初始化函数，接受相同的参数类型和名字。
+</code></pre>
+
+<p>可失败的初始化函数创建一个optioanl的值。如果我们在可失败的初始化函数里写了 return nil，就意味着初始化失败了。</p>
+
+<pre><code>注意
+严格来讲，初始化函数不返回值。相反，他们的目的是确保 self 在初始化结束后是完整并正确可用的。 所以虽然我们使用 return nil 来表示初始化失败，但是不用在成功初始化时使用 return。
+</code></pre>
+
+<pre><code class="swift">struct Animal {
+    let species: String
+    init?(species: String) {
+        if species.isEmpty { return nil }
+        self.species = species
+    }
+}
+let someCreature = Animal(species: "Giraffe")
+// someCreature is of type Animal?, not Animal
+if let giraffe = someCreature {
+    println("An animal was initialized with a species of \(giraffe.species)")
+}
+// prints "An animal was initialized with a species of Giraffe"
+let anonymousCreature = Animal(species: "")
+// anonymousCreature is of type Animal?, not Animal
+if anonymousCreature == nil {
+    println("The anonymous creature could not be initialized")
+}
+// prints "The anonymous creature could not be initialized"
+</code></pre>
+
+<pre><code>注意
+检查空字符串和检查 nil 是不一样的。
+</code></pre>
+
+<h6>枚举的可失败初始化函数</h6>
+
+<p>我们可以使用可失败的初始化函数根据参数来从枚举成员里选择适当值。如果没有合适的值，我们就失败了。</p>
+
+<pre><code class="swift">enum TemperatureUnit {
+    case Kelvin, Celsius, Fahrenheit
+    init?(symbol: Character) {
+        switch symbol {
+        case "K":
+            self = .Kelvin
+        case "C":
+            self = .Celsius
+        case "F":
+            self = .Fahrenheit
+        default:
+            return nil
+        }
+    }
+}
+let fahrenheitUnit = TemperatureUnit(symbol: "F")
+if fahrenheitUnit != nil {
+    println("This is a defined temperature unit, so initialization succeeded.")
+}
+// prints "This is a defined temperature unit, so initialization succeeded."
+let unknownUnit = TemperatureUnit(symbol: "X")
+if unknownUnit == nil {
+    println("This is not a defined temperature unit, so initialization failed.")
+}
+// prints "This is not a defined temperature unit, so initialization failed."
+</code></pre>
+
+<h6>有原始值的枚举的可失败初始化函数</h6>
+
+<p>有原始值的枚举自动的有一个可失败的初始化函数，init?(rawValue:)。</p>
+
+<pre><code class="swift">enum TemperatureUnit: Character {
+    case Kelvin = "K", Celsius = "C", Fahrenheit = "F"
+}
+let fahrenheitUnit = TemperatureUnit(rawValue: "F")
+if fahrenheitUnit != nil {
+    println("This is a defined temperature unit, so initialization succeeded.")
+}
+// prints "This is a defined temperature unit, so initialization succeeded."
+let unknownUnit = TemperatureUnit(rawValue: "X")
+if unknownUnit == nil {
+    println("This is not a defined temperature unit, so initialization failed.")
+}
+// prints "This is not a defined temperature unit, so initialization failed."
+</code></pre>
+
+<h6>类的可失败初始化函数</h6>
+
+<p>一个值类型的可失败的初始化函数可以在初始化的任何阶段失败。</p>
+
+<p>然而对于类，一个可失败的初始化函数，只能在所有的由当前类引进的存储属性都被初始化之后，并且任何的初始化代理开始后才能触发失败。</p>
+
+<pre><code class="swift">class Product {
+    let name: String!
+    init?(name: String) {
+        if name.isEmpty { return nil }
+        self.name = name
+    }
+}
+</code></pre>
+
+<p>上面的例子，name属性是个optional的，所以有初始值 nil。是满足我们的要求的。</p>
+
+<p>因为name是常量属性，所以我们一旦初始化成功，我们就可以确保name始终有值，可以不用去再检查。</p>
+
+<pre><code class="swift">if let bowTie = Product(name: "bow tie") {
+    // no need to check if bowTie.name == nil
+    println("The product's name is \(bowTie.name)")
+}
+// prints "The product's name is bow tie"
+</code></pre>
+
+<h6>初始化失败的传递</h6>
+
+<p>一个可失败的初始化函数可以代理到同一个类的其他的可失败的初始化函数，对于类，也可以代理到父类的可失败的初始化函数。</p>
+
+<p>不论如何代理，如果一个可失败的初始化函数失败，那么整个初始化过程失败。</p>
+
+<pre><code>注意
+可失败的初始化函数也可以代理到一个不可失败的初始化函数。如果你需要在一个已有的初始化过程中添加一个潜在的失败的初始化函数，可以这种方式。
+</code></pre>
+
+<pre><code class="swift">class CartItem: Product {
+    let quantity: Int!
+    init?(name: String, quantity: Int) {
+        super.init(name: name)
+        if quantity &lt; 1 { return nil }
+        self.quantity = quantity
+    }
+}
+</code></pre>
+
+<p>上面的例子中，quantity是optional的，初始值是nil。我们先调用了super.init(name: name) 来满足可失败的初始化函数的要求。如果name是空的，那么super.init就会失败，整个初始化就失败了。</p>
+
+<pre><code class="swift">if let twoSocks = CartItem(name: "sock", quantity: 2) {
+    println("Item: \(twoSocks.name), quantity: \(twoSocks.quantity)")
+}
+// prints "Item: sock, quantity: 2"
+if let zeroShirts = CartItem(name: "shirt", quantity: 0) {
+    println("Item: \(zeroShirts.name), quantity: \(zeroShirts.quantity)")
+} else {
+    println("Unable to initialize zero shirts")
+}
+// prints "Unable to initialize zero shirts"
+if let oneUnnamed = CartItem(name: "", quantity: 1) {
+    println("Item: \(oneUnnamed.name), quantity: \(oneUnnamed.quantity)")
+} else {
+    println("Unable to initialize one unnamed product")
+}
+// prints "Unable to initialize one unnamed product"
+</code></pre>
+
+<h6>重写可失败的初始化函数</h6>
+
+<p>我们可以在子类里重写可失败的初始化函数，我们甚至可以在子类里把可失败的初始化函数重写为不可失败的初始化函数。</p>
+
+<p>如果我们在子类里把一个父类的可失败的初始化函数重写为一个不可失败的初始化函数，那么我们就不能向上代理这个初始化函数。一个不可失败的初始化函数永远都不能代理到一个可失败的初始化函数。</p>
+
+<pre><code>注意
+我们可以把一个可失败的重写为一个不可失败的，相反则不行。
+</code></pre>
+
+<pre><code class="swift">class Document {
+    var name: String?
+    // this initializer creates a document with a nil name value
+    init() {}
+    // this initializer creates a document with a non-empty name value
+    init?(name: String) {
+        if name.isEmpty { return nil }
+        self.name = name
+    }
+}
+</code></pre>
+
+<p>Document的名字可以是nil，但是不能为空字符串&#8221;&ldquo;。</p>
+
+<pre><code class="swift">class AutomaticallyNamedDocument: Document {
+    override init() {
+        super.init()
+        self.name = "[Untitled]"
+    }
+    override init(name: String) {
+        super.init()
+        if name.isEmpty {
+            self.name = "[Untitled]"
+        } else {
+            self.name = name
+        }
+    }
+}
+</code></pre>
+
+<p>AutomaticallyNamedDocument重写了可失败的init，但是因为AutomaticallyNamedDocument是自动提供名字的，所以它不会失败。</p>
+
+<h6>init! 可失败初始化函数</h6>
+
+<p>因为 init? 初始化一个 optional的值。</p>
+
+<p>我们也可以使用 init! 来初始化一个自动解包的otpional的值。</p>
+
+<p>我们可以在init? 和 init! 之前互相代理，也可以互相重写。我们也可以从 init 代理到 init!，但是这样做，如果init! 失败就会触发一个断言。</p>
+
+<h5>必须的初始化函数</h5>
+
+<p>在一个类的初始化函数前面加上 required 来表示任何的子类都必须实现这个初始化函数。</p>
+
+<pre><code class="swift">class SomeClass {
+    required init() {
+        // initializer implementation goes here
+    }
+}
+</code></pre>
+
+<p>在子类里，你也必须加上 required 关键字，但是不需要写 override。</p>
+
+<pre><code class="swift">class SomeSubclass: SomeClass {
+    required init() {
+        // subclass implementation of the required initializer goes here
+    }
+}
+</code></pre>
+
+<pre><code>注意
+你需要显式的实现 required的初始化函数，如果你可以通过一个继承的初始化函数来实现。
+</code></pre>
+
+<h5>通过闭包或函数来设置默认的属性值</h5>
+
+<p>如果一个存储属性的默认值需要一些自定义或是配置，我们可以使用闭包或全局函数来提供默认值。每当一个实例被创建，这个闭包或函数就被调用，返回值会设置给对应的属性。</p>
+
+<p>这种类型的闭包和函数一般创建一个和属性类型一致的变量，然后返回这个变量。</p>
+
+<pre><code class="swift">class SomeClass {
+    let someProperty: SomeType = {
+        // create a default value for someProperty inside this closure
+        // someValue must be of the same type as SomeType
+        return someValue
+        }()
+}
+</code></pre>
+
+<p>注意大括号后面的括弧，这是告诉Swift来执行这个闭包，如果不写括弧，其实是把闭包附值给了属性，而不是闭包执行的结果。</p>
+
+<pre><code>注意
+如果使用闭包来初始化属性，记得实例的其他的部分还没有被初始化，所以不能在闭包里使用其他属性，self也不能用，还不能调用实例方法。
+</code></pre>
+
+<pre><code class="swift">struct Checkerboard {
+    let boardColors: [Bool] = {
+        var temporaryBoard = [Bool]()
+        var isBlack = false
+        for i in 1...10 {
+            for j in 1...10 {
+                temporaryBoard.append(isBlack)
+                isBlack = !isBlack
+            }
+            isBlack = !isBlack
+        }
+        return temporaryBoard
+        }()
+    func squareIsBlackAtRow(row: Int, column: Int) -&gt; Bool {
+        return boardColors[(row * 10) + column]
+    }
+}
+</code></pre>
+
+<p>每当一个Checkerboard创建时，boardColors对应的闭包都会执行。</p>
 ]]></content>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Language Guide: Closures]]></title>
-    <link href="http://zxhfirefox.github.io/blog/2014/10/06/language-guide-closures/"/>
-    <updated>2014-10-06T14:41:52+08:00</updated>
-    <id>http://zxhfirefox.github.io/blog/2014/10/06/language-guide-closures</id>
-    <content type="html"><![CDATA[<p>闭包是一段独立的功能，可以在代码之间传递和使用。Swift里的闭包和C，ObjC里的block，以及其他语言里的lambda表达式是相似的。</p>
+    <title type="html"><![CDATA[Language guide: Inheritance]]></title>
+    <link href="http://zxhfirefox.github.io/blog/2014/10/19/language-guide-t-inheritance/"/>
+    <updated>2014-10-19T00:38:17+08:00</updated>
+    <id>http://zxhfirefox.github.io/blog/2014/10/19/language-guide-t-inheritance</id>
+    <content type="html"><![CDATA[<p>一个类可以从其他类继承方法，属性和其他特性。当一个类继承另一个类的时候，我们把继承的类叫子类，把被继承的类叫父类。继承是Swift里类区别于其他类型非常重要的一个区别。</p>
 
-<p>闭包可以捕获和存储定义在定义闭包的上下文里的任何变量和常量的引用。这被叫做遮盖(closing over)这些常量和变量，正说明了闭包的概念。Swift会帮你处理所有这些捕获时的内存管理。</p>
+<p>在Swift里，类可以调用和访问父类的方法，属性，角标，也可以通过他们自己重写这些方法，属性，角标来实现自己的行为。Swift会通过检查重写定义是否和父类匹配来帮助你检查重写的正确性。</p>
 
-<p>在上一章函数里，全局和嵌套函数，其实是闭包的特殊情况。闭包有三种形式：</p>
+<p>类还可以给父类的属性添加观察者，来使得自己在父类属性变化的时候得到通知。观察者可以添加给任何属性，不论是存储的还是计算的。</p>
 
-<ul>
-<li>全局函数是闭包，它有名字，但是不会捕获任何值。</li>
-<li>嵌套函数是闭包，它有名字，并且会捕获包含函数里值。</li>
-<li>闭包表达式是无名闭包，有简单的语法，从包裹他们的上下文里捕获值。</li>
-</ul>
+<h5>定义一个基类</h5>
 
-
-<p>Swift的闭包表达式有着清晰，简洁的风格，并被优化过，鼓励在一般情况下写出简洁，不杂乱的语法。这些优化包括：</p>
-
-<ul>
-<li>从上下文推断参数和返回值类型。</li>
-<li>从单个表达式的闭包自动返回值。</li>
-<li>参数名缩写。</li>
-<li>尾部闭包语法。</li>
-</ul>
-
-
-<!--more-->
-
-
-<h5>闭包表达式</h5>
-
-<p>嵌套函数，是在大函数里定义有名字的，独立的代码块的很方便的方法。然后，有时候我们需要写出更简短的，不需要全部定义和名字的类似函数的结构，特别是你在把函数当做参数和返回值的时候。</p>
-
-<p>闭包表达式是一种通过简洁，集中的语法来写内连(inline)闭包的方式。闭包表达式经过优化在不损失清晰性的前提写出简短的代码。</p>
-
-<h6>sorted函数</h6>
-
-<p>Swift标准库里的sorted函数用来排序一个已知类型的数组，基于你传递给它的排序闭包。一旦配需结束，它返回一个排好序的数组。原来的数组并没有被sorted函数改变。</p>
-
-<p>下面是我们要排序的数组：</p>
-
-<pre><code class="swift">let names = ["Chris","Alex","Ewa","Barry","Daniella"]
-</code></pre>
-
-<p>sorted的函数接受2个参数，一个是要排序的数组，另一个是一个闭包，接受两个参数，他们的类型需要和数组元素的类型一致，返回一个Bool值，来表示如果第一个参数应该排在第二个参数之前，那么就是true，反之则是false。</p>
-
-<p>这个例子我们排的是String，所以闭包的类型应该是(String,String) -> Bool。</p>
-
-<p>一种方式，我们写出排序的函数，然后把它传递给sorted函数。</p>
-
-<pre><code class="swift">func backwards(s1:String, s2:String) -&gt; Bool {
-    return s1 &gt; s2
-}
-var reversed = sorted(names,backwards)
-</code></pre>
-
-<p>如果s1大于s2，返回true，意思是如果s1大于s2，那么s1应该排在s2的前面。对于字符串里的字符来说，大于就是在字母表里排在后面。也就是说&#8217;B&#8217;大于&#8217;A&#8217;。这样就给出了字母表反序的排列。</p>
-
-<p>然而，这是一个相对比较长的写法，关键部分其实只有 a > b，我们应该用闭包表达式来写。</p>
-
-<h6>闭包表达式</h6>
-
-<p>闭包表达式的语法如下：</p>
-
-<pre><code>{ (parameters) -&gt; (return type) in 
-    statements
-}
-</code></pre>
-
-<p>闭包表达式的语法，可以使用常量参数，变量参数和inout参数。不能有默认值。不定长参数可以使用，但是必须在最后一个。元组可以作为参数和返回值使用。</p>
-
-<pre><code class="swift">reversed = sorted(names, { (s1: String, s2: String) -&gt; Bool in
-    return s1 &gt; s2
-})
-</code></pre>
-
-<p>注意，这里的参数和返回值和之前通过定义函数来做的时候是一样的。然而，在闭包表达式里，参数和返回值是包裹在大括号里的，而不是在外面。</p>
-
-<p>闭包表达式body的开始由 in 来标记。这个关键字说明了闭包的参数和返回值声明的结束，闭包的body的开始。</p>
-
-<p>因为这个闭包的body很短，我们可以把它写在一行里。</p>
-
-<pre><code class="swift">reversed = sorted(names, { (s1: String, s2: String) -&gt; Bool in return s1 &gt; s2 } )
-</code></pre>
-
-<h6>从上下文推断类型</h6>
-
-<p>因为这个排序闭包作为参数传递给一个函数，Swift可以通过sorted的第二个参数的类型来推断出这个闭包的类型。sorted函数的这个参数需要一个(String,String)->Bool类型的闭包，这意味着我们其实不用在闭包表达式里写出这个类型，因为所有的类型都可以推断出来，那->和参数名字周围的括弧可以省略掉。</p>
-
-<pre><code class="swift">reversed = sorted(names,{s1,s2 in return s1 &gt; s2})
-</code></pre>
-
-<p>当我们把一个内连的闭包表达式传递给一个函数时，我们总是能够推断出他的参数和返回值类型，也就是说，这种情况下，你永远都不需要把闭包的完整格式写出来。</p>
-
-<p>尽管如此，你仍热可以把类型明确的写出来，事实上，如果这样可以增加代码的可读性，就应该写出来。在上面sorted的例子里，闭包的目的就是排序，而且认为它就是在处理String类型也不会有问题，因为它是用来帮助排序一个字符串数组的。</p>
-
-<h6>从单个表达式的闭包自动返回值</h6>
-
-<p>单个表达式的闭包可以自动返回唯一的表达式的值，所以不需要写return。</p>
-
-<pre><code class="swift">reversed = sorted(names,{s1,s2 in s1 &gt; s2})
-</code></pre>
-
-<h6>参数名缩写</h6>
-
-<p>Swift自动为内连闭包提供参数的缩写，他们是$0,$1,$2 &hellip;。</p>
-
-<p>如果我们是用缩写的参数名，那么我们就不用写出参数列表，而这些缩写的参数的类型也会被推断出来。in 也可以被省略掉。</p>
-
-<pre><code class="swift">reversed = sorted(names, { $0 &gt; $1})
-</code></pre>
-
-<h6>操作符函数</h6>
-
-<p>其实，上面的例子我们可以写的更短。Swift的String类型定义了 > 作为一个函数，接受2个String，返回一个Bool。这个正好满足我们sorted函数的要求。因此，我们可以直接传入 >，Swift会推断出你想要它做的事情。</p>
-
-<pre><code class="swift">reversed = sorted(names, &gt;)
-</code></pre>
-
-<h5>尾部闭包</h5>
-
-<p>如果你把一个闭包做为函数参数的最后一个传递给一个函数，你可以把这个闭包用尾部闭包的语法来写。尾部闭包的写法是把这个闭包写在括弧的后面，而不是包裹在括弧里。</p>
-
-<pre><code class="swift">func someFunctionThatTakesAClosure(closure: ()-&gt;() ){
-// body here
-}
-someFunctionThatTakesAClosure({
-// body here
-})
-someFunctionThatTakesAClosure() {
-// body here
-}
-</code></pre>
+<p>任何类，如果它没有从其他类继承，那它就是一个基类。</p>
 
 <pre><code>注意
-如果比个闭包表达式是一个函数的唯一一个参数，你通过尾部闭包来提供这个参数。那么你可以不写（）。
+Swift的类并不是从一个全局基类继承的。
 </code></pre>
 
-<p>上面的sorted的例子也可以用尾部闭包来写。</p>
-
-<pre><code class="swift">reversed = sorted(names) { $0 &gt; $1 }
-</code></pre>
-
-<p>尾部闭包在处理闭包函数体很大的时候非常有用。例如，Swift的Array有个map函数，接受一个闭包作为唯一的参数。这个闭包会在每个数组元素上调用，然会一个新的值，然后map函数会把所有这些作为一个新的数组返回。</p>
-
-<pre><code class="swift">let digitNames = [
-    0: "Zero", 1: "One", 2: "Two", 3: "Three", 4: "Four",
-    5: "Five", 6: "Six", 7: "Seven", 8: "Eight", 9: "Nine"
-    ]
-let numbers = [16,58,510]
-</code></pre>
-
-<pre><code class="swift">let strings = numbers.map {
-    (var number) -&gt; String in
-    var output = ""
-    while number &gt; 0 {
-        output = digitNames[number % 10]! + output // 注意 !
-        number /= 10
+<pre><code class="swift">class Vehicle {
+    var currentSpeed = 0.0
+    var descriptioin: String {
+        return "traveling at \(currentSpeed) miles per hour"
     }
-    return output
-}
-</code></pre>
-
-<p>map方法调用上面的闭包。你不需要给出number的类型。</p>
-
-<p>这个例子，number参数被定义成了var，所以你可以改变它的值。并且明确给出了闭包的返回值类型是一个String。</p>
-
-<pre><code>注意
-在通过角标访问digitNames的时候，后面的那个！，因为角标访问字典回复的时个optional，我们应该判断是否为nil。不过这个例子里，不可能出现 nil，所以没有判断直接解包。
-</code></pre>
-
-<p>这个例子很好的展示了使用尾部闭包来把闭包的功能紧凑的挨着调用函数而不用把闭包放在函数的括弧里。</p>
-
-<h5>捕获值</h5>
-
-<p>闭包从定义它自己的上下文里捕获常量和变量的值。然后，闭包就可以在闭包体内引用和修改这些值，即使最开始定义这些值的作用域已经不存在了。</p>
-
-<p>最简单的闭包就是嵌套函数。一个嵌套函数可以捕获包裹函数的参数，以及所有的定义在包裹函数内的常量和变量。</p>
-
-<pre><code class="swift">func makeIncrementor (forIncrement amount: Int) -&gt; () -&gt; Int {
-    var runningTotal = 0
-    func incrementor() -&gt; Int {
-        runningTotal += amount
-        return runningTotal
+    func makeNoise(){
     }
-    return incrementor
 }
 </code></pre>
 
-<p>上面例子，makeIncrementor的返回值是一个类型为() -> Int的函数。</p>
+<p>上面的例子定义了一个Vehicle类。有1个存储属性，1个计算属性，1个实例方法。</p>
 
-<p>makeIncrementor定义了一个runningTotal，来存储当前makeIncrementor的runningTotal，初始值是0。</p>
+<pre><code class="swift">let someVehicle = Vehicle()
+println("Vehicle: \(someVehicle.description)")
+</code></pre>
 
-<p>makeIncrementor的唯一参数amount是一个Int值，每次调用incrementor，都会把这个amount加到runningTotal上面。</p>
+<p>创建了一个实例，并调用了实例方法。</p>
 
-<p>makeIncrementor还定义了一个嵌套函数incrementor，它来做真正的增加操作。</p>
+<h5>子类</h5>
 
-<p>如果我们单独来看incrementor函数，它是很奇怪的。</p>
+<p>子类是从一个父类继承的类。子类从父类继承特性，你也可以改进这些特性，也可以添加新的特性。</p>
 
-<p>他没有定义任何参数，但是却引用了runningTotal和amount。它是把这个值捕获了。</p>
+<p>定义子类的语法如下：</p>
 
-<p>incrementor并没有修改amount，所以他只是拷贝的一份。然而，对于runningTotal，incrementor每次调用都会修改它的值。所以incrementor事实上是捕获了一份引用，而不是简单的拷贝值。捕获引用可以确保runningTotal在makeIncrementor调用结束后不消失，这样下次调用incrementor的时候就会存在。</p>
+<pre><code class="swift">class SomeSubClass : SomeSuperClass {
+}
+</code></pre>
+
+<p>我们定义一个Vehicle的子类：</p>
+
+<pre><code class="swift">class Bicycle : Vehicle {
+    var hasBasket = false
+}
+</code></pre>
+
+<p>Bicycle类继承自Vehicle类，包含Vehicle所有的特性，并添加了自己新的属性hasBasket。</p>
+
+<p>Bicycle也可以被其他类继承。</p>
+
+<pre><code class="swift">class Tandem: Bicycle {
+    var currentNumberOfPassengers = 0
+}
+</code></pre>
+
+<p>Tandem继承了所有Bicyle的特性，也继承了所有Vehicle的特性。</p>
+
+<h5>重写</h5>
+
+<p>一个子类为一个从父类继承的方法，属性，角标提供自己的实现，叫做重写。</p>
+
+<p>使用 override关键字来标示重写。这样做可以明确标示出你在重写而不是误操作。如果错误的使用了 override关键字，编译器会报错。</p>
+
+<h6>访问父类的方法，属性和角标</h6>
+
+<p>当你自己重写一个方法，属性或角标时，你或许需要访问父类的实现。例如，你可能只是在父类的实现基础上做一些改进。</p>
+
+<p>对于这种情况，你可以使用 super 来访问父类的方法，属性，角标的实现。例如： super.someMethod(), super.someProperty, super[someIndex]。</p>
+
+<h6>重写方法</h6>
+
+<pre><code class="swift">class Train: Vehicle {
+    override func makeNoise(){
+        println("Choo Choo")
+    }
+}
+</code></pre>
+
+<h6>重写属性</h6>
+
+<p>你可以重写一个父类的属性，或是给一个父类的属性添加观察者。</p>
+
+<h6># 重写属性的getter和setter</h6>
+
+<p>你可以重写任何一个继承的属性，不论是存储的还是计算的。对于子类来说，属性是计算的还是存储的时不知道的，子类只知道他继承了一个特定类型的属性以及它的名字。所有你必须正确的子类里给出类型和名字。</p>
+
+<p>你可以把父类一个只读的属性在子类实现为可读可写的属性，但是你不能把父类一个可读可写的属性重写为一个只读的属性。</p>
 
 <pre><code>注意
-Swift会决定什么值需要拷贝，什么需要捕获引用。你不需要做任何事。Swift也负责所有的内存管理。
+如果你在重写属性时给出了setter，那你必须也得给出getter。如果你不想修改getter的返回值，可以直接返回super.someProperty。
 </code></pre>
 
-<pre><code class="swift">let incrementByTen = makeIncrementor(forIncrement:10)
-incrementByTen() // 10
-incrementByTen() // 20
-incrementByTen() // 30
+<pre><code class="swift">class Car: Vehicle {
+    var gear = 1
+    override var description: String {
+        return super.descripton + " in gear \(gear)"
+    }
+}
 </code></pre>
 
-<p>如果你定义一个新的incrementor，他会存储它自己的，新的一个runningTotal。调用之前定义的incrementByTen并不会干扰这个新的。</p>
+<h6># 重写属性观察者</h6>
 
-<pre><code class="swift">let incrementBySeven = makeIncrementor(forIncrement: 7)
-incrementBySeven() // 7
-incrementByTen()  // 40
-</code></pre>
+<p>你可以通过重写属性来给父类的属性添加观察者。</p>
 
 <pre><code>注意
-如果你把闭包附值给了一个类实例的属性，并且这个闭包捕获了这个类实例或它的成员，这将是一个循环引用。你需要使用捕获列表来处理。
+你不能给父类的常量存储属性或只读的计算属性添加观察者。因为这些属性的值不能改变，所以也没有willSet和didSet。
+
+另外，你不即能给一个属性重写getter和setter，还给它添加观察者。
 </code></pre>
 
-<h5>闭包是引用类型</h5>
+<pre><code class="swift">class AudomaticCar : Car {
+    override var currentSpees: Double {
+        didSet {
+            gear = Int(currentSpeed / 10.0) + 1
+        }
+    }
+}
+</code></pre>
 
-<p>上面的例子里，incrementBySeven和incrementByTen是常量。但是这些常量引用的闭包依旧可以修改他们捕获的runningTotal的值。这是因为函数和闭包是引用类型。</p>
+<p>每当你修改一个AudomaticCar的currentSpeed属性，都会触发这个观察者来给gear设定适当的值。</p>
 
-<p>无论何时你把一个函数或闭包附值给一个常量或变量，你都是把它的引用附值给了常量或变量。上面的例子，是说incrementByTen的引用是个常量，(注：就是它不能在引用其他闭包）而不是闭包本身是常量。</p>
+<pre><code class="swift">let automatic = AutomaticCar()
+automatic.currentSpeed = 35.0
+println("AutomaticCar: \(automatic.description)")
+</code></pre>
 
-<p>这也意味着，同一个闭包可以被多个变量或常量引用。</p>
+<h5>防止重写</h5>
+
+<p>你可以把一个属性，方法，角标标记为 final 来禁止子类重写。</p>
+
+<p>任何尝试重写一个 final 的方法，属性，角标都会造成编译错误。</p>
+
+<p>你可以把整个类标记为 final 来禁止这个类被继承。</p>
 ]]></content>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Language Guide: Functions]]></title>
-    <link href="http://zxhfirefox.github.io/blog/2014/10/05/language-guide-functions/"/>
-    <updated>2014-10-05T14:40:40+08:00</updated>
-    <id>http://zxhfirefox.github.io/blog/2014/10/05/language-guide-functions</id>
-    <content type="html"><![CDATA[<p>函数是用来完成某一任务的独立的一段代码。函数名标示了它用来做什么，也用来调用这个函数。</p>
+    <title type="html"><![CDATA[Language Guide: Subscripts]]></title>
+    <link href="http://zxhfirefox.github.io/blog/2014/10/19/language-guide-subscript/"/>
+    <updated>2014-10-19T00:37:12+08:00</updated>
+    <id>http://zxhfirefox.github.io/blog/2014/10/19/language-guide-subscript</id>
+    <content type="html"><![CDATA[<p>类，结构体，枚举可以定义角标。角标是用来访问集合，列表或序列的元素的一种简写。使用角标可以访问和修改元素。例如，你访问数组的元素使用someArray[index]，访问字典的元素使用someDictionary[key]。</p>
 
-<p>Swift统一的函数语法，既可以不要参数名字来表达简单的C语言的函数，也可以给出内部和外部参数名字来表达ObjC里复杂的函数。参数可以提供默认值，也可以做为输入输出参数，在函数执行后，改变传进来的值。</p>
+<p>我们可以给一个类型添加多个角标，选择哪个角标是由传进来的索引的类型决定。角标不限于一个维度，你可以定义为角标定义多个输入。</p>
 
-<p>Swift里每一个函数都一个一个类型，这个类型由参数类型和返回值类型组成。我们可以把这个类型和Swift里其他类型同等对待。这样，可以非常方便的把函数作为参数或返回值。函数也可以定义在其他函数里。</p>
+<h5>角标语法</h5>
 
-<!--more-->
+<p>角标允许你在实例后面使用方括号来通过特定的值来查询这个实例。他们的语法和方法，属性的很相似。使用subscirpt关键字定义角标，并给出参数和返回值。角标和方法不同，角标可以是可读可写，也可以是只读，这种行为是通过一个类似于计算属性的 getter和 setter来表达。</p>
 
-
-<h6>定义和调用函数</h6>
-
-<p>当你定义一个函数时，你可以可选的定义一个或多个有类型的参数作为输入，并且或者定义一个类型的值作为函数调用后的返回值。</p>
-
-<p>每个函数都有一个函数名，描述了这个函数是做什么的。为了使用这个函数，你通过把输入参数传递给这个函数名来调用这个函数。一个函数的参数必须按照定义的顺序传递给函数。</p>
-
-<pre><code class="swift">func sayHello(person: String) -&gt; String {
-    let greeting = "Hello, " + person + "!"
-    return greeting
-}
-</code></pre>
-
-<p>func来定义一个函数，用 ->来分割参数和返回值。</p>
-
-<h5>函数参数和返回值</h5>
-
-<p>Swift函数的参数和返回值非常的灵活。</p>
-
-<h6>多参数函数</h6>
-
-<pre><code class="swift">func halfOpenRangeLength(start: Int, end: Int) -&gt; Int {
-    return end - start
-}
-</code></pre>
-
-<h6>无参数函数</h6>
-
-<pre><code class="swift">func sayHelloWorld() -&gt; String{
-    return "Hello,World"
-}
-</code></pre>
-
-<h6>无返回值函数</h6>
-
-<pre><code class="swift">func sayGoodbye(person: String) {
-    println("Goodbye, \(person)")
-}
-</code></pre>
-
-<pre><code>注意
-严格来讲，sayGoodbye还是有返回值的。函数在没有声明返回值的时候会返回一个Void类型的特殊值，也就是一个空的元组，()。
-</code></pre>
-
-<p>函数的返回值可以被忽略。</p>
-
-<pre><code>注意
-函数的返回值可以被忽略，但是函数如果声明了返回值，那么它必须返回一个值，否则编译错误。
-</code></pre>
-
-<h6>多返回值函数</h6>
-
-<p>可以使用元组来把多个值组合起来返回。</p>
-
-<pre><code class="swift">func minMax(array: [Int]) -&gt; (min:Int,max:Int){
-    var currentMin = array[0]
-    var currentMax = array[0]
-    for value in array {
-        if value &gt; currentMax {
-            currentMax = value
-        else if value &lt; currentMin {
-            currentMin = value
-        }
+<pre><code class="swift">subscript(index: Int) -&gt; Int {
+    get {
     }
-    return (currentMin,currentMax)
-}
-</code></pre>
-
-<h6>optional的元组返回类型</h6>
-
-<p>如果函数返回的元组在有些时候不存在，那么可以把返回的元组声明为optional的。</p>
-
-<pre><code>注意
-一个optional的元组(Int,Int)? 和一个包含optional值的元组(Int?,Int?)是不一样的。
-</code></pre>
-
-<p>上面的minMax没有做安全检查，如果数组没空，访问array[0]是有问题的。</p>
-
-<pre><code class="swift">func minMax(array: [Int]) -&gt; (min:Int,max:Int)? {
-    if array.isEmpty { return nil }
-    var currentMin = array[0]
-    var currentMax = array[0]
-    for value in array {
-        if value &gt; currentMax {
-            currentMax = value
-        else if value &lt; currentMin {
-            currentMin = value
-        }
+    set(newValue){
     }
-    return (currentMin,currentMax)
 }
 </code></pre>
 
-<p>使用optional绑定来检查返回值。</p>
+<p>newValue的类型和角标返回的类型一致。和计算属性一样，你不提供newValue的话，一个默认的newValue会给你。</p>
 
-<h6>函数参数的名字</h6>
+<p>和只读的计算属性一样，你可以不写get。</p>
 
-<p>上面所有的函数都定义了参数的名字。</p>
-
-<pre><code class="swift">func someFunction(parameterName :Int){
+<pre><code class="swift">subscript(index: Int) -&gt; Int {
 }
-</code></pre>
-
-<p>但是，这些名字都只能在函数内部使用，而不能在调用函数时使用。这样的参数名字一般叫做本地参数名。</p>
-
-<h6>外部参数名</h6>
-
-<p>有些时候，如果能够在调用函数的时候提供参数的名字，来说明每个参数的意思是很有用的。</p>
-
-<p>你可以在本地参数名前面加一个外部参数名，用空格隔开。</p>
-
-<pre><code class="swift">func someFunction(externalParameterName localParameterName :Int){
-}
-</code></pre>
-
-<pre><code>注意
-如果你定义了外部参数名，那这个名字必须在调用时使用。
 </code></pre>
 
 <p>例如：</p>
 
-<pre><code class="swift">func join(s1: String, s2: String, joiner: String) -&gt; String {
-    return s1 + joiner + s2
+<pre><code class="swift">struct TimesTable {
+    let multiplier: Int
+    subscript(index: Int) -&gt; Int {
+        return multiplier * index
+    }
+}
+let threeTimesTable = TimesTable(multiplier: 3)
+println("six times three is \(threeTimesTable[6])")
+</code></pre>
+
+<h5>使用角标</h5>
+
+<p>角标的确切含义取决于它使用的上下文。一般用来访问集合，列表或序列的元素。你可以使用角标实现任何适用于你自己类或结构体的方式。</p>
+
+<p>例如Swift的Dictionary实现了角标，使得我们可以使用角标来访问字典里的元素。</p>
+
+<pre><code>注意
+Swift的Dictionary实现了通过角标获取对应key的value。但是是optional的，因为对应的key可能没有值存在。
+</code></pre>
+
+<h5>角标选项</h5>
+
+<p>角标可以接受任何数量，任何类型的参数。角标也可以返回任何值。角标可以使用变量参数，变长参数，但是不能使用in-out参数，也不能有默认值参数。</p>
+
+<p>一个类或结构体可以提供它需要的任意多的角标实现，使用哪个角标实现，由传入的参数类型来决定。这样子多个角标实现的方式叫做角标重载。</p>
+
+<p>最常用的角标是获取一个单个的参数。</p>
+
+<pre><code class="swift">struct Matrix {
+    let rows: Int, columns: Int
+    var grid: [Double]
+    init(rows: Int, columns: Int) {
+        self.rows = rows
+        self.columns = columns
+        grid = Array(count: rows * columns, repeatedValue: 0.0)
+    }
+    func indexIsValidForRow(row: Int, column: Int) -&gt; Bool {
+        return row &gt;= 0 &amp;&amp; row &lt; rows &amp;&amp; column &gt;= 0 &amp;&amp; column &lt; columns
+    }
+    subscript(row: Int, column: Int) -&gt; Double {
+        get {
+            assert(indexIsValidForRow(row, column: column), "Index out of range")
+            return grid[(row * columns) + column]
+        }
+        set {
+            assert(indexIsValidForRow(row, column: column), "Index out of range")
+            grid[(row * columns) + column] = newValue
+        }
+    }
 }
 </code></pre>
 
-<p>调用时:</p>
+<p>上面的例子里，Matrix定义了一个需要两个参数的角标来提供元素的访问。</p>
 
-<pre><code class="swift">join("hello","world",",")
+<pre><code class="swift">var matrix = Matrix(rows: 2, columns: 2)
+matrix[0, 1] = 1.5
+matrix[1, 0] = 3.2
 </code></pre>
 
-<p>使用外部参数名：</p>
+<p>注意grid数组的初始化方式，和角标里作为越界检查的断言。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Language Guide: Methods]]></title>
+    <link href="http://zxhfirefox.github.io/blog/2014/10/19/language-guide-q-methods/"/>
+    <updated>2014-10-19T00:36:13+08:00</updated>
+    <id>http://zxhfirefox.github.io/blog/2014/10/19/language-guide-q-methods</id>
+    <content type="html"><![CDATA[<p>方法是关联到特殊类型的函数。类，结构体，枚举都可以定义实例方法，实例方法绑定到具体的实例。他们也都可以定义类型方法，类型方法关联到类型。类型方法和ObjC的类方法是相似的。</p>
 
-<pre><code class="swift">func join(string s1: String, toString s2: String, withJoiner joiner: String) -&gt; String {
-    return s1 + joiner + s2
+<p>事实上，结构体和枚举可以定义方法是Swift和C，ObjC的主要区别之一。在ObjC里，只有类是可以定义方法的。在Swift里，类，结构体和枚举都可以定义方法。</p>
+
+<h5>实例方法</h5>
+
+<p>实例方法是属于一个类，结构体，枚举的实例的函数。他们要么提供访问实例属性，要么提供和实例相关的功能来支持这些实例。实例方法的语法和函数完全一样。</p>
+
+<p>你把一个实例方法写在一个类型的大括号里。一个实例方法默认可以访问这个类型的所有其他方法和属性。实例方法仅能被类型的某个实例调用。没有实例，是无法调用实例方法的。</p>
+
+<p>下面的例子：</p>
+
+<pre><code class="swift">class Counter {
+    var count = 0
+    func increment() {
+        count++
+    }
+    func incrementBy(amount: Int) {
+        count += amount
+    }
+    func reset() {
+        count = 0
+    }
 }
 </code></pre>
 
-<p>调用时：</p>
+<p>Counter类定义了一些实例方法。还定义了一个属性。</p>
 
-<pre><code class="swift">join(string: “hello", toString: "world" withJoiner: ”,"）
+<pre><code class="swift">let counter = Counter()
+// the initial counter value is 0
+counter.increment()
+// the counter's value is now 1
+counter.incrementBy(5)
+// the counter's value is now 6
+counter.reset()
+// the counter's value is now 0
 </code></pre>
 
-<h6>外部参数名简写</h6>
+<h6>方法的外部和本地变量名</h6>
 
-<p>如果你的外部参数名，和本地参数名的名字一样的话，你不需要写两遍，而是在参数名前面加 # 。</p>
+<p>函数参数可以既有一个供外部使用的名字，还可以有一个供内部使用的名字。这点对于方法也是，因为方法仅仅是关联了一个类型的函数。然而，本地和外部名字的默认表现在函数和方法之间是有区别的。</p>
 
-<pre><code class="swift">func containsCharacter(#string: String, #characterToFind: Character) -&gt; Bool {
-    for character in string {
-        if character == characterToFind {
+<p>Swift的方法和ObjC的很相似，和ObjC一样，Swift的方法的第一个参数总是有一个介词来修饰，例如with，for，by等等。使用介词，可以使方法调用读起来更像普通的句子。Swift通过使用一套不同于函数参数名字的方式来使这种命名规则得以继续。</p>
+
+<p>特别的，Swift总是会给一个方法的第一个参数一个默认的内部名字，并且默认的给其他位置的参数同时内部和外部名字。这种规则和我们熟悉ObjC的方法调用的规则是一致的。</p>
+
+<pre><code class="swift">class Counter {
+    var count: Int = 0
+    func incrementBy(amount: Int, numberOfTimes: Int) {
+        count += amount * numberOfTimes
+    }
+}
+</code></pre>
+
+<p>incrementBy方法有两个参数，amount和numberOfTimes。默认的，Swift认为amount只是本地名字，而numberOfTimes既是本地名字，又是外部名字。</p>
+
+<pre><code class="swift">let counter = Counter()
+counter.incrementBy(5, numberOfTimes: 3)
+</code></pre>
+
+<p>你不需要为第一个参数定义外部的名字，因为它的目的可以从方法名得出，incrementBy。第二个参数，却需要一个外部参数来指出它的意义。</p>
+
+<p>这个默认行为相当于你在第二个参数开始的所有参数都使用了 # 来标记。</p>
+
+<pre><code class="swift">func incrementBy(amount: Int, #numberOfTimes: Int) {
+    count += amount * numberOfTimes
+}
+</code></pre>
+
+<p>上面描述的这种默认行为使得Swift的方法定义和ObjC很相似，调用起来更自然。</p>
+
+<h6>修改方法外部参数名字的行为</h6>
+
+<p>有时候，给方法的一个参数也给一个外部名字是有用的，尽管这不是默认行为。你可以显式给出一个名字，也可以给第一个参数加一个 # 来使用和本地名字一样的相同的外部名字。</p>
+
+<p>相反的，如果不想给第二个以及其他参数给出外部名字，你可以使用 _ 来修改外部参数。</p>
+
+<h6>self属性</h6>
+
+<p>每一个类型的实例都有一个默认的属性叫 self，它总是和实例自己相一致。在方法里，是用self来引用当前的实例。</p>
+
+<pre><code class="swift">func increment() {
+    self.count++
+}
+</code></pre>
+
+<p>事实上，你不需要经常使用self。如果你不写self，Swift会假设你在访问当前实例的一个属性或方法。</p>
+
+<p>但是，如果你的方法的一个参数和一个属性的名字一样，那么你需要明确的使用self来区分参数和自己的属性。</p>
+
+<pre><code class="swift">struct Point {
+    var x = 0.0, y = 0.0
+    func isToTheRightOfX(x: Double) -&gt; Bool {
+        return self.x &gt; x
+    }
+}
+let somePoint = Point(x: 4.0, y: 5.0)
+if somePoint.isToTheRightOfX(1.0) {
+    println("This point is to the right of the line where x == 1.0")
+}
+</code></pre>
+
+<h6>在实例方法里修改值类型</h6>
+
+<p>结构体和枚举是值类型，默认的，值类型的属性是不能在自己的实例方法被修改的。</p>
+
+<p>但是，如果你需要在一个实例方法里修改结构体或枚举的属性，你可以把方法改成 mutating行为的。这个方法就可以在方法内部修改实例的属性，而且这些被修改的属性也会反映到真实的属性里。这种方法也可以直接把一个全新的实例附值给 self 属性，然后这个新实例将会在方法结束后代替原来的实例。</p>
+
+<pre><code class="swift">struct Point {
+    var x = 0.0, y = 0.0
+    mutating func moveByX(deltaX: Double, y deltaY: Double) {
+        x += deltaX
+        y += deltaY
+    }
+}
+var somePoint = Point(x: 1.0, y: 1.0)
+somePoint.moveByX(2.0, y: 3.0)
+println("The point is now at (\(somePoint.x), \(somePoint.y))")
+</code></pre>
+
+<p>使用 mutating 关键字来修饰func定义。上面的例子中，moveByX方法修改了自己的属性。</p>
+
+<p>注意，你不能在一个常量结构体或枚举上调用 mutating方法，因为他们的属性不能被改变，即使他们的属性是变量。</p>
+
+<pre><code class="swift">let fixedPoint = Point(x: 3.0, y: 3.0)
+fixedPoint.moveByX(2.0, y: 3.0)
+// this will report an error
+</code></pre>
+
+<h6>在一个 mutating 方法里给 self 附值</h6>
+
+<p>mutating 方法可以把一个全新的实例附值给 self。</p>
+
+<pre><code class="swift">struct Point {
+    var x = 0.0, y = 0.0
+    mutating func moveByX(deltaX: Double, y deltaY: Double) {
+        self = Point(x: x + deltaX, y: y + deltaY)
+    }
+}
+</code></pre>
+
+<p>这个版本的moveByX返回一个全新的Point。</p>
+
+<p>枚举的 mutating方法可以给 self 附值一个新的枚举成员。</p>
+
+<pre><code class="swift">enum TriStateSwitch {
+    case Off, Low, High
+    mutating func next() {
+        switch self {
+        case Off:
+            self = Low
+        case Low:
+            self = High
+        case High:
+            self = Off
+        }
+    }
+}
+var ovenLight = TriStateSwitch.Low
+ovenLight.next()
+// ovenLight is now equal to .High
+ovenLight.next()
+// ovenLight is now equal to .Off
+</code></pre>
+
+<h5>类型方法</h5>
+
+<p>实例方法，如上所述，是在一个类型的具体实例上调用的方法。我们也可以定义调用在类型本身的方法。这种类型的方法叫类型方法。在类里添加类型方法使用 class关键字，在结构体和枚举里定义类型方法使用 static 关键字。</p>
+
+<pre><code>注意
+在ObjC里，你只能给类定义类型方法。在Swift里，你可以给类，结构体，枚举定义类型方法。
+</code></pre>
+
+<p>类型方法也是用 . 来调用，不过 . 的左边不是实例，而是类型。</p>
+
+<pre><code class="swift">class SomeClass {
+    class func someTypeMethod() {
+        // type method implementation goes here
+    }
+}
+SomeClass.someTypeMethod()
+</code></pre>
+
+<p>在类型方法里， self 属性默认指向的就是类型本身，而不是实例。对于结构体和枚举，你可以使用 self 来区分静态属性和静态方法参数，就和实例方法一样。</p>
+
+<p>更广泛来说，在类型方法里使用的任何未加修饰的方法和属性名字都会在类型级别寻找。类型方法可以调用类型方法，可以访问静态属性。</p>
+
+<pre><code class="swift">struct LevelTracker {
+    static var highestUnlockedLevel = 1
+    static func unlockLevel(level: Int) {
+        if level &gt; highestUnlockedLevel { highestUnlockedLevel = level }
+    }
+    static func levelIsUnlocked(level: Int) -&gt; Bool {
+        return level &lt;= highestUnlockedLevel
+    }
+    var currentLevel = 1
+    mutating func advanceToLevel(level: Int) -&gt; Bool {
+        if LevelTracker.levelIsUnlocked(level) {
+            currentLevel = level
             return true
+        } else {
+            return false
         }
     }
-    return false
 }
 </code></pre>
 
-<h6>默认参数值</h6>
-
-<p>你可以给任意一些参数提供默认值，如果有默认值，那么在调用时，你可以不传递参数。</p>
-
-<pre><code>注意
-你应该把有默认参数值的参数放在参数列表的最后，这样确保调用时的没有默认值的参数顺序是对的。
-</code></pre>
-
-<p>例子：</p>
-
-<pre><code class="swift">func join(string s1: String, toString s2: String,
-    withJoiner joiner: String = " ") -&gt; String {
-        return s1 + joiner + s2
-}
-</code></pre>
-
-<p>调用时，如果不给第三个参数</p>
-
-<pre><code class="swift">join(string: "hello", toString: "world")
-</code></pre>
-
-<p>如果给了第三个参数</p>
-
-<pre><code class="swift">join(string: "hello", toString: "world", withJoiner: "-")
-</code></pre>
-
-<h6>有默认值的外部参数名</h6>
-
-<p>在大多数情况下，如果一个参数有默认值，它应该对应的有一个外部参数名。这样可以确保在调用时，实参传递给了正确的形参。</p>
-
-<p>为了简化这个步骤，Swift为每一个有默认值的参数一个外部参数名，和内部参数名一致，就好像你写了 # 一样。</p>
-
-<pre><code>注意
-你可以通过写一个 _ 作为外部参数名来不用这个特性，但是有默认值的参数对应有外部参数名是比较好的做法。
-</code></pre>
-
-<h6>不定长的参数</h6>
-
-<p>一个不定长的参数，接受0个或多个某一类型的参数。在参数类型后面加 &hellip; 来表示不定长参数。</p>
-
-<p>传入到不定长参数的实参会作为一个数组存在。</p>
-
-<pre><code class="swift">func arithmeticMean(numbers: Double...) -&gt; Double {
-    var total: Double = 0
-    for number in numbers {
-        total += number
+<pre><code class="swift">class Player {
+    var tracker = LevelTracker()
+    let playerName: String
+    func completedLevel(level: Int) {
+        LevelTracker.unlockLevel(level + 1)
+        tracker.advanceToLevel(level + 1)
     }
-    return total / Double(numbers.count)
-}
-</code></pre>
-
-<pre><code>注意
-一个函数最多只能有一个不定长参数，而且必须是参数列表的最后一个。如果一个函数有默认值参数和不定长参数，先写默认值参数，再写不定长参数。
-</code></pre>
-
-<h6>常量和变量参数</h6>
-
-<p>函数参数默认是常量，如果你在函数里改变参数的值，会造成编译错误。</p>
-
-<p>但是，有时候能够使用一个可变的参数的拷贝会很方便。你可以声明参数为var来做到这一点。</p>
-
-<pre><code class="swift">func alignRight(var string: String, count: Int, pad: Character) -&gt; String {
-    let amountToPad = count - countElements(string)
-    if amountToPad &lt; 1 {
-        return string
+    init(name: String) {
+        playerName = name
     }
-    let padString = String(pad)
-    for _ in 1...amountToPad {
-        string = padString + string
-    }
-    return string
 }
 </code></pre>
 
-<pre><code>注意
-你对var的参数做的改变只在当次函数调用时有用。在函数外部不可见。var的参数也只在函数调用期间存在。
+<pre><code class="swift">var player = Player(name: "Argyrios")
+player.completedLevel(1)
+println("highest unlocked level is now \(LevelTracker.highestUnlockedLevel)")
+// prints "highest unlocked level is now 2"
 </code></pre>
 
-<h6>输入输出函数</h6>
-
-<p>变量参数只能在函数内起作用，如果你希望你对一个参数做的改变可以在函数调用结束后依然有效，你需要把它声明为输入输出参数。</p>
-
-<p>在参数前面加上 inout 来标示一个输入输出参数。</p>
-
-<p>你只能给 inout参数传递一个变量，而不能传递常量或字面量。你在实参前面加一个 &amp; 来标示这个参数是作为 inout 参数传入的。</p>
-
-<pre><code>注意
-inout 参数不能有默认值，也不能作为不定长参数。如果标记为 inout，也不能再标记let或者var。
+<pre><code class="swift">player = Player(name: "Beto")
+if player.tracker.advanceToLevel(6) {
+    println("player is now on level 6")
+} else {
+    println("level 6 has not yet been unlocked")
+}
+// prints "level 6 has not yet been unlocked"
 </code></pre>
-
-<pre><code class="swift">func swapTwoInts(inout a: Int, inout b: Int) {
-    let temporaryA = a
-    a = b
-    b = temporaryA
-}
-</code></pre>
-
-<p>调用时：</p>
-
-<pre><code class="swift">var someInt = 3
-var anotherInt = 107
-swapTwoInts(&amp;someInt, &amp;anotherInt)
-println("someInt is now \(someInt), and anotherInt is now \(anotherInt)")
-</code></pre>
-
-<pre><code>注意
-inout参数和函数返回值不一样。
-</code></pre>
-
-<h5>函数类型</h5>
-
-<p>每个函数都有函数类型，由参数类型和返回值类型组成。</p>
-
-<pre><code class="swift">func addTwoInts(a: Int, b: Int) -&gt; Int {
-    return a + b
-}
-func multiplyTwoInts(a: Int, b: Int) -&gt; Int {
-    return a * b
-}
-</code></pre>
-
-<p>上面两个函数的类型都是 (Int,Int) -> (Int)。读作一个函数类型，接受2个Int类型的参数，返回一个Int类型的值。</p>
-
-<p>另一个例子：</p>
-
-<pre><code class="swift">func printHello() {
-    println("hello")
-}
-</code></pre>
-
-<p>它的函数类型是 () -> ()，读作不接受参数，返回Void。</p>
-
-<h6>使用函数类型</h6>
-
-<p>使用函数类型和其他类型一模一样。</p>
-
-<pre><code class="swift">var mathFunc: (Int,Int) -&gt; Int = addTwoInts
-</code></pre>
-
-<h6>函数类型作为参数类型</h6>
-
-<p>可以把函数类型作为参数类型，这让调用者可以传入一个函数来帮助实现我们的函数。</p>
-
-<pre><code class="swift">func printMathResult(mathFunction: (Int, Int) -&gt; Int, a: Int, b: Int) {
-    println("Result: \(mathFunction(a, b))")
-}
-printMathResult(addTwoInts, 3, 5)
-</code></pre>
-
-<h6>函数类型作为返回值类型</h6>
-
-<pre><code class="swift">func stepForward(input: Int) -&gt; Int {
-    return input + 1
-}
-func stepBackward(input: Int) -&gt; Int {
-    return input - 1
-}
-func chooseStepFunction(backwards: Bool) -&gt; (Int) -&gt; Int {
-    return backwards ? stepBackward : stepForward
-}
-var currentValue = 3
-let moveNearerToZero = chooseStepFunction(currentValue &gt; 0) //注：let而不是var
-println("Counting to zero:")
-// Counting to zero:
-while currentValue != 0 {
-    println("\(currentValue)... ")
-    currentValue = moveNearerToZero(currentValue)
-}
-println("zero!")
-</code></pre>
-
-<h5>嵌套函数</h5>
-
-<p>目前见到的所有函数都是全局函数，被定义在一个全局作用域内。我们也可以在函数内定义其他函数。</p>
-
-<p>嵌套函数默认为外部是不可见的。但是可以被包含函数调用。包含函数也可以返回内嵌函数，让外部可以在其他作用域被调用。</p>
-
-<pre><code class="swift">func chooseStepFunction(backwards: Bool) -&gt; (Int) -&gt; Int {
-    func stepForward(input: Int) -&gt; Int { return input + 1 }
-    func stepBackward(input: Int) -&gt; Int { return input - 1 }
-    return backwards ? stepBackward : stepForward
-}
-var currentValue = -4
-let moveNearerToZero = chooseStepFunction(currentValue &gt; 0)
-// moveNearerToZero now refers to the nested stepForward() function
-while currentValue != 0 {
-    println("\(currentValue)... ")
-    currentValue = moveNearerToZero(currentValue)
-}
-println("zero!")
-</code></pre>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Language Guide: Control Flow]]></title>
-    <link href="http://zxhfirefox.github.io/blog/2014/10/04/language-guide-control-flow/"/>
-    <updated>2014-10-04T14:39:29+08:00</updated>
-    <id>http://zxhfirefox.github.io/blog/2014/10/04/language-guide-control-flow</id>
-    <content type="html"><![CDATA[<p>Swift提供了和类C语言相似的流程控制语句。包括for和while来做循环，if和switch来做分支，break和continue来做打断。</p>
-
-<p>除了支持for，Swift还加入了for-in来简化字符串，数组，字典，区间和其他序列的遍历。</p>
-
-<p>Swift的switch也比C的要强大许多，case不会默认的执行下一个case，避免了忘写break带来的bug。case也可以匹配其他的模式，包括字符串，区间，并且可以cast到某个特定类型。匹配的值可以绑定到临时变量，这样在case里面就可以使用，复杂的case可以通过添加where来表达。</p>
-
-<p><em>注：这里很多的内容都是和C，ObjC一样的，所以很多地方都省略了，重点翻译了Swift里的特性和一些需要特别注意的地方。</em></p>
-
-<!--more-->
-
-
-<h5>For循环</h5>
-
-<p>两种：</p>
-
-<ul>
-<li>for-in</li>
-<li>for</li>
-</ul>
-
-
-<h6>for-in</h6>
-
-<p>使用for-in来循环遍历一个序列的元素。</p>
-
-<pre><code class="swift">for index in 1...5 {
-    println("\(index) times 5 is \(index * 5)")
-}
-</code></pre>
-
-<p>上面的循环里，index是常量，每次遍历被赋予新值。</p>
-
-<p>如果不需要每次遍历给出的值，可以用 _ 来接受遍历给出值。</p>
-
-<h6>for</h6>
-
-<p>和C一样的for循环。</p>
-
-<pre><code class="swift">for var index = 0; index &lt; 3; ++index {
-    println("index is \(index)")
-}
-</code></pre>
-
-<p>index只在for循环语句内可见。如果想在for语句后访问index，必须在for语句之前声明。</p>
-
-<p>注意如果在for循环外使用index的值，那么++index和index++是不一样的。</p>
-
-<h5>while循环</h5>
-
-<p>两种：</p>
-
-<ul>
-<li>while</li>
-<li>do-while</li>
-</ul>
-
-
-<h6>while</h6>
-
-<h6>do-while</h6>
-
-<h5>条件语句</h5>
-
-<p>if和switch</p>
-
-<h6>if</h6>
-
-<h6>switch</h6>
-
-<p>switch语句必须是穷举的，这意味着，switch的所有case的组合必须覆盖了条件值可以取值的所有范围。</p>
-
-<p>switch语句，不会在执行完一个case之后继续执行下一个case。</p>
-
-<p>条件值，可以用范围来区分case。</p>
-
-<pre><code class="swift">let count = 3_000_000_000_000
-let things = "stars in the Milky Way"
-var naturalCount: String
-switch count {
-case 0:
-    naturalCount = "no"
-case 1...3:
-    naturalCount = "a few"
-case 4...9:
-    naturalCount = "several"
-case 10...99:
-    naturalCount = "tens of"
-case 100...999:
-    naturalCount = "hundreds of "
-case 1000...999_999:
-    naturalCount = "thousands of"
-default:
-    naturalCount = "millions of "
-}
-</code></pre>
-
-<p>条件值，也可是元组。元组的每个元素都可以匹配，使用 _ 来匹配任意值。</p>
-
-<pre><code class="swift">let somePoint = (1,1)
-switch somePoint {
-case (0,0):
-    println("origin")
-case (\_,0):
-    println("x axis")
-case (0,_):
-    println("y axis")
-case (-2...2,-2...2):
-    println(" in a square")
-defualt:
-    println("out of square")
-}
-</code></pre>
-
-<p>上面的例子里，和C不一样，Swift允许多个case包含相同的值，（0，0）满足4个分支。然而，如果有多个匹配，那么只执行第一个匹配。</p>
-
-<p>switch的case可以把匹配的值绑定到临时变量，以便在case的代码中使用。</p>
-
-<pre><code class="swift">let point = (2,0)
-switch point {
-case (let x,0):
-    println("on x axis with x = \(x)")
-case (0,let y):
-    println("on y axis with y = \(y)")
-case let (x,y):
-    println("x = \(x), y = \(y)")
-}
-</code></pre>
-
-<p>上面的x，y是常量，如果声明为var，也只能在case语句内改变。</p>
-
-<p>switch的case可以使用where来表达复杂的case条件。</p>
-
-<pre><code class="swift">let point = (1,-1)
-switch point {
-case let(x,y) where x == y:
-    println("point on the line x == y")
-case let(x,y) where x == -y:
-    println("point on the line x == -y")
-case let(x,y):
-    println("arbitrary point")
-}
-</code></pre>
-
-<h5>控制转换语句</h5>
-
-<ul>
-<li>continue</li>
-<li>break</li>
-<li>fallthrough</li>
-<li>return</li>
-</ul>
-
-
-<h6>continue</h6>
-
-<h6>break</h6>
-
-<h6>fallthrough</h6>
-
-<p>Swift里，switch的case默认不会fallthrough，如果需要，那么用fallthrough。</p>
-
-<h6>标签语句</h6>
-
-<p>嵌套switch或者循环在其他的switch和循环里，能够写出非常复杂的控制语句。然后循环和switch都使用break来终止执行。那么，如果能够明确的说明终止到哪一个循环或switch语句是很有用的。对于continue也有这样的使用场景。</p>
-
-<p>为了达到这个目标，我们可以在循环或switch语句上加上标签，然后在break和continue的时候写上标签，来告诉程序跳转到哪里继续执行。</p>
 ]]></content>
   </entry>
   
