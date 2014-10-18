@@ -111,6 +111,24 @@
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">deinit</span> <span class="p">{</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<!--more-->
+
+
+<p>反初始化函数自动在对象销毁前调用。你不能自己手动调用，父类的反初始化函数会被继承，而且在子类的实现末尾自动调用。即使子类不提供反初始化函数，父类的也会的调用。</p>
+
+<p>因为在销毁之前调用反初始化函数，所以在反初始化函数里，所偶的属性都还可以访问。</p>
+
+<h5>反初始化函数实战</h5>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
@@ -118,30 +136,23 @@
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'> <span class="n">deinit</span> <span class="p">{</span>
-</span><span class='line'> <span class="p">}</span>
-</span><span class='line'> <span class="err">```</span>
-</span><span class='line'>
-</span><span class='line'><span class="err">反初始化函数自动在对象销毁前调用。你不能自己手动调用，父类的反初始化函数会被继承，而且在子类的实现末尾自动调用。即使子类不提供反初始化函数，父类的也会的调用。</span>
-</span><span class='line'>
-</span><span class='line'><span class="err">因为在销毁之前调用反初始化函数，所以在反初始化函数里，所偶的属性都还可以访问。</span>
-</span><span class='line'>
-</span><span class='line'><span class="cp">#####   反初始化函数实战</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">struct</span> <span class="n">Bank</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">static</span> <span class="n">var</span> <span class="n">coinsInBank</span> <span class="o">=</span> <span class="mi">10</span><span class="n">_000</span>
+</span><span class='line'>    <span class="k">static</span> <span class="n">func</span> <span class="n">vendCoins</span><span class="p">(</span><span class="n">var</span> <span class="nl">numberOfCoinsToVend</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Int</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">numberOfCoinsToVend</span> <span class="o">=</span> <span class="n">min</span><span class="p">(</span><span class="n">numberOfCoinsToVend</span><span class="p">,</span> <span class="n">coinsInBank</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">coinsInBank</span> <span class="o">-=</span> <span class="n">numberOfCoinsToVend</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">numberOfCoinsToVend</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">static</span> <span class="n">func</span> <span class="n">receiveCoins</span><span class="p">(</span><span class="nl">coins</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">coinsInBank</span> <span class="o">+=</span> <span class="n">coins</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p> swift
-struct Bank {
-    static var coinsInBank = 10_000
-    static func vendCoins(var numberOfCoinsToVend: Int) -> Int {
-        numberOfCoinsToVend = min(numberOfCoinsToVend, coinsInBank)
-        coinsInBank -= numberOfCoinsToVend
-        return numberOfCoinsToVend
-    }
-    static func receiveCoins(coins: Int) {
-        coinsInBank += coins
-    }
-}</p>
+
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -155,9 +166,7 @@ struct Bank {
 <span class='line-number'>10</span>
 <span class='line-number'>11</span>
 <span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="err">```</span> <span class="n">swift</span>
-</span><span class='line'><span class="k">class</span> <span class="n">Player</span> <span class="p">{</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">class</span> <span class="n">Player</span> <span class="p">{</span>
 </span><span class='line'>    <span class="n">var</span> <span class="nl">coinsInPurse</span><span class="p">:</span> <span class="n">Int</span>
 </span><span class='line'>    <span class="n">init</span><span class="p">(</span><span class="nl">coins</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="p">{</span>
 </span><span class='line'>        <span class="n">coinsInPurse</span> <span class="o">=</span> <span class="n">Bank</span><span class="p">.</span><span class="n">vendCoins</span><span class="p">(</span><span class="n">coins</span><span class="p">)</span>

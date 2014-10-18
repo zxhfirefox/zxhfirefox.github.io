@@ -4,7 +4,7 @@
   <title><![CDATA[Category: swift | zxhfirefox's Blog]]></title>
   <link href="http://zxhfirefox.github.io/blog/categories/swift/atom.xml" rel="self"/>
   <link href="http://zxhfirefox.github.io/"/>
-  <updated>2014-10-19T00:41:46+08:00</updated>
+  <updated>2014-10-19T00:50:52+08:00</updated>
   <id>http://zxhfirefox.github.io/</id>
   <author>
     <name><![CDATA[zxhfirefox]]></name>
@@ -26,9 +26,12 @@
 
 <p>每个类，最多只有一个 deinit 方法。 没有任何参数。</p>
 
-<pre><code class="swift"> deinit {
- }
+<pre><code class="swift">deinit {
+}
 </code></pre>
+
+<!--more-->
+
 
 <p>反初始化函数自动在对象销毁前调用。你不能自己手动调用，父类的反初始化函数会被继承，而且在子类的实现末尾自动调用。即使子类不提供反初始化函数，父类的也会的调用。</p>
 
@@ -96,6 +99,9 @@ println("The bank now has \(Bank.coinsInBank) coins")
 <p>我们使用初始化函数来做初始化，初始化函数是一种特殊的函数，在实例被创建时，它会被调用。和ObjC的初始化函数不同，Swift的初始化函数不返回值。他们的主要目的就是确保这个新的实例在被使用之前正确的初始化。</p>
 
 <p>类类型的实例也可以实现反初始化函数，它在实例被销毁时可以用来做任何的清理工作。</p>
+
+<!--more-->
+
 
 <h5>为存储属性设置初始值</h5>
 
@@ -877,6 +883,9 @@ if let oneUnnamed = CartItem(name: "", quantity: 1) {
 
 <p>类还可以给父类的属性添加观察者，来使得自己在父类属性变化的时候得到通知。观察者可以添加给任何属性，不论是存储的还是计算的。</p>
 
+<!--more-->
+
+
 <h5>定义一个基类</h5>
 
 <p>任何类，如果它没有从其他类继承，那它就是一个基类。</p>
@@ -1019,6 +1028,9 @@ println("AutomaticCar: \(automatic.description)")
 
 <p>我们可以给一个类型添加多个角标，选择哪个角标是由传进来的索引的类型决定。角标不限于一个维度，你可以定义为角标定义多个输入。</p>
 
+<!--more-->
+
+
 <h5>角标语法</h5>
 
 <p>角标允许你在实例后面使用方括号来通过特定的值来查询这个实例。他们的语法和方法，属性的很相似。使用subscirpt关键字定义角标，并给出参数和返回值。角标和方法不同，角标可以是可读可写，也可以是只读，这种行为是通过一个类似于计算属性的 getter和 setter来表达。</p>
@@ -1112,6 +1124,9 @@ matrix[1, 0] = 3.2
     <content type="html"><![CDATA[<p>方法是关联到特殊类型的函数。类，结构体，枚举都可以定义实例方法，实例方法绑定到具体的实例。他们也都可以定义类型方法，类型方法关联到类型。类型方法和ObjC的类方法是相似的。</p>
 
 <p>事实上，结构体和枚举可以定义方法是Swift和C，ObjC的主要区别之一。在ObjC里，只有类是可以定义方法的。在Swift里，类，结构体和枚举都可以定义方法。</p>
+
+<!--more-->
+
 
 <h5>实例方法</h5>
 
