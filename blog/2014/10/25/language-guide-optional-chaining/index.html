@@ -1,0 +1,666 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Language Guide: Optional Chaining - zxhfirefox&#8217;s Blog</title>
+  <meta name="author" content="zxhfirefox">
+
+  
+  <meta name="description" content="Optional链条是一种在一个optional上查询，调用属性，方法和角标得时候，这个optional的值可能是nil得一种操作。如果这个optional有值，那么属性，方法，角标的调用会成功，如果optional是nil，属性，方法，角标的调用返回nil。多个查询可以链接在一起， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://zxhfirefox.github.io/blog/2014/10/25/language-guide-optional-chaining">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="zxhfirefox's Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-55876830-1']);
+    _gaq.push(['_trackPageview']);
+    _gaq.push(['_setDomainName','github.io']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">zxhfirefox&#8217;s Blog</a></h1>
+  
+    <h2>A place to record some words.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:zxhfirefox.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/about">About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Language Guide: Optional Chaining</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-10-25T10:22:10+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>10:22 am</span></time>
+        
+      </p>
+    
+    
+    <h5>禁止用于商业用途，转载请注明出处</h5>
+    
+  </header>
+
+  
+    <div class="entry-content"><p>Optional链条是一种在一个optional上查询，调用属性，方法和角标得时候，这个optional的值可能是nil得一种操作。如果这个optional有值，那么属性，方法，角标的调用会成功，如果optional是nil，属性，方法，角标的调用返回nil。多个查询可以链接在一起，整个链接在有任何一个地方为nil时简单的返回失败。</p>
+
+<pre><code>注意
+Optional链条有点类似于ObjC中给nil发送消息，但是它可以使用在任何类型上，而且也可以检查成功或失败。
+</code></pre>
+
+<!-- more -->
+
+
+<h3>Optional链条作为强制解包的替换方案</h3>
+
+<p>我们在我们期望的属性，方法，角标后面加？来表示optional链条。这和在一个optional值的后面加！来强制解包很相似。主要区别在于如果optional值为nil，链条会简单的失败，而强制解包会触发运行时错误。</p>
+
+<p>为了反映optional链条可以调用在一个nil上，整个链条的返回值都是一个optional的值，即使你访问的属性，方法，角标并不是optional的。我们可以使用这个返回值来检查optional链条的调用是否成功，或者因为有nil值而没有成功。</p>
+
+<p>特别的，optional链条调用的结果和预期的结果类型相同，包裹在一个optional里。一个返回Int的属性会返回Int？。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">class</span> <span class="n">Person</span><span class="p">{</span>
+</span><span class='line'>    <span class="n">var</span> <span class="nl">residence</span><span class="p">:</span> <span class="n">Residence</span><span class="o">?</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">class</span> <span class="n">Residence</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">var</span> <span class="n">numberOfRooms</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>我们定义了两个类。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="n">john</span> <span class="o">=</span> <span class="n">Person</span><span class="p">()</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>创建一个Person对象，这时候它的residence是nil。如果我们强制访问residence的numberOfRooms属性就会触发运行时错误。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="n">roomCount</span> <span class="o">=</span> <span class="n">john</span><span class="p">.</span><span class="n">residence</span><span class="o">!</span><span class="p">.</span><span class="n">numberOfRooms</span>
+</span><span class='line'><span class="c1">// this triggers a runtime error</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>然而，我们使用optional链条来处理这个：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">if</span> <span class="n">let</span> <span class="n">roomCount</span> <span class="o">=</span> <span class="n">john</span><span class="p">.</span><span class="n">residence</span><span class="o">?</span><span class="p">.</span><span class="n">numberOfRooms</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">println</span><span class="p">(</span><span class="s">&quot;John&#39;s residence has \(roomCount) room(s).&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">println</span><span class="p">(</span><span class="s">&quot;Unable to retrieve the number of rooms.&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="c1">// prints &quot;Unable to retrieve the number of rooms.&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>因为residence是nil，所以optional链条失败，返回nil。</p>
+
+<p>如果我们给residence附值。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">john</span><span class="p">.</span><span class="n">residence</span> <span class="o">=</span> <span class="n">Residence</span><span class="p">()</span>
+</span><span class='line'><span class="k">if</span> <span class="n">let</span> <span class="n">roomCount</span> <span class="o">=</span> <span class="n">john</span><span class="p">.</span><span class="n">residence</span><span class="o">?</span><span class="p">.</span><span class="n">numberOfRooms</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">println</span><span class="p">(</span><span class="s">&quot;John&#39;s residence has \(roomCount) room(s).&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">println</span><span class="p">(</span><span class="s">&quot;Unable to retrieve the number of rooms.&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="c1">// prints &quot;John&#39;s residence has 1 room(s).&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>optional链条就成功了，返回了正确的numberOfRooms。</p>
+
+<h3>为optional链条定义模型类</h3>
+
+<p>我们多层次的使用optional链条来调用属性，方法，角标。这使得你可以不断向下的访问复杂的模型类的属性，并且检查是否可以访问属性，方法，角标。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">class</span> <span class="n">Person</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">var</span> <span class="nl">residence</span><span class="p">:</span> <span class="n">Residence</span><span class="o">?</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">class</span> <span class="n">Residence</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">var</span> <span class="n">rooms</span> <span class="o">=</span> <span class="p">[</span><span class="n">Room</span><span class="p">]()</span>
+</span><span class='line'>    <span class="n">var</span> <span class="nl">numberOfRooms</span><span class="p">:</span> <span class="n">Int</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">rooms</span><span class="p">.</span><span class="n">count</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="n">subscript</span><span class="p">(</span><span class="nl">i</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Room</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">get</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">return</span> <span class="n">rooms</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="n">set</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">rooms</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">newValue</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="n">func</span> <span class="n">printNumberOfRooms</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">println</span><span class="p">(</span><span class="s">&quot;The number of rooms is \(numberOfRooms)&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="n">var</span> <span class="nl">address</span><span class="p">:</span> <span class="n">Address</span><span class="o">?</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这次，我们的Residence有多个Room，所以numberOfRooms成为了一个计算属性。并实现了角标访问来访问或设置Room。最后，它还有一个optional的Address。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">class</span> <span class="n">Room</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">let</span> <span class="nl">name</span><span class="p">:</span> <span class="n">String</span>
+</span><span class='line'>    <span class="n">init</span><span class="p">(</span><span class="nl">name</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="p">{</span> <span class="nb">self</span><span class="p">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span> <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">class</span> <span class="n">Address</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">var</span> <span class="nl">buildingName</span><span class="p">:</span> <span class="n">String</span><span class="o">?</span>
+</span><span class='line'>    <span class="n">var</span> <span class="nl">buildingNumber</span><span class="p">:</span> <span class="n">String</span><span class="o">?</span>
+</span><span class='line'>    <span class="n">var</span> <span class="nl">street</span><span class="p">:</span> <span class="n">String</span><span class="o">?</span>
+</span><span class='line'>    <span class="n">func</span> <span class="n">buildingIdentifier</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">String</span><span class="o">?</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">if</span> <span class="n">buildingName</span> <span class="o">!=</span> <span class="nb">nil</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">return</span> <span class="n">buildingName</span>
+</span><span class='line'>        <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="n">buildingNumber</span> <span class="o">!=</span> <span class="nb">nil</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">return</span> <span class="n">buildingNumber</span>
+</span><span class='line'>        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">return</span> <span class="nb">nil</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>我们定义了Room和Address类，Address类有3个optional的属性，和一个返回optional的String的方法。</p>
+
+<h3>通过optional链条访问属性</h3>
+
+<p>我们可以通过optional链条来访问一个optional值的属性，并检查访问是否成功。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="n">john</span> <span class="o">=</span> <span class="n">Person</span><span class="p">()</span>
+</span><span class='line'><span class="k">if</span> <span class="n">let</span> <span class="n">roomCount</span> <span class="o">=</span> <span class="n">john</span><span class="p">.</span><span class="n">residence</span><span class="o">?</span><span class="p">.</span><span class="n">numberOfRooms</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">println</span><span class="p">(</span><span class="s">&quot;John&#39;s residence has \(roomCount) room(s).&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">println</span><span class="p">(</span><span class="s">&quot;Unable to retrieve the number of rooms.&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="c1">// prints &quot;Unable to retrieve the number of rooms.&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面的例子和之前一样，因为没有residence，所以没有办法访问房间数。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="n">someAddress</span> <span class="o">=</span> <span class="n">Address</span><span class="p">()</span>
+</span><span class='line'><span class="n">someAddress</span><span class="p">.</span><span class="n">buildingNumber</span> <span class="o">=</span> <span class="s">&quot;29&quot;</span>
+</span><span class='line'><span class="n">someAddress</span><span class="p">.</span><span class="n">street</span> <span class="o">=</span> <span class="s">&quot;Acacia Road&quot;</span>
+</span><span class='line'><span class="n">john</span><span class="p">.</span><span class="n">residence</span><span class="o">?</span><span class="p">.</span><span class="n">address</span> <span class="o">=</span> <span class="n">someAddress</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这次，我们通过optional链条来给属性附值，但是因为residence是nil，所以附值依然是失败的。</p>
+
+<h3>通过optional链条调用方法</h3>
+
+<p>我们可以用optional链条来调用一个optional值的方法，然后检查调用是否成功。即使这个方法不返回值，我们也能这么做。</p>
+
+<p>Residence的printNumberOfRooms方法，没有给出返回值。</p>
+
+<p>但是，没有给出返回值的方法其实是返回了Void类型，这意味着他们返回了一个空元组()。</p>
+
+<p>如果我们把这个方法调用在optional链条时，这个方法会返回Void？，而不是Void。这样我们可以用if语句来检查我们能不能调用printNumberOfRooms方法即便方法自己没有定义返回值。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">if</span> <span class="n">john</span><span class="p">.</span><span class="n">residence</span><span class="o">?</span><span class="p">.</span><span class="n">printNumberOfRooms</span><span class="p">()</span> <span class="o">!=</span> <span class="nb">nil</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">println</span><span class="p">(</span><span class="s">&quot;It was possible to print the number of rooms.&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">println</span><span class="p">(</span><span class="s">&quot;It was not possible to print the number of rooms.&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="c1">// prints &quot;It was not possible to print the number of rooms.&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>任何尝试通过optional链条设置属性的操作都会返回一个Void？，我们可以用来检查设置属性是否成功：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">if</span> <span class="p">(</span><span class="n">john</span><span class="p">.</span><span class="n">residence</span><span class="o">?</span><span class="p">.</span><span class="n">address</span> <span class="o">=</span> <span class="n">someAddress</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">nil</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">println</span><span class="p">(</span><span class="s">&quot;It was possible to set the address.&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">println</span><span class="p">(</span><span class="s">&quot;It was not possible to set the address.&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="c1">// prints &quot;It was not possible to set the address.&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>通过optional链条访问角标</h3>
+
+<p>我们可以通过在optional的值上使用optional链条来获取或设置角标的值，并且检查是否成功。</p>
+
+<pre><code>注意
+当我们使用optional链条来访问角标值的时候我们总是把？放在方括号的前面。事实上，optional链条的？总是紧跟着optional的值。
+</code></pre>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">if</span> <span class="n">let</span> <span class="n">firstRoomName</span> <span class="o">=</span> <span class="n">john</span><span class="p">.</span><span class="n">residence</span><span class="o">?</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">name</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">println</span><span class="p">(</span><span class="s">&quot;The first room name is \(firstRoomName).&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">println</span><span class="p">(</span><span class="s">&quot;Unable to retrieve the first room name.&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="c1">// prints &quot;Unable to retrieve the first room name.&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>？紧跟在residence后面，因为residence是我们要检查的optional值。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">john</span><span class="p">.</span><span class="n">residence</span><span class="o">?</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">Room</span><span class="p">(</span><span class="nl">name</span><span class="p">:</span> <span class="s">&quot;Bathroom&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>通过角标设置也是，这个操作也是失败的，因为residence是nil。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="n">johnsHouse</span> <span class="o">=</span> <span class="n">Residence</span><span class="p">()</span>
+</span><span class='line'><span class="n">johnsHouse</span><span class="p">.</span><span class="n">rooms</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">Room</span><span class="p">(</span><span class="nl">name</span><span class="p">:</span> <span class="s">&quot;Living Room&quot;</span><span class="p">))</span>
+</span><span class='line'><span class="n">johnsHouse</span><span class="p">.</span><span class="n">rooms</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">Room</span><span class="p">(</span><span class="nl">name</span><span class="p">:</span> <span class="s">&quot;Kitchen&quot;</span><span class="p">))</span>
+</span><span class='line'><span class="n">john</span><span class="p">.</span><span class="n">residence</span> <span class="o">=</span> <span class="n">johnsHouse</span>
+</span><span class='line'><span class="k">if</span> <span class="n">let</span> <span class="n">firstRoomName</span> <span class="o">=</span> <span class="n">john</span><span class="p">.</span><span class="n">residence</span><span class="o">?</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">name</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">println</span><span class="p">(</span><span class="s">&quot;The first room name is \(firstRoomName).&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">println</span><span class="p">(</span><span class="s">&quot;Unable to retrieve the first room name.&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="c1">// prints &quot;The first room name is Living Room.&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在我们给residence附值之后，optional链条的操作就会成功。</p>
+
+<h4>访问optional类型的角标</h4>
+
+<p>如果一个角标的返回值是optional，那我们在使用optional链条时需要把？放到方括号的后面。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">var</span> <span class="n">testScores</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;Dave&quot;</span><span class="o">:</span> <span class="p">[</span><span class="mi">86</span><span class="p">,</span> <span class="mi">82</span><span class="p">,</span> <span class="mi">84</span><span class="p">],</span> <span class="s">&quot;Bev&quot;</span><span class="o">:</span> <span class="p">[</span><span class="mi">79</span><span class="p">,</span> <span class="mi">94</span><span class="p">,</span> <span class="mi">81</span><span class="p">]]</span>
+</span><span class='line'><span class="n">testScores</span><span class="p">[</span><span class="s">&quot;Dave&quot;</span><span class="p">]</span><span class="o">?</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">91</span>
+</span><span class='line'><span class="n">testScores</span><span class="p">[</span><span class="s">&quot;Bev&quot;</span><span class="p">]</span><span class="o">?</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">++</span>
+</span><span class='line'><span class="n">testScores</span><span class="p">[</span><span class="s">&quot;Brian&quot;</span><span class="p">]</span><span class="o">?</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">72</span>
+</span><span class='line'><span class="c1">// the &quot;Dave&quot; array is now [91, 82, 84] and the &quot;Bev&quot; array is now [80, 94, 81]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>连接多个层次的链条</h3>
+
+<p>我们多层次的使用optional链条来访问深入访问模型的方法，属性和角标。但是，多层次的optional并不会增加多层次的optional值。</p>
+
+<p>换句话说：</p>
+
+<ul>
+<li>如果我们获取的类型不是optional的，它会变成optional。</li>
+<li>如果获取的已经是optional的，它不会变的更加optional。</li>
+</ul>
+
+
+<p>因此：</p>
+
+<ul>
+<li>如果我们访问的返回值是Int，返回它会返回Int？</li>
+<li>如果我们访问的已经是Int？，那么返回的就是Int？</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">if</span> <span class="n">let</span> <span class="n">johnsStreet</span> <span class="o">=</span> <span class="n">john</span><span class="p">.</span><span class="n">residence</span><span class="o">?</span><span class="p">.</span><span class="n">address</span><span class="o">?</span><span class="p">.</span><span class="n">street</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">println</span><span class="p">(</span><span class="s">&quot;John&#39;s street name is \(johnsStreet).&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">println</span><span class="p">(</span><span class="s">&quot;Unable to retrieve the address.&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="c1">// prints &quot;Unable to retrieve the address.&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这里，我们连续的使用optional链条来访问street属性。而street属性本身就是String？的，所以整个链条返回的类型也是String？。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="n">johnsAddress</span> <span class="o">=</span> <span class="n">Address</span><span class="p">()</span>
+</span><span class='line'><span class="n">johnsAddress</span><span class="p">.</span><span class="n">buildingName</span> <span class="o">=</span> <span class="s">&quot;The Larches&quot;</span>
+</span><span class='line'><span class="n">johnsAddress</span><span class="p">.</span><span class="n">street</span> <span class="o">=</span> <span class="s">&quot;Laurel Street&quot;</span>
+</span><span class='line'><span class="n">john</span><span class="p">.</span><span class="n">residence</span><span class="o">!</span><span class="p">.</span><span class="n">address</span> <span class="o">=</span> <span class="n">johnsAddress</span>
+</span><span class='line'><span class="k">if</span> <span class="n">let</span> <span class="n">johnsStreet</span> <span class="o">=</span> <span class="n">john</span><span class="p">.</span><span class="n">residence</span><span class="o">?</span><span class="p">.</span><span class="n">address</span><span class="o">?</span><span class="p">.</span><span class="n">street</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">println</span><span class="p">(</span><span class="s">&quot;John&#39;s street name is \(johnsStreet).&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">println</span><span class="p">(</span><span class="s">&quot;Unable to retrieve the address.&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="c1">// prints &quot;John&#39;s street name is Laurel Street.&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>链接到有optional返回值的方法</h3>
+
+<p>上面的例子是我们通过optional链条来尝试访问一个optional类型的属性。</p>
+
+<p>我们也可以把一个返回optional值的方法链接到链条里。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">if</span> <span class="n">let</span> <span class="n">buildingIdentifier</span> <span class="o">=</span> <span class="n">john</span><span class="p">.</span><span class="n">residence</span><span class="o">?</span><span class="p">.</span><span class="n">address</span><span class="o">?</span><span class="p">.</span><span class="n">buildingIdentifier</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">println</span><span class="p">(</span><span class="s">&quot;John&#39;s building identifier is \(buildingIdentifier).&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="c1">// prints &quot;John&#39;s building identifier is The Larches.&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>我们也可以继续把更多的方法链接到一起。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">if</span> <span class="n">let</span> <span class="n">beginsWithThe</span> <span class="o">=</span>
+</span><span class='line'>    <span class="n">john</span><span class="p">.</span><span class="n">residence</span><span class="o">?</span><span class="p">.</span><span class="n">address</span><span class="o">?</span><span class="p">.</span><span class="n">buildingIdentifier</span><span class="p">()</span><span class="o">?</span><span class="p">.</span><span class="n">hasPrefix</span><span class="p">(</span><span class="s">&quot;The&quot;</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">if</span> <span class="n">beginsWithThe</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">println</span><span class="p">(</span><span class="s">&quot;John&#39;s building identifier begins with </span><span class="se">\&quot;</span><span class="s">The</span><span class="se">\&quot;</span><span class="s">.&quot;</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">println</span><span class="p">(</span><span class="s">&quot;John&#39;s building identifier does not begin with </span><span class="se">\&quot;</span><span class="s">The</span><span class="se">\&quot;</span><span class="s">.&quot;</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="c1">// prints &quot;John&#39;s building identifier begins with &quot;The&quot;.&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<pre><code>注意
+注意?在括弧的后面。
+</code></pre>
+</div>
+  
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">zxhfirefox</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2014-10-25T10:22:10+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>10:22 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/swift/'>swift</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/10/25/language-guide-arc/" title="Previous Post: Language Guide: ARC">&laquo; Language Guide: ARC</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2014/10/25/language-guide-type-cast/" title="Next Post: Language Guide: Type Casting">Language Guide: Type Casting &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/10/25/language-guide-w-protocols/">Language Guide: Protocols</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/10/25/language-guide-v-extension/">Language Guide: Extension</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/10/25/language-guide-u-nested-type/">Language Guide: Nested Type</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/10/25/language-guide-type-cast/">Language Guide: Type Casting</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/10/25/language-guide-optional-chaining/">Language Guide: Optional Chaining</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - zxhfirefox -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'zxhfirefoxblog';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://zxhfirefox.github.io/blog/2014/10/25/language-guide-optional-chaining/';
+        var disqus_url = 'http://zxhfirefox.github.io/blog/2014/10/25/language-guide-optional-chaining/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
