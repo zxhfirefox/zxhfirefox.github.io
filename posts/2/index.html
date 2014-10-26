@@ -9,7 +9,7 @@
   <meta name="author" content="zxhfirefox">
 
   
-  <meta name="description" content="方法是关联到特殊类型的函数。类，结构体，枚举都可以定义实例方法，实例方法绑定到具体的实例。他们也都可以定义类型方法，类型方法关联到类型。类型方法和ObjC的类方法是相似的。 事实上，结构体和枚举可以定义方法是Swift和C，ObjC的主要区别之一。在ObjC里，只有类是可以定义方法的。 &hellip;">
+  <meta name="description" content="一个反初始化函数在类实例被销毁之前调用。我们用 deinit关键字来写反初始化函数。反初始化函数只有类类型有。 反初始化函数原理 Swift自动把不在使用的实例销毁，并释放资源。Swift使用ARC来做内存管理。一般来讲，我们不需要手动的释放资源。不过，如果我们自己处理了一些资源， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -79,6 +79,171 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/10/19/language-guide-u-deinit/">Language Guide: Deinitialization</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-10-19T00:40:13+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>12:40 am</span></time>
+        
+      </p>
+    
+    
+  </header>
+
+  
+  <div class="entry-content"><p>一个反初始化函数在类实例被销毁之前调用。我们用 deinit关键字来写反初始化函数。反初始化函数只有类类型有。</p>
+
+<h5>反初始化函数原理</h5>
+
+<p>Swift自动把不在使用的实例销毁，并释放资源。Swift使用ARC来做内存管理。一般来讲，我们不需要手动的释放资源。不过，如果我们自己处理了一些资源，我们可能就需要自己做一些清理工作。</p>
+
+<p>每个类，最多只有一个 deinit 方法。 没有任何参数。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">deinit</span> <span class="p">{</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2014/10/19/language-guide-u-deinit/">Read on &rarr;</a>
+    </footer>
+  
+  
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/10/19/language-guide-t-init/">Language Guide: Initialization</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-10-19T00:39:16+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>12:39 am</span></time>
+        
+      </p>
+    
+    
+  </header>
+
+  
+  <div class="entry-content"><p>初始化是让一个类，结构体，枚举的实例变的可用的过程。这个过程包含了把实例上的每一个存储属性都给与一个初始值，还有任何的确保在实例可以被使用前需要做的工作。</p>
+
+<p>我们使用初始化函数来做初始化，初始化函数是一种特殊的函数，在实例被创建时，它会被调用。和ObjC的初始化函数不同，Swift的初始化函数不返回值。他们的主要目的就是确保这个新的实例在被使用之前正确的初始化。</p>
+
+<p>类类型的实例也可以实现反初始化函数，它在实例被销毁时可以用来做任何的清理工作。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2014/10/19/language-guide-t-init/">Read on &rarr;</a>
+    </footer>
+  
+  
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/10/19/language-guide-t-inheritance/">Language Guide: Inheritance</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-10-19T00:38:17+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>12:38 am</span></time>
+        
+      </p>
+    
+    
+  </header>
+
+  
+  <div class="entry-content"><p>一个类可以从其他类继承方法，属性和其他特性。当一个类继承另一个类的时候，我们把继承的类叫子类，把被继承的类叫父类。继承是Swift里类区别于其他类型非常重要的一个区别。</p>
+
+<p>在Swift里，类可以调用和访问父类的方法，属性，角标，也可以通过他们自己重写这些方法，属性，角标来实现自己的行为。Swift会通过检查重写定义是否和父类匹配来帮助你检查重写的正确性。</p>
+
+<p>类还可以给父类的属性添加观察者，来使得自己在父类属性变化的时候得到通知。观察者可以添加给任何属性，不论是存储的还是计算的。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2014/10/19/language-guide-t-inheritance/">Read on &rarr;</a>
+    </footer>
+  
+  
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/10/19/language-guide-subscript/">Language Guide: Subscripts</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-10-19T00:37:12+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>12:37 am</span></time>
+        
+      </p>
+    
+    
+  </header>
+
+  
+  <div class="entry-content"><p>类，结构体，枚举可以定义角标。角标是用来访问集合，列表或序列的元素的一种简写。使用角标可以访问和修改元素。例如，你访问数组的元素使用someArray[index]，访问字典的元素使用someDictionary[key]。</p>
+
+<p>我们可以给一个类型添加多个角标，选择哪个角标是由传进来的索引的类型决定。角标不限于一个维度，你可以定义为角标定义多个输入。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2014/10/19/language-guide-subscript/">Read on &rarr;</a>
+    </footer>
+  
+  
+
+    </article>
   
   
     <article>
@@ -360,174 +525,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/10/04/language-guide-control-flow/">Language Guide: Control Flow</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2014-10-04T14:39:29+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>4</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>2:39 pm</span></time>
-        
-      </p>
-    
-    
-  </header>
-
-  
-  <div class="entry-content"><p>Swift提供了和类C语言相似的流程控制语句。包括for和while来做循环，if和switch来做分支，break和continue来做打断。</p>
-
-<p>除了支持for，Swift还加入了for-in来简化字符串，数组，字典，区间和其他序列的遍历。</p>
-
-<p>Swift的switch也比C的要强大许多，case不会默认的执行下一个case，避免了忘写break带来的bug。case也可以匹配其他的模式，包括字符串，区间，并且可以cast到某个特定类型。匹配的值可以绑定到临时变量，这样在case里面就可以使用，复杂的case可以通过添加where来表达。</p>
-
-<p><em>注：这里很多的内容都是和C，ObjC一样的，所以很多地方都省略了，重点翻译了Swift里的特性和一些需要特别注意的地方。</em></p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2014/10/04/language-guide-control-flow/">Read on &rarr;</a>
-    </footer>
-  
-  
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/10/03/language-guide-collection-types/">Language Guide: Collection Types</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2014-10-03T14:37:37+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>3</span><span class='date-suffix'>rd</span>, <span class='date-year'>2014</span></span> <span class='time'>2:37 pm</span></time>
-        
-      </p>
-    
-    
-  </header>
-
-  
-  <div class="entry-content"><p>Swift提供了两种容器类型，数组和字典。数组相同类型对象的有序列表。字典存储相同类型的无序的值的组合，每个值都可以通过一个标示符（键）来查询。</p>
-
-<p>Swift里数组和字典对他们所包含的值的类型是知道的。这意味着，你不能插入不同类型的值。这也意味着，当你从他们中取值时，取到的值的类型也是确定的。</p>
-
-<pre><code>注意
-数组和字典底层是通过泛型容器来实现的。
-</code></pre>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2014/10/03/language-guide-collection-types/">Read on &rarr;</a>
-    </footer>
-  
-  
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/10/02/language-guide-strings-and-characters/">Language Guide: Strings and Characters</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2014-10-02T14:36:24+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>2</span><span class='date-suffix'>nd</span>, <span class='date-year'>2014</span></span> <span class='time'>2:36 pm</span></time>
-        
-      </p>
-    
-    
-  </header>
-
-  
-  <div class="entry-content"><p>字符串是字符的有序集合，例如，&#8221;hello&#8221;或者&#8221;albatross&#8221;。Swift里字符串表示为Swift类型，它也表示一系列Character类型。</p>
-
-<p>Swift的String和Character提供了一套高效的，支持Unicode的处理文本的方法。字符串创建和操作的语法的是简单的，可读性很好，而且和C有着一样的字面语法。连接2个字符串用+把他们加起来就可以了。字符串的可变版本和Swift里其他值一样，由let和var确定。</p>
-
-<p>虽然语法很简单，但是Swift的string类型是一种高效的，现代的字符串实现。每一个字符串都是由编码无关的Unicode字符组合起来的，提供了许多种编码后字符串的访问。</p>
-
-<p>你也可以通过字符串插入，来把字符串，常量，变量插入到更长的字符串里，这样，在创建字符串，打印和存储的时候都非常方便。</p>
-
-<pre><code>注意
-Swift的String类型和Foundation的NSString类型是无缝桥接的。如果你在使用Foundation的API，那么所有NSSting的API也可以操作String类型，你可以把一个String类型传递给任何需要NSString类型参数的函数。
-</code></pre>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2014/10/02/language-guide-strings-and-characters/">Read on &rarr;</a>
-    </footer>
-  
-  
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/10/01/language-guide-basic-operators/">Language Guide: Basic Operators</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2014-10-01T14:34:09+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>1</span><span class='date-suffix'>st</span>, <span class='date-year'>2014</span></span> <span class='time'>2:34 pm</span></time>
-        
-      </p>
-    
-    
-  </header>
-
-  
-  <div class="entry-content"><p>操作符是用来检查，改变或者组合值的一个特殊符号或词组。例如，加号用来做加法。还有更复杂的例如逻辑与和自增运算符。</p>
-
-<p>Swift支持绝大多数C的操作符，并改进他们的能力来消除一些常犯的错误。赋值操作符＝不再返回值，这样就避免要用==而不小心写成=的错误。算术操作符检查值的范围，不允许值超出范围，这样可以避免运算结果太大或太小。你也可以通过使用溢出操作符来引入溢出行为。</p>
-
-<p>和C不一样，Swift允许你对浮点数做取余操作。Swift也提供了2个区间操作符,a..&lt;b和a&hellip;b。</p>
-
-<p>这里将描述基础操作符，高级操作符将在高级操作符那里讲解。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2014/10/01/language-guide-basic-operators/">Read on &rarr;</a>
-    </footer>
-  
-  
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/3">&larr; Older</a>
@@ -545,23 +542,23 @@ Swift的String类型和Foundation的NSString类型是无缝桥接的。如果你
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/10/26/language-guide-h-conclusion/">Language Guide: Conclusion</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/10/26/language-guide-h-advanced-operators/">Language Guide: Advanced Operators</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/10/26/language-guide-h-access-contoll/">Language Guide: Access Controll</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/10/26/language-guide-generics/">Language Guide: Generics</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/10/25/language-guide-w-protocols/">Language Guide: Protocols</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/10/25/language-guide-v-extension/">Language Guide: Extension</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/10/25/language-guide-u-nested-type/">Language Guide: Nested Type</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/10/25/language-guide-type-cast/">Language Guide: Type Casting</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/10/25/language-guide-optional-chaining/">Language Guide: Optional Chaining</a>
       </li>
     
   </ul>

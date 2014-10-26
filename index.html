@@ -9,7 +9,7 @@
   <meta name="author" content="zxhfirefox">
 
   
-  <meta name="description" content="一个协议定义了一系列满足某些特定需要的方法，属性和其他要求的一个蓝图。协议本身并不提供这些要求的具体实现，它只负责描述这些要求。然后，协议可以被类，结构体，枚举来实现提供这些要求的真正实现。 协议可以要求实现协议的类型有特殊的实例属性，实例方法，类型方法，操作符和角标。 ">
+  <meta name="description" content="从9月14号开始翻译到今天（10月26号），终于很粗糙的把苹果关于Swift的第一篇文档（The Swift Programming Language）的重要部分（Welcome to Swift 和 Language Guie）翻译完毕。 关于语言参考（Language Reference）部分 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -79,6 +79,166 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/10/26/language-guide-h-conclusion/">Language Guide: Conclusion</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-10-26T23:28:48+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>11:28 pm</span></time>
+        
+      </p>
+    
+    
+  </header>
+
+  
+  <div class="entry-content"><p>从9月14号开始翻译到今天（10月26号），终于很粗糙的把苹果关于Swift的第一篇文档（The Swift Programming Language）的重要部分（Welcome to Swift 和 Language Guie）翻译完毕。</p>
+
+<p>关于语言参考（Language Reference）部分，我不打算翻译了，因为这些是一些语法定义的细节。大部分都是我们在工作不需要的，但是有一些部分是我们在使用Swift一些高级特性时最好知道的细节，所以，以后也许会单独的翻译那些细节。</p>
+
+<p>在翻译过程中的一些问题需要在这里总结出来。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2014/10/26/language-guide-h-conclusion/">Read on &rarr;</a>
+    </footer>
+  
+  
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/10/26/language-guide-h-advanced-operators/">Language Guide: Advanced Operators</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-10-26T23:28:03+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>11:28 pm</span></time>
+        
+      </p>
+    
+    
+  </header>
+
+  
+  <div class="entry-content"><p>除了在基础操作符里提到的那些操作符，Swift还提供了一些高级操作符。这些包含了位操作符。</p>
+
+<p>和C里算数操作符不一样，Swift的算数操作符不会溢出。溢出行为会被捕获并报错。如果不想要这种行为，可以使用另外一套操作符，默认是会溢出的。所有这种操作符都是新加一个 &amp; 。</p>
+
+<p>当我们定义自定义类时，我们可以提供一些Swift里的一些标准操作符。Swift简化了这一过程。</p>
+
+<p>我们并不被限制在已有的操作符。Swift里我们可以定义任意的中缀，前缀和后缀，附值操作符，还可以自定义优先级和关联度。这些操作符可以在代码像已有操作符一样使用，我们甚至可以扩展已有操作符来支持自定义操作符。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2014/10/26/language-guide-h-advanced-operators/">Read on &rarr;</a>
+    </footer>
+  
+  
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/10/26/language-guide-h-access-contoll/">Language Guide: Access Controll</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-10-26T23:27:07+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>11:27 pm</span></time>
+        
+      </p>
+    
+    
+  </header>
+
+  
+  <div class="entry-content"><p>访问控制限制了我们从其他源文件和模块的代码访问我们代码能力。这一特性可以让你隐藏你实现的细节，并且给出一个预先定义的接口来暴露可以被访问的代码。</p>
+
+<p>我们可以把访问控制添加到类型级别（类，结构体，枚举），也可以添加到单独的属性，方法，初始化函数和角标。协议可以被限制到特性的上下文，就像全局常量，变量和函数。</p>
+
+<p>除了增加不同程度的访问限制，Swift通过特定环境给出特定默认访问级别来减少了需要明确给出访问级别的代码。事实上，如果我们在写一个单目标（single-target）的app，我们或许永远都不需要明确给出访问限制。</p>
+
+<pre><code>注意
+我们代码里可以被添加访问限制的内容（属性，类型，方法等等）在下文中都被引用为“个体”（entity）。
+</code></pre>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2014/10/26/language-guide-h-access-contoll/">Read on &rarr;</a>
+    </footer>
+  
+  
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/10/26/language-guide-generics/">Language Guide: Generics</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-10-26T23:25:21+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>11:25 pm</span></time>
+        
+      </p>
+    
+    
+  </header>
+
+  
+  <div class="entry-content"><p>泛型可以帮助我们写出灵活的，可重用的函数和类型，他们可以使用任何类型来满足我们的要求。我们可以写出目的明确，抽象清晰的代码。</p>
+
+<p>泛型是Swift最强大的几个特性之一，并且Swift的标准库很多都是用泛型来做的。事实上，我们可能没有意识到，但是我们已经一直在用泛型了。例如，Array和Dictionary类型都是泛型集合。我们可以创建一个元素为Int的数组，也可以创建一个元素为String的数组，或者其他任何Swift的类型。相同的，我们也可以创建不同类型的字典。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2014/10/26/language-guide-generics/">Read on &rarr;</a>
+    </footer>
+  
+  
+
+    </article>
   
   
     <article>
@@ -324,171 +484,6 @@ Optional链条有点类似于ObjC中给nil发送消息，但是它可以使用�
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/10/19/language-guide-u-deinit/">Language Guide: Deinitialization</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2014-10-19T00:40:13+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>12:40 am</span></time>
-        
-      </p>
-    
-    
-  </header>
-
-  
-  <div class="entry-content"><p>一个反初始化函数在类实例被销毁之前调用。我们用 deinit关键字来写反初始化函数。反初始化函数只有类类型有。</p>
-
-<h5>反初始化函数原理</h5>
-
-<p>Swift自动把不在使用的实例销毁，并释放资源。Swift使用ARC来做内存管理。一般来讲，我们不需要手动的释放资源。不过，如果我们自己处理了一些资源，我们可能就需要自己做一些清理工作。</p>
-
-<p>每个类，最多只有一个 deinit 方法。 没有任何参数。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">deinit</span> <span class="p">{</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2014/10/19/language-guide-u-deinit/">Read on &rarr;</a>
-    </footer>
-  
-  
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/10/19/language-guide-t-init/">Language Guide: Initialization</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2014-10-19T00:39:16+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>12:39 am</span></time>
-        
-      </p>
-    
-    
-  </header>
-
-  
-  <div class="entry-content"><p>初始化是让一个类，结构体，枚举的实例变的可用的过程。这个过程包含了把实例上的每一个存储属性都给与一个初始值，还有任何的确保在实例可以被使用前需要做的工作。</p>
-
-<p>我们使用初始化函数来做初始化，初始化函数是一种特殊的函数，在实例被创建时，它会被调用。和ObjC的初始化函数不同，Swift的初始化函数不返回值。他们的主要目的就是确保这个新的实例在被使用之前正确的初始化。</p>
-
-<p>类类型的实例也可以实现反初始化函数，它在实例被销毁时可以用来做任何的清理工作。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2014/10/19/language-guide-t-init/">Read on &rarr;</a>
-    </footer>
-  
-  
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/10/19/language-guide-t-inheritance/">Language Guide: Inheritance</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2014-10-19T00:38:17+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>12:38 am</span></time>
-        
-      </p>
-    
-    
-  </header>
-
-  
-  <div class="entry-content"><p>一个类可以从其他类继承方法，属性和其他特性。当一个类继承另一个类的时候，我们把继承的类叫子类，把被继承的类叫父类。继承是Swift里类区别于其他类型非常重要的一个区别。</p>
-
-<p>在Swift里，类可以调用和访问父类的方法，属性，角标，也可以通过他们自己重写这些方法，属性，角标来实现自己的行为。Swift会通过检查重写定义是否和父类匹配来帮助你检查重写的正确性。</p>
-
-<p>类还可以给父类的属性添加观察者，来使得自己在父类属性变化的时候得到通知。观察者可以添加给任何属性，不论是存储的还是计算的。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2014/10/19/language-guide-t-inheritance/">Read on &rarr;</a>
-    </footer>
-  
-  
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/10/19/language-guide-subscript/">Language Guide: Subscripts</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2014-10-19T00:37:12+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>12:37 am</span></time>
-        
-      </p>
-    
-    
-  </header>
-
-  
-  <div class="entry-content"><p>类，结构体，枚举可以定义角标。角标是用来访问集合，列表或序列的元素的一种简写。使用角标可以访问和修改元素。例如，你访问数组的元素使用someArray[index]，访问字典的元素使用someDictionary[key]。</p>
-
-<p>我们可以给一个类型添加多个角标，选择哪个角标是由传进来的索引的类型决定。角标不限于一个维度，你可以定义为角标定义多个输入。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2014/10/19/language-guide-subscript/">Read on &rarr;</a>
-    </footer>
-  
-  
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/2">&larr; Older</a>
@@ -504,23 +499,23 @@ Optional链条有点类似于ObjC中给nil发送消息，但是它可以使用�
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/10/26/language-guide-h-conclusion/">Language Guide: Conclusion</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/10/26/language-guide-h-advanced-operators/">Language Guide: Advanced Operators</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/10/26/language-guide-h-access-contoll/">Language Guide: Access Controll</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/10/26/language-guide-generics/">Language Guide: Generics</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/10/25/language-guide-w-protocols/">Language Guide: Protocols</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/10/25/language-guide-v-extension/">Language Guide: Extension</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/10/25/language-guide-u-nested-type/">Language Guide: Nested Type</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/10/25/language-guide-type-cast/">Language Guide: Type Casting</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/10/25/language-guide-optional-chaining/">Language Guide: Optional Chaining</a>
       </li>
     
   </ul>

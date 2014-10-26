@@ -1,0 +1,612 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Language Guide: Access Controll - zxhfirefox&#8217;s Blog</title>
+  <meta name="author" content="zxhfirefox">
+
+  
+  <meta name="description" content="访问控制限制了我们从其他源文件和模块的代码访问我们代码能力。这一特性可以让你隐藏你实现的细节，并且给出一个预先定义的接口来暴露可以被访问的代码。 我们可以把访问控制添加到类型级别（类，结构体，枚举），也可以添加到单独的属性，方法，初始化函数和角标。协议可以被限制到特性的上下文，就像全局常量， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://zxhfirefox.github.io/blog/2014/10/26/language-guide-h-access-contoll">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="zxhfirefox's Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-55876830-1']);
+    _gaq.push(['_trackPageview']);
+    _gaq.push(['_setDomainName','github.io']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">zxhfirefox&#8217;s Blog</a></h1>
+  
+    <h2>A place to record some words.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:zxhfirefox.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/about">About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Language Guide: Access Controll</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-10-26T23:27:07+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>11:27 pm</span></time>
+        
+      </p>
+    
+    
+    <h5>禁止用于商业用途，转载请注明出处</h5>
+    
+  </header>
+
+  
+    <div class="entry-content"><p>访问控制限制了我们从其他源文件和模块的代码访问我们代码能力。这一特性可以让你隐藏你实现的细节，并且给出一个预先定义的接口来暴露可以被访问的代码。</p>
+
+<p>我们可以把访问控制添加到类型级别（类，结构体，枚举），也可以添加到单独的属性，方法，初始化函数和角标。协议可以被限制到特性的上下文，就像全局常量，变量和函数。</p>
+
+<p>除了增加不同程度的访问限制，Swift通过特定环境给出特定默认访问级别来减少了需要明确给出访问级别的代码。事实上，如果我们在写一个单目标（single-target）的app，我们或许永远都不需要明确给出访问限制。</p>
+
+<pre><code>注意
+我们代码里可以被添加访问限制的内容（属性，类型，方法等等）在下文中都被引用为“个体”（entity）。
+</code></pre>
+
+<!-- more -->
+
+
+<h3>模块和源文件</h3>
+
+<p>Swift的访问控制模型是基于模块和源文件的概念。</p>
+
+<p>一个模块（module）是代码分发的一个单一单元，一个框架或一个app可以作为一个单一单元编译，它可以被其他模块使用import来导入。</p>
+
+<p>在Xcode里的每一个编译目标都在Swift里作为分开的模块对待。如果我们把我们app的部分代码分开组织成一个独立的框架（或许是为了封装，然后可以在多个app里使用），那么所有在这个框架内的定义都会作为这个独立模块的一部分，然后就可以被导入到这个app和其他app内使用。</p>
+
+<p>一个源文件是在一个模块里的一个单独的Swift源代码文件。尽管我们一般在一个源文件里只定义一个类型，但是单个源文件可以定义多个类型。</p>
+
+<h3>访问级别</h3>
+
+<p>Swift提供了三种访问级别。这些级别和个体（entity）定义的源文件有关，也和这些源文件属于的模块有关。
+    *   public，允许在他们自己定义的模块里的任何源文件都可以使用，并且那些导入了这个模块的任何模块也能使用。通常，我们使用public来提供框架的公开API。
+    *   internal，允许在他们自己定义的模块里的任何源文件都可以使用，但是不能被模块外的源文件使用。通常，我们使用interval来提供app或框架内部使用的结构。
+    *   private，限制了只有在同一个源文件内可以使用。使用private来保护代码的实现细节。</p>
+
+<p>public是最高的访问级别，private是最低的访问级别</p>
+
+<h4>访问级别指引原则</h4>
+
+<p>Swift的访问级别有一个总领的原则：没有个体的访问级别可以定义成其他的更低的访问级别。</p>
+
+<p>例如：
+    *   一个public的变量不能被定义成一个internal或private类型。因为这个类型或许不能在所有地方被访问到。
+    *   一个函数不能有比他们参数和返回值更高的访问街边，因为函数可能在他的组成类型不可用的时候被调用。</p>
+
+<h4>默认访问级别</h4>
+
+<p>所有的个体（除了极少数），在你不明确给出访问级别时，默认的访问级别都是internal。这样，很多情况下你都不用给出访问级别。</p>
+
+<h4>单目标app的访问级别</h4>
+
+<p>当我们在写一个单目标的app时，所有app内的代码应该只能在app内访问。默认的访问级别internal已经满足这一要求。所以，我们不用特别给出访问级别。但是，我们或许在某些地方需要把一些实现定义为private。</p>
+
+<h4>框架的访问级别</h4>
+
+<p>当我们开发框架时，我们需要把框架的公开API定义成public的。</p>
+
+<pre><code>注意
+任何的框架内的实现都还是默认的internal，或是private。我们仅仅把公开的API设定为public
+</code></pre>
+
+<h3>访问控制语法</h3>
+
+<p>我们使用public，internal，private关键字来表示访问控制。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">public</span> <span class="k">class</span> <span class="n">SomePublicClass</span> <span class="p">{}</span>
+</span><span class='line'><span class="n">internal</span> <span class="k">class</span> <span class="n">SomeInternalClass</span> <span class="p">{}</span>
+</span><span class='line'><span class="n">private</span> <span class="k">class</span> <span class="n">SomePrivateClass</span> <span class="p">{}</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">public</span> <span class="n">var</span> <span class="n">somePublicVariable</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'><span class="n">internal</span> <span class="n">let</span> <span class="n">someInternalConstant</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'><span class="n">private</span> <span class="n">func</span> <span class="n">somePrivateFunction</span><span class="p">()</span> <span class="p">{}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果我们不需要特别给出，使用默认的internal时，我们就可以不写。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">class</span> <span class="n">SomeInternalClass</span> <span class="p">{}</span>              <span class="c1">// implicitly internal</span>
+</span><span class='line'><span class="n">var</span> <span class="n">someInternalConstant</span> <span class="o">=</span> <span class="mi">0</span>            <span class="c1">// implicitly internal</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>自定义类型</h3>
+
+<p>当我们需要给自定义类型设置访问控制级别时，在定义时的时候给出即可，这样这些类型就可以在访问控制允许的地方被使用。</p>
+
+<p>类型的访问控制级别也会影响它的成员（属性，方法，初始化函数，角标）的默认访问级别。如果类型的访问级别是private，那么所有成员都是private。如果类型的访问级别是internal或public，成员的默认访问级别就是internal。</p>
+
+<pre><code>注意
+如上所述，public的类型的方法默认是internal的，不是public的。如果我们希望某个成员是public，需要明确指出。
+</code></pre>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">public</span> <span class="k">class</span> <span class="n">SomePublicClass</span> <span class="p">{</span>          <span class="c1">// explicitly public class</span>
+</span><span class='line'>    <span class="n">public</span> <span class="n">var</span> <span class="n">somePublicProperty</span> <span class="o">=</span> <span class="mi">0</span>    <span class="c1">// explicitly public class member</span>
+</span><span class='line'>    <span class="n">var</span> <span class="n">someInternalProperty</span> <span class="o">=</span> <span class="mi">0</span>         <span class="c1">// implicitly internal class member</span>
+</span><span class='line'>    <span class="n">private</span> <span class="n">func</span> <span class="n">somePrivateMethod</span><span class="p">()</span> <span class="p">{}</span>  <span class="c1">// explicitly private class member</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">class</span> <span class="n">SomeInternalClass</span> <span class="p">{</span>               <span class="c1">// implicitly internal class</span>
+</span><span class='line'>    <span class="n">var</span> <span class="n">someInternalProperty</span> <span class="o">=</span> <span class="mi">0</span>         <span class="c1">// implicitly internal class member</span>
+</span><span class='line'>    <span class="n">private</span> <span class="n">func</span> <span class="n">somePrivateMethod</span><span class="p">()</span> <span class="p">{}</span>  <span class="c1">// explicitly private class member</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="n">private</span> <span class="k">class</span> <span class="n">SomePrivateClass</span> <span class="p">{</span>        <span class="c1">// explicitly private class</span>
+</span><span class='line'>    <span class="n">var</span> <span class="n">somePrivateProperty</span> <span class="o">=</span> <span class="mi">0</span>          <span class="c1">// implicitly private class member</span>
+</span><span class='line'>    <span class="n">func</span> <span class="n">somePrivateMethod</span><span class="p">()</span> <span class="p">{}</span>          <span class="c1">// implicitly private class member</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>元组类型</h4>
+
+<p>元组的访问级别是它的所有元素中访问级别最低的元素的访问级别。例如，如果一个元组含有2个不同类型的元素，一个internal，一个private，那么这个元组的访问级别就是private。</p>
+
+<pre><code>注意
+元组的访问级别并不和类，结构体，枚举，函数一样是单独定义的。它的访问级别实在使用时推断出来的，不能显式的定义。
+</code></pre>
+
+<h4>函数类型</h4>
+
+<p>函数的访问级别是通过计算它的参数和返回值类型的最低访问级别决定的。如果函数计算后的访问级别和上下文默认的不一致，我们需要明确给出函数的访问级别。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">func</span> <span class="nf">someFunction</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="n">SomeInternalClass</span><span class="p">,</span> <span class="n">SomePrivateClass</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">// function implementation goes here</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这个全局函数，没有明确给出访问级别，如果我们认为他是internal的，那就错了，事实上，这段代码无法编译。</p>
+
+<p>这个函数的返回类型是一个元组，元组的元素一个是internal的类，一个是private的类。那么元组的访问级别就是private。</p>
+
+<p>因为元组的访问级别是private的，我们需要把函数标示为private才能编译通过。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">private</span> <span class="n">func</span> <span class="nf">someFunction</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="n">SomeInternalClass</span><span class="p">,</span> <span class="n">SomePrivateClass</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">// function implementation goes here</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>我们不能把这个函数标记为public或是默认的internal。因为这个函数使用者无法使用private的返回值。</p>
+
+<h4>枚举类型</h4>
+
+<p>枚举的各种情况自动和枚举的访问级别一致。我们没法给枚举的case单独给出访问级别。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">public</span> <span class="k">enum</span> <span class="n">CompassPoint</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">case</span> <span class="n">North</span>
+</span><span class='line'>    <span class="k">case</span> <span class="n">South</span>
+</span><span class='line'>    <span class="k">case</span> <span class="n">East</span>
+</span><span class='line'>    <span class="k">case</span> <span class="n">West</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面定义这个枚举和他的case都是公开的。</p>
+
+<h4>原始值和关联值</h4>
+
+<p>枚举使用任何原始值和关联值的访问级别都必须枚举的访问级别要高。我们不能在一个internal的枚举里使用private的原始值或关联值。</p>
+
+<h4>嵌套类型</h4>
+
+<p>定义在private里的嵌套类型默认是private的。</p>
+
+<p>定义在public里的嵌套类型默认是internal的。</p>
+
+<p>如果我们希望一个在public里的嵌套类型是public的，我们明确给出。</p>
+
+<h3>子类</h3>
+
+<p>我们可以继承从当前上下文可以访问的任何类。子类的访问级别不会高于父类的，例如，我们无法继承自一个internal的，自身是public得类。</p>
+
+<p>另外，我们可以重写任何的在上下文可以访问的父类的成员（方法，属性，初始化函数，角标）。</p>
+
+<p>重写可以让子类的元素比父类更加可被访问。下面的例子里，public的类A，定义了private的方法someMethod，但是，子类B把someMethod重写成了internal。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">public</span> <span class="k">class</span> <span class="n">A</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">private</span> <span class="n">func</span> <span class="n">someMethod</span><span class="p">()</span> <span class="p">{}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="n">internal</span> <span class="k">class</span> <span class="nl">B</span><span class="p">:</span> <span class="n">A</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">override</span> <span class="n">internal</span> <span class="n">func</span> <span class="n">someMethod</span><span class="p">()</span> <span class="p">{}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>甚至于子类的成员可以去调用父类的更低的访问许可的成员，只要这个父类的调用在上下文里是允许的（意思是，在一个源文件里，调用父类的private犯法，或是在一个模块里，调用父类的internal方法）。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">public</span> <span class="k">class</span> <span class="n">A</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">private</span> <span class="n">func</span> <span class="n">someMethod</span><span class="p">()</span> <span class="p">{}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="n">internal</span> <span class="k">class</span> <span class="nl">B</span><span class="p">:</span> <span class="n">A</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">override</span> <span class="n">internal</span> <span class="n">func</span> <span class="n">someMethod</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nb">super</span><span class="p">.</span><span class="n">someMethod</span><span class="p">()</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>因为类A和B定义在一个源文件里，所以B的someMethod可以调用A的private的someMethod。</p>
+
+<h3>常量，变量，属性和角标</h3>
+
+<p>一个常量，变量，属性不能比他们的类型更加的公开。例如，我们不能给一个public的属性写一个private类型。同时，角标也不能比索引类型或返回类型更加公开。</p>
+
+<p>如果一个常量，变量，属性或角标使用了private的类型，那么他们自己也必须是private的。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">private</span> <span class="n">var</span> <span class="n">privateInstance</span> <span class="o">=</span> <span class="n">SomePrivateClass</span><span class="p">()</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Getter和Setter</h4>
+
+<p>常量，变量，属性和角标的Getter和Setter自动的和他们属于的常量，变量，属性和角标的访问级别一样。</p>
+
+<p>我们可以给变量，属性，角标比他们的对应的getter更低的setter来限制写。通过在var和subscript前面写internal(set)和private(set)。</p>
+
+<pre><code>注意
+注意规则既可以在存储属性上使用，也可以在计算属性上使用。即使我们没有给存储属性明确的给出一个getter和setter。Swift会自动生成他们。
+</code></pre>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">struct</span> <span class="n">TrackedString</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">private</span><span class="p">(</span><span class="n">set</span><span class="p">)</span> <span class="n">var</span> <span class="n">numberOfEdits</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>    <span class="n">var</span> <span class="nl">value</span><span class="p">:</span> <span class="n">String</span> <span class="o">=</span> <span class="s">&quot;&quot;</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">didSet</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">numberOfEdits</span><span class="o">++</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>TrackedString结构体的存储属性numberOfEdits被设置为private(set)。而value和TrackedString本身都是默认的internal。numberOfEdits的getter依然是默认的internal。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">var</span> <span class="n">stringToEdit</span> <span class="o">=</span> <span class="n">TrackedString</span><span class="p">()</span>
+</span><span class='line'><span class="n">stringToEdit</span><span class="p">.</span><span class="n">value</span> <span class="o">=</span> <span class="s">&quot;This string will be tracked.&quot;</span>
+</span><span class='line'><span class="n">stringToEdit</span><span class="p">.</span><span class="n">value</span> <span class="o">+=</span> <span class="s">&quot; This edit will increment numberOfEdits.&quot;</span>
+</span><span class='line'><span class="n">stringToEdit</span><span class="p">.</span><span class="n">value</span> <span class="o">+=</span> <span class="s">&quot; So will this one.&quot;</span>
+</span><span class='line'><span class="n">println</span><span class="p">(</span><span class="s">&quot;The number of edits is \(stringToEdit.numberOfEdits)&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="c1">// prints &quot;The number of edits is 3&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>事实上，如果需要我们可以显式给出getter和setter的访问级别。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">public</span> <span class="k">struct</span> <span class="n">TrackedString</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">public</span> <span class="n">private</span><span class="p">(</span><span class="n">set</span><span class="p">)</span> <span class="n">var</span> <span class="n">numberOfEdits</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>    <span class="n">public</span> <span class="n">var</span> <span class="nl">value</span><span class="p">:</span> <span class="n">String</span> <span class="o">=</span> <span class="s">&quot;&quot;</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">didSet</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">numberOfEdits</span><span class="o">++</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="n">public</span> <span class="n">init</span><span class="p">()</span> <span class="p">{}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>初始化函数</h3>
+
+<p>自定义的初始化函数的访问级别必须少于或等于他们的类型。除了需要的初始化函数，一个需要的初始化函数必须和它的类型有着同样的访问级别。</p>
+
+<p>和函数和方法一样，初始化函数的参数的访问级别不能比初始化函数更低。</p>
+
+<h4>默认初始化函数</h4>
+
+<p>Swift会给任何的结构体和基类提供一个没有任何参数的默认初始化函数，只要这些结构体或基类的所有属性都有默认值，并且自己没有定义任何的初始化函数。</p>
+
+<p>默认初始化函数的访问级别和类型的一致，除非类型是public的。如果类型是public的，默认初始化函数就是internal的。如果我们需要一个public的，我们需要自己定义。</p>
+
+<h3>协议</h3>
+
+<p>我们可以给协议也设置访问级别，这样可以限制实现协议的类型。</p>
+
+<p>协议里所有的要求的访问级别和协议一致。</p>
+
+<pre><code>注意
+如果我们把协议定义为public，那协议的所有要求都必须是public的实现。这一点和其他类型不一样，一个public的类型可能有internal的成员。
+</code></pre>
+
+<h4>协议继承</h4>
+
+<p>如果我们继承一个协议，那么新的协议至少要和已有协议一样的访问限制。我们不能继承一个internal的协议而定义成public的。</p>
+
+<h4>协议实现</h4>
+
+<p>类型可以实现比自己访问级别更低的协议。例如，我们定义一个public类型，然后可以实现一些internal的协议。</p>
+
+<p>类型实现协议后的上下文是类型访问级别和协议访问级别的最小值。例如，如果类型是public，协议是internal，那么类型的协议实现就是internal。</p>
+
+<p>如果我们写或者扩展一个类型来实现一个协议，我们必须确保类型对于协议要求的实现至少要和类型对于协议实现的访问级别一致。例如，如果一个public类型要实现一个internal的协议，那这个类型对于协议要求的实现至少要是internal的。</p>
+
+<pre><code>注意
+在Swift，和ObjC一样，协议实现是全局的，我们不可能在一个程序里，让一个类型通过两种不同的方式实现一个协议。
+</code></pre>
+
+<h3>扩展</h3>
+
+<p>我们可以在当一个类，结构体，枚举可以被访问的时候扩展他们。在扩展里添加的任何成员都和原始成员一样有默认的访问级别。例如，如果我们扩展一个public类型，任何新添加的成员的默认访问级别都是internal。</p>
+
+<p>但是，我们可以给扩展设置一个访问级别来修改所有扩展里添加的成员的访问级别。这个新设置的访问级别依然可以被单个成员的访问级别所覆盖。</p>
+
+<h4>在扩展中实现协议</h4>
+
+<p>如果一个扩展是用来实现协议，那么我们不能在这样扩展中重新给出扩展的访问级别。相反，协议本身的访问级别被用来给扩展里的新成员提供默认访问级别。</p>
+
+<h3>泛型</h3>
+
+<p>泛型函数和泛型类型的访问级别是他们本身和类型参数的访问级别的最小值。</p>
+
+<h3>类型别名</h3>
+
+<p>对于访问级别，任何的类型别名都被认为是独立的类型。一个类型别名可以有比原始类型更低或相等的访问级别。例如，一个私有类型别名可以作为一个private，internal，public的类型的别名，但是一个public的类型别名不能做为一个internal或private的类型的别名。</p>
+
+<pre><code>注意
+这一规则在实现协议时使用的关联类型同样适用。
+</code></pre>
+</div>
+  
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">zxhfirefox</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2014-10-26T23:27:07+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>11:27 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/swift/'>swift</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/10/26/language-guide-generics/" title="Previous Post: Language Guide: Generics">&laquo; Language Guide: Generics</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2014/10/26/language-guide-h-advanced-operators/" title="Next Post: Language Guide: Advanced Operators">Language Guide: Advanced Operators &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/10/26/language-guide-h-conclusion/">Language Guide: Conclusion</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/10/26/language-guide-h-advanced-operators/">Language Guide: Advanced Operators</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/10/26/language-guide-h-access-contoll/">Language Guide: Access Controll</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/10/26/language-guide-generics/">Language Guide: Generics</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/10/25/language-guide-w-protocols/">Language Guide: Protocols</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - zxhfirefox -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'zxhfirefoxblog';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://zxhfirefox.github.io/blog/2014/10/26/language-guide-h-access-contoll/';
+        var disqus_url = 'http://zxhfirefox.github.io/blog/2014/10/26/language-guide-h-access-contoll/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

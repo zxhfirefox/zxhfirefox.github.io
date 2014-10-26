@@ -4,7 +4,7 @@
   <title><![CDATA[Category: swift | zxhfirefox's Blog]]></title>
   <link href="http://zxhfirefox.github.io/blog/categories/swift/atom.xml" rel="self"/>
   <link href="http://zxhfirefox.github.io/"/>
-  <updated>2014-10-25T10:29:03+08:00</updated>
+  <updated>2014-10-26T23:33:28+08:00</updated>
   <id>http://zxhfirefox.github.io/</id>
   <author>
     <name><![CDATA[zxhfirefox]]></name>
@@ -12,6 +12,1122 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Language Guide: Conclusion]]></title>
+    <link href="http://zxhfirefox.github.io/blog/2014/10/26/language-guide-h-conclusion/"/>
+    <updated>2014-10-26T23:28:48+08:00</updated>
+    <id>http://zxhfirefox.github.io/blog/2014/10/26/language-guide-h-conclusion</id>
+    <content type="html"><![CDATA[<p>从9月14号开始翻译到今天（10月26号），终于很粗糙的把苹果关于Swift的第一篇文档（The Swift Programming Language）的重要部分（Welcome to Swift 和 Language Guie）翻译完毕。</p>
+
+<p>关于语言参考（Language Reference）部分，我不打算翻译了，因为这些是一些语法定义的细节。大部分都是我们在工作不需要的，但是有一些部分是我们在使用Swift一些高级特性时最好知道的细节，所以，以后也许会单独的翻译那些细节。</p>
+
+<p>在翻译过程中的一些问题需要在这里总结出来。</p>
+
+<!-- more -->
+
+
+<h4>特殊语境内，专业名词的翻译。</h4>
+
+<p>对于这一个，我在翻译时有很多地方很纠结。有些专用的词我们应该给出比较专业的翻译，而我其实水平是达不到的。。。</p>
+
+<p>想到的解决办法就是，首先，要有一个索引，来指出文章中的特殊的英文单词和我们翻译后的单词的对照。其次，在文章中使用到这个翻译的地方，同时给出原有英文。</p>
+
+<h4>按照原文翻译，还是加入我们自己的理解</h4>
+
+<p>这也是一个问题，开始很多地方，本来是想着按照原文的意思来翻译。后来发现有时候不太好表达，有时候原文很多废话，最后我也就会加入一些我自己的理解，并且直接忽略了一些无用的废话。</p>
+
+<h4>最后</h4>
+
+<p>看完这些，可能会觉得这次的翻译，对于我自己很有帮助，但是如果真的给别人去读，可能帮助并不大。。。</p>
+
+<p>所以，这次的翻译，作为给读者的建议：</p>
+
+<p>如果你能阅读原文，最好阅读原文。</p>
+
+<p>如果你不能阅读原文，最好也参照原文来读。</p>
+
+<h4>最最后</h4>
+
+<p>苹果关于Swift总共2篇主要的文档，那么下面自然是要继续翻译下一篇。</p>
+
+<p>Using Swift with Cocoa and Objective-C</p>
+
+<p>这次，我会尽量改进前面说到的两个问题，不过也许可能大概改进不了多少= =</p>
+
+<p>如果你读到了任何错误，请告诉我，谢谢。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Language Guide: Advanced Operators]]></title>
+    <link href="http://zxhfirefox.github.io/blog/2014/10/26/language-guide-h-advanced-operators/"/>
+    <updated>2014-10-26T23:28:03+08:00</updated>
+    <id>http://zxhfirefox.github.io/blog/2014/10/26/language-guide-h-advanced-operators</id>
+    <content type="html"><![CDATA[<p>除了在基础操作符里提到的那些操作符，Swift还提供了一些高级操作符。这些包含了位操作符。</p>
+
+<p>和C里算数操作符不一样，Swift的算数操作符不会溢出。溢出行为会被捕获并报错。如果不想要这种行为，可以使用另外一套操作符，默认是会溢出的。所有这种操作符都是新加一个 &amp; 。</p>
+
+<p>当我们定义自定义类时，我们可以提供一些Swift里的一些标准操作符。Swift简化了这一过程。</p>
+
+<p>我们并不被限制在已有的操作符。Swift里我们可以定义任意的中缀，前缀和后缀，附值操作符，还可以自定义优先级和关联度。这些操作符可以在代码像已有操作符一样使用，我们甚至可以扩展已有操作符来支持自定义操作符。</p>
+
+<!-- more -->
+
+
+<h3>位操作符</h3>
+
+<p>位操作符让我们可以处理数据结构里的单个原始数据，经常用于底层变成，例如，图形编程和设备驱动制作。位操作符在我们处理外来原始数据时也很有用，例如自定义协议的编码和解码。</p>
+
+<p>Swift支持所有C定义的位操作符。</p>
+
+<h4>按位取反</h4>
+
+<p>~ 反转一个数字的所有位。</p>
+
+<pre><code>    Input 00001111
+          11110000 Result
+</code></pre>
+
+<p>按位取反操作符是前缀操作符，出现在操作数前，没有空格。</p>
+
+<pre><code class="swift">let initialBits: UInt8 = 0b00001111
+let invertedBits = ~initialBits  // equals 11110000
+</code></pre>
+
+<h4>按位与</h4>
+
+<p>&amp; 把两个数组按位组合，结果的值只有两个参数都是1是才是1，其他都是0。</p>
+
+<pre><code>    Input1 11111100
+           00111100 Result
+    Input2 00111111      
+</code></pre>
+
+<pre><code class="swift">let firstSixBits: UInt8 = 0b11111100
+let lastSixBits: UInt8  = 0b00111111
+let middleFourBits = firstSixBits &amp; lastSixBits  // equals 00111100
+</code></pre>
+
+<h4>按位或</h4>
+
+<p>| 把两个数组按位组合，结果的值只要有1个参数都是1是就是1，其他都是0。</p>
+
+<pre><code>    Input1 10110010
+           11111110 Result
+    Input2 01011110
+</code></pre>
+
+<pre><code class="swift">let someBits: UInt8 = 0b10110010
+let moreBits: UInt8 = 0b01011110
+let combinedbits = someBits | moreBits  // equals 11111110
+</code></pre>
+
+<h4>按位异或</h4>
+
+<p>^ 操作符，组合两个数字，当两个数字位的值相同时，结果是0，不相同时是1。</p>
+
+<pre><code>    Input1 00010100
+           00010001 Result
+    Input2 00000101
+</code></pre>
+
+<pre><code class="swift">let firstBits: UInt8 = 0b00010100
+let otherBits: UInt8 = 0b00000101
+let outputBits = firstBits ^ otherBits  // equals 00010001
+</code></pre>
+
+<h4>按位左移和右移操作符</h4>
+
+<p>&lt;&lt; 和 >> 分别把一个数字的所有位向左和向右移动特定数字位。</p>
+
+<p>按位移动操作符相当于对数字做乘以2的指数幂或除以2指数幂。往左一位相当于乘以2，往右相当于除以2.</p>
+
+<h4>无符号整数的位移</h4>
+
+<ol>
+<li>现有位移动到指定的位置。</li>
+<li>任何超出边界的位都被遗弃。</li>
+<li>剩余空位补0.</li>
+</ol>
+
+
+<p>这种叫做逻辑位移。</p>
+
+<pre><code class="swift">let shiftBits: UInt8 = 4   // 00000100 in binary
+shiftBits &lt;&lt; 1             // 00001000
+shiftBits &lt;&lt; 2             // 00010000
+shiftBits &lt;&lt; 5             // 10000000
+shiftBits &lt;&lt; 6             // 00000000
+shiftBits &gt;&gt; 2             // 00000001
+</code></pre>
+
+<p>我们可以使用位移来编码和解码。</p>
+
+<pre><code class="swift">let pink: UInt32 = 0xCC6699
+let redComponent = (pink &amp; 0xFF0000) &gt;&gt; 16    // redComponent is 0xCC, or 204
+let greenComponent = (pink &amp; 0x00FF00) &gt;&gt; 8   // greenComponent is 0x66, or 102
+let blueComponent = pink &amp; 0x0000FF           // blueComponent is 0x99, or 153
+</code></pre>
+
+<h4>有符号整数的位移</h4>
+
+<p>有符号的位移要比无符号数的位移复杂许多，主要是和有符号数在内存的表示方式有关。</p>
+
+<p>有符号数使用第一位来作为符号位，标示正数还是负数。0是正数，1是负数。</p>
+
+<p>剩余的位是值位，正数就是按照整数本身来存储的。</p>
+
+<pre><code>    0 000 0100 = 4
+</code></pre>
+
+<p>负数，就不一样了，他们存储的是他们值的绝对值减掉2的n次幂，n是值位的个数。如果是Int8，那么n就是7，减去的就是128。</p>
+
+<pre><code>    1 111 1100 = -4
+    0 111 1100 = 124
+</code></pre>
+
+<p>负数的编码叫做补码。它有一些优点。</p>
+
+<p>首先做加法时，我们可以直接加，包括符号位，然后舍弃任何超出范围的位。</p>
+
+<pre><code>    0 1111 1100 = -4
++   0 1111 1111 = -1
+=   1 1111 1011 = -5
+</code></pre>
+
+<p>其次，使用补码，我们在位移时可以像处理正数一样。但是有个额外的规则。
+    *   在右移时，补位用符号位而不是0。</p>
+
+<pre><code>    1111111         01111111
+    11111111        001111111
+</code></pre>
+
+<p>这样就确保了在位移后，数字的符号位不会变化，叫做算数位移。</p>
+
+<p>因为正数和负数存储的特殊方式，右移他们都是把它们向0靠近。保留符号位意味着负数还是负数，同时更加接近0。</p>
+
+<h3>溢出操作符</h3>
+
+<p>如果我们尝试把一个超出存储范围的数字附值给一个常量或变量，Swift会报错。</p>
+
+<p>例如，Int16的值的范围是-32768到32767。</p>
+
+<pre><code class="swift">var potentialOverflow = Int16.max
+// potentialOverflow equals 32767, which is the largest value an Int16 can hold
+potentialOverflow += 1
+// this causes an error
+</code></pre>
+
+<p>在这种时候，我们需要提供错误处理。
+    *   加   &amp;+
+    *   减   &amp;-
+    *   乘   &amp;*
+    *   除   &amp;/
+    *   取余 &amp;%</p>
+
+<h4>值上溢出</h4>
+
+<pre><code class="swift">var willOverflow = UInt8.max
+// willOverflow equals 255, which is the largest value a UInt8 can hold
+willOverflow = willOverflow &amp;+ 1
+// willOverflow is now equal to 0
+</code></pre>
+
+<pre><code>    0 1111 1111 = 255
+&amp;+  0 0000 0001 =   1
+=   1 0000 0000 =   0
+</code></pre>
+
+<h4>值下溢出</h4>
+
+<pre><code class="swift">var willUnderflow = UInt8.min
+// willUnderflow equals 0, which is the smallest value a UInt8 can hold
+willUnderflow = willUnderflow &amp;- 1
+// willUnderflow is now equal to 255
+</code></pre>
+
+<pre><code>    0000 0000 = 0
+&amp;-  0000 0001 = 1
+=   1111 1111 = 255
+</code></pre>
+
+<p>有符号数也会发生下溢出。符号数减法时，所有位都参与，包括符号位。</p>
+
+<pre><code class="swift">var signedUnderflow = Int8.min
+// signedUnderflow equals -128, which is the smallest value an Int8 can hold
+signedUnderflow = signedUnderflow &amp;- 1
+// signedUnderflow is now equal to 127
+</code></pre>
+
+<pre><code>    1000 0000 = -128
+&amp;-  0000 0001 = 1
+=   0111 1111 = 127
+</code></pre>
+
+<p>上面的这些溢出的结构，都是在最大值后回到了最小值，或者最小值后回到了最大值。</p>
+
+<h4>除以0</h4>
+
+<p>当我们尝试除以0或者对0取余时，会报错。</p>
+
+<pre><code class="swift">let x = 1
+let y = x / 0
+</code></pre>
+
+<p>然后如果用溢出操作符时，返回0.</p>
+
+<pre><code class="swift">let x = 1
+let y = x &amp;/ 0
+// y is equal to 0
+</code></pre>
+
+<h3>优先级和关联性</h3>
+
+<p>操作符的优先级是说某些操作符优先于其他操作符进行计算。</p>
+
+<p>操作符的关联性是说，如果两个相同优先级的操作符在一起时，是算到左边还是右边。这样想，他们和他们左边的表达式在一起，或者他们和他们右边的表达式在一起。</p>
+
+<p>当我们考虑表达式如果计算时，优先级和关联性很重要。</p>
+
+<pre><code class="swift">2 + 3 * 4 % 5
+// this equals 4
+</code></pre>
+
+<pre><code>注意
+Swift的操作符优先级和关联性和C，ObjC中得很相似，并且更可预测。但是这意味着他不一样，所以在使用时需要注意。
+</code></pre>
+
+<h3>操作符函数</h3>
+
+<p>类和结构体可以提供现有操作符的自定义实现，这叫做操作符重载。</p>
+
+<pre><code class="swift">struct Vector2D {
+    var x = 0.0, y = 0.0
+}
+func + (left: Vector2D, right: Vector2D) -&gt; Vector2D {
+    return Vector2D(x: left.x + right.x, y: left.y + right.y)
+}
+</code></pre>
+
+<p>这个操作符函数被定义为全局函数，函数名和操作符匹配。因为是中缀操作符，所以有两个参数。</p>
+
+<pre><code class="swift">let vector = Vector2D(x: 3.0, y: 1.0)
+let anotherVector = Vector2D(x: 2.0, y: 4.0)
+let combinedVector = vector + anotherVector
+// combinedVector is a Vector2D instance with values of (5.0, 5.0)
+</code></pre>
+
+<h4>前缀和后缀操作符</h4>
+
+<p>上面的例子是一个中缀操作符，类和结构体也可以提供一元操作符，可以区分前缀和后缀。</p>
+
+<p>我们需要在函数前面写上 prefix 或 postfix来表示操作符是前缀还是后缀。</p>
+
+<pre><code class="swift">prefix func - (vector: Vector2D) -&gt; Vector2D {
+    return Vector2D(x: -vector.x, y: -vector.y)
+}
+</code></pre>
+
+<pre><code class="swift">let positive = Vector2D(x: 3.0, y: 4.0)
+let negative = -positive
+// negative is a Vector2D instance with values of (-3.0, -4.0)
+let alsoPositive = -negative
+// alsoPositive is a Vector2D instance with values of (3.0, 4.0)
+</code></pre>
+
+<h4>组合附值操作符</h4>
+
+<p>组合附值操作符把附值操作符（=）和其他操作符组合起来。例如，+=是说把加法和附值操作符合为一个操作符。我们实现时需要把一个参数定义为 inout。</p>
+
+<pre><code class="swift">func += (inout left: Vector2D, right: Vector2D) {
+    left = left + right
+}
+</code></pre>
+
+<pre><code class="swift">var original = Vector2D(x: 1.0, y: 2.0)
+let vectorToAdd = Vector2D(x: 3.0, y: 4.0)
+original += vectorToAdd
+// original now has values of (4.0, 6.0)
+</code></pre>
+
+<p>我们可以把前缀或后缀与组合附值操作符结合使用。</p>
+
+<pre><code class="swift">prefix func ++ (inout vector: Vector2D) -&gt; Vector2D {
+    vector += Vector2D(x: 1.0, y: 1.0)
+    return vector
+}
+var toIncrement = Vector2D(x: 3.0, y: 4.0)
+let afterIncrement = ++toIncrement
+// toIncrement now has values of (4.0, 5.0)
+// afterIncrement also has values of (4.0, 5.0)
+</code></pre>
+
+<pre><code>注意
+我们无法重载默认的附值操作符（=）。另外，三元条件操作符（a?b:c）也不能被重载。
+</code></pre>
+
+<h4>相等操作符</h4>
+
+<p>自定义的类和结构体，默认并会有 == 和 != 操作符。</p>
+
+<pre><code class="swift">func == (left: Vector2D, right: Vector2D) -&gt; Bool {
+    return (left.x == right.x) &amp;&amp; (left.y == right.y)
+}
+func != (left: Vector2D, right: Vector2D) -&gt; Bool {
+    return !(left == right)
+}
+</code></pre>
+
+<p>我们实现了 == 之后，在实现 != 时只需要取反即可。</p>
+
+<pre><code class="swift">let twoThree = Vector2D(x: 2.0, y: 3.0)
+let anotherTwoThree = Vector2D(x: 2.0, y: 3.0)
+if twoThree == anotherTwoThree {
+    println("These two vectors are equivalent.")
+}
+// prints "These two vectors are equivalent."
+</code></pre>
+
+<h3>自定义操作符</h3>
+
+<p>我们可以自定义和实现一些操作符。</p>
+
+<p>新的操作符，定义在全局范围，使用 operator 关键字，标示为 prefix，infix或者postfix。</p>
+
+<pre><code class="swift">prefix operator +++ {}
+</code></pre>
+
+<p>我们定义了一个 +++ 操作符，它对于Swift没有任何意义。所以可以被用于Vector2D。</p>
+
+<pre><code class="swift">prefix func +++ (inout vector: Vector2D) -&gt; Vector2D {
+    vector += vector
+    return vector
+}
+var toBeDoubled = Vector2D(x: 1.0, y: 4.0)
+let afterDoubling = +++toBeDoubled
+// toBeDoubled now has values of (2.0, 8.0)
+// afterDoubling also has values of (2.0, 8.0)
+</code></pre>
+
+<h4>自定义中缀操作符的优先级和关联性</h4>
+
+<p>我们自定义中缀操作符时，还需要给出优先级和关联性。</p>
+
+<p>关联性可以是，left，right或none。默认是none。优先级默认是100。</p>
+
+<pre><code class="swift">infix operator +- { associativity left precedence 140 }
+func +- (left: Vector2D, right: Vector2D) -&gt; Vector2D {
+    return Vector2D(x: left.x + right.x, y: left.y - right.y)
+}
+let firstVector = Vector2D(x: 1.0, y: 2.0)
+let secondVector = Vector2D(x: 3.0, y: 4.0)
+let plusMinusVector = firstVector +- secondVector
+// plusMinusVector is a Vector2D instance with values of (4.0, -2.0)
+</code></pre>
+
+<pre><code>注意
+我们在定义前缀和后缀操作符时，不需要给出优先级。但是如果我们一个操作数同时使用前缀和后缀操作符时，后缀操作符优先执行。
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Language Guide: Access Controll]]></title>
+    <link href="http://zxhfirefox.github.io/blog/2014/10/26/language-guide-h-access-contoll/"/>
+    <updated>2014-10-26T23:27:07+08:00</updated>
+    <id>http://zxhfirefox.github.io/blog/2014/10/26/language-guide-h-access-contoll</id>
+    <content type="html"><![CDATA[<p>访问控制限制了我们从其他源文件和模块的代码访问我们代码能力。这一特性可以让你隐藏你实现的细节，并且给出一个预先定义的接口来暴露可以被访问的代码。</p>
+
+<p>我们可以把访问控制添加到类型级别（类，结构体，枚举），也可以添加到单独的属性，方法，初始化函数和角标。协议可以被限制到特性的上下文，就像全局常量，变量和函数。</p>
+
+<p>除了增加不同程度的访问限制，Swift通过特定环境给出特定默认访问级别来减少了需要明确给出访问级别的代码。事实上，如果我们在写一个单目标（single-target）的app，我们或许永远都不需要明确给出访问限制。</p>
+
+<pre><code>注意
+我们代码里可以被添加访问限制的内容（属性，类型，方法等等）在下文中都被引用为“个体”（entity）。
+</code></pre>
+
+<!-- more -->
+
+
+<h3>模块和源文件</h3>
+
+<p>Swift的访问控制模型是基于模块和源文件的概念。</p>
+
+<p>一个模块（module）是代码分发的一个单一单元，一个框架或一个app可以作为一个单一单元编译，它可以被其他模块使用import来导入。</p>
+
+<p>在Xcode里的每一个编译目标都在Swift里作为分开的模块对待。如果我们把我们app的部分代码分开组织成一个独立的框架（或许是为了封装，然后可以在多个app里使用），那么所有在这个框架内的定义都会作为这个独立模块的一部分，然后就可以被导入到这个app和其他app内使用。</p>
+
+<p>一个源文件是在一个模块里的一个单独的Swift源代码文件。尽管我们一般在一个源文件里只定义一个类型，但是单个源文件可以定义多个类型。</p>
+
+<h3>访问级别</h3>
+
+<p>Swift提供了三种访问级别。这些级别和个体（entity）定义的源文件有关，也和这些源文件属于的模块有关。
+    *   public，允许在他们自己定义的模块里的任何源文件都可以使用，并且那些导入了这个模块的任何模块也能使用。通常，我们使用public来提供框架的公开API。
+    *   internal，允许在他们自己定义的模块里的任何源文件都可以使用，但是不能被模块外的源文件使用。通常，我们使用interval来提供app或框架内部使用的结构。
+    *   private，限制了只有在同一个源文件内可以使用。使用private来保护代码的实现细节。</p>
+
+<p>public是最高的访问级别，private是最低的访问级别</p>
+
+<h4>访问级别指引原则</h4>
+
+<p>Swift的访问级别有一个总领的原则：没有个体的访问级别可以定义成其他的更低的访问级别。</p>
+
+<p>例如：
+    *   一个public的变量不能被定义成一个internal或private类型。因为这个类型或许不能在所有地方被访问到。
+    *   一个函数不能有比他们参数和返回值更高的访问街边，因为函数可能在他的组成类型不可用的时候被调用。</p>
+
+<h4>默认访问级别</h4>
+
+<p>所有的个体（除了极少数），在你不明确给出访问级别时，默认的访问级别都是internal。这样，很多情况下你都不用给出访问级别。</p>
+
+<h4>单目标app的访问级别</h4>
+
+<p>当我们在写一个单目标的app时，所有app内的代码应该只能在app内访问。默认的访问级别internal已经满足这一要求。所以，我们不用特别给出访问级别。但是，我们或许在某些地方需要把一些实现定义为private。</p>
+
+<h4>框架的访问级别</h4>
+
+<p>当我们开发框架时，我们需要把框架的公开API定义成public的。</p>
+
+<pre><code>注意
+任何的框架内的实现都还是默认的internal，或是private。我们仅仅把公开的API设定为public
+</code></pre>
+
+<h3>访问控制语法</h3>
+
+<p>我们使用public，internal，private关键字来表示访问控制。</p>
+
+<pre><code class="swift">public class SomePublicClass {}
+internal class SomeInternalClass {}
+private class SomePrivateClass {}
+
+public var somePublicVariable = 0
+internal let someInternalConstant = 0
+private func somePrivateFunction() {}
+</code></pre>
+
+<p>如果我们不需要特别给出，使用默认的internal时，我们就可以不写。</p>
+
+<pre><code class="swift">class SomeInternalClass {}              // implicitly internal
+var someInternalConstant = 0            // implicitly internal
+</code></pre>
+
+<h3>自定义类型</h3>
+
+<p>当我们需要给自定义类型设置访问控制级别时，在定义时的时候给出即可，这样这些类型就可以在访问控制允许的地方被使用。</p>
+
+<p>类型的访问控制级别也会影响它的成员（属性，方法，初始化函数，角标）的默认访问级别。如果类型的访问级别是private，那么所有成员都是private。如果类型的访问级别是internal或public，成员的默认访问级别就是internal。</p>
+
+<pre><code>注意
+如上所述，public的类型的方法默认是internal的，不是public的。如果我们希望某个成员是public，需要明确指出。
+</code></pre>
+
+<pre><code class="swift">public class SomePublicClass {          // explicitly public class
+    public var somePublicProperty = 0    // explicitly public class member
+    var someInternalProperty = 0         // implicitly internal class member
+    private func somePrivateMethod() {}  // explicitly private class member
+}
+class SomeInternalClass {               // implicitly internal class
+    var someInternalProperty = 0         // implicitly internal class member
+    private func somePrivateMethod() {}  // explicitly private class member
+}
+private class SomePrivateClass {        // explicitly private class
+    var somePrivateProperty = 0          // implicitly private class member
+    func somePrivateMethod() {}          // implicitly private class member
+}
+</code></pre>
+
+<h4>元组类型</h4>
+
+<p>元组的访问级别是它的所有元素中访问级别最低的元素的访问级别。例如，如果一个元组含有2个不同类型的元素，一个internal，一个private，那么这个元组的访问级别就是private。</p>
+
+<pre><code>注意
+元组的访问级别并不和类，结构体，枚举，函数一样是单独定义的。它的访问级别实在使用时推断出来的，不能显式的定义。
+</code></pre>
+
+<h4>函数类型</h4>
+
+<p>函数的访问级别是通过计算它的参数和返回值类型的最低访问级别决定的。如果函数计算后的访问级别和上下文默认的不一致，我们需要明确给出函数的访问级别。</p>
+
+<pre><code class="swift">func someFunction() -&gt; (SomeInternalClass, SomePrivateClass) {
+    // function implementation goes here
+}
+</code></pre>
+
+<p>这个全局函数，没有明确给出访问级别，如果我们认为他是internal的，那就错了，事实上，这段代码无法编译。</p>
+
+<p>这个函数的返回类型是一个元组，元组的元素一个是internal的类，一个是private的类。那么元组的访问级别就是private。</p>
+
+<p>因为元组的访问级别是private的，我们需要把函数标示为private才能编译通过。</p>
+
+<pre><code class="swift">private func someFunction() -&gt; (SomeInternalClass, SomePrivateClass) {
+    // function implementation goes here
+}
+</code></pre>
+
+<p>我们不能把这个函数标记为public或是默认的internal。因为这个函数使用者无法使用private的返回值。</p>
+
+<h4>枚举类型</h4>
+
+<p>枚举的各种情况自动和枚举的访问级别一致。我们没法给枚举的case单独给出访问级别。</p>
+
+<pre><code class="swift">public enum CompassPoint {
+    case North
+    case South
+    case East
+    case West
+}
+</code></pre>
+
+<p>上面定义这个枚举和他的case都是公开的。</p>
+
+<h4>原始值和关联值</h4>
+
+<p>枚举使用任何原始值和关联值的访问级别都必须枚举的访问级别要高。我们不能在一个internal的枚举里使用private的原始值或关联值。</p>
+
+<h4>嵌套类型</h4>
+
+<p>定义在private里的嵌套类型默认是private的。</p>
+
+<p>定义在public里的嵌套类型默认是internal的。</p>
+
+<p>如果我们希望一个在public里的嵌套类型是public的，我们明确给出。</p>
+
+<h3>子类</h3>
+
+<p>我们可以继承从当前上下文可以访问的任何类。子类的访问级别不会高于父类的，例如，我们无法继承自一个internal的，自身是public得类。</p>
+
+<p>另外，我们可以重写任何的在上下文可以访问的父类的成员（方法，属性，初始化函数，角标）。</p>
+
+<p>重写可以让子类的元素比父类更加可被访问。下面的例子里，public的类A，定义了private的方法someMethod，但是，子类B把someMethod重写成了internal。</p>
+
+<pre><code class="swift">public class A {
+    private func someMethod() {}
+}
+internal class B: A {
+    override internal func someMethod() {}
+}
+</code></pre>
+
+<p>甚至于子类的成员可以去调用父类的更低的访问许可的成员，只要这个父类的调用在上下文里是允许的（意思是，在一个源文件里，调用父类的private犯法，或是在一个模块里，调用父类的internal方法）。</p>
+
+<pre><code class="swift">public class A {
+    private func someMethod() {}
+}
+internal class B: A {
+    override internal func someMethod() {
+        super.someMethod()
+    }
+}
+</code></pre>
+
+<p>因为类A和B定义在一个源文件里，所以B的someMethod可以调用A的private的someMethod。</p>
+
+<h3>常量，变量，属性和角标</h3>
+
+<p>一个常量，变量，属性不能比他们的类型更加的公开。例如，我们不能给一个public的属性写一个private类型。同时，角标也不能比索引类型或返回类型更加公开。</p>
+
+<p>如果一个常量，变量，属性或角标使用了private的类型，那么他们自己也必须是private的。</p>
+
+<pre><code class="swift">private var privateInstance = SomePrivateClass()
+</code></pre>
+
+<h4>Getter和Setter</h4>
+
+<p>常量，变量，属性和角标的Getter和Setter自动的和他们属于的常量，变量，属性和角标的访问级别一样。</p>
+
+<p>我们可以给变量，属性，角标比他们的对应的getter更低的setter来限制写。通过在var和subscript前面写internal(set)和private(set)。</p>
+
+<pre><code>注意
+注意规则既可以在存储属性上使用，也可以在计算属性上使用。即使我们没有给存储属性明确的给出一个getter和setter。Swift会自动生成他们。
+</code></pre>
+
+<pre><code class="swift">struct TrackedString {
+    private(set) var numberOfEdits = 0
+    var value: String = "" {
+        didSet {
+            numberOfEdits++
+        }
+    }
+}
+</code></pre>
+
+<p>TrackedString结构体的存储属性numberOfEdits被设置为private(set)。而value和TrackedString本身都是默认的internal。numberOfEdits的getter依然是默认的internal。</p>
+
+<pre><code class="swift">var stringToEdit = TrackedString()
+stringToEdit.value = "This string will be tracked."
+stringToEdit.value += " This edit will increment numberOfEdits."
+stringToEdit.value += " So will this one."
+println("The number of edits is \(stringToEdit.numberOfEdits)")
+// prints "The number of edits is 3"
+</code></pre>
+
+<p>事实上，如果需要我们可以显式给出getter和setter的访问级别。</p>
+
+<pre><code class="swift">public struct TrackedString {
+    public private(set) var numberOfEdits = 0
+    public var value: String = "" {
+        didSet {
+            numberOfEdits++
+        }
+    }
+    public init() {}
+}
+</code></pre>
+
+<h3>初始化函数</h3>
+
+<p>自定义的初始化函数的访问级别必须少于或等于他们的类型。除了需要的初始化函数，一个需要的初始化函数必须和它的类型有着同样的访问级别。</p>
+
+<p>和函数和方法一样，初始化函数的参数的访问级别不能比初始化函数更低。</p>
+
+<h4>默认初始化函数</h4>
+
+<p>Swift会给任何的结构体和基类提供一个没有任何参数的默认初始化函数，只要这些结构体或基类的所有属性都有默认值，并且自己没有定义任何的初始化函数。</p>
+
+<p>默认初始化函数的访问级别和类型的一致，除非类型是public的。如果类型是public的，默认初始化函数就是internal的。如果我们需要一个public的，我们需要自己定义。</p>
+
+<h3>协议</h3>
+
+<p>我们可以给协议也设置访问级别，这样可以限制实现协议的类型。</p>
+
+<p>协议里所有的要求的访问级别和协议一致。</p>
+
+<pre><code>注意
+如果我们把协议定义为public，那协议的所有要求都必须是public的实现。这一点和其他类型不一样，一个public的类型可能有internal的成员。
+</code></pre>
+
+<h4>协议继承</h4>
+
+<p>如果我们继承一个协议，那么新的协议至少要和已有协议一样的访问限制。我们不能继承一个internal的协议而定义成public的。</p>
+
+<h4>协议实现</h4>
+
+<p>类型可以实现比自己访问级别更低的协议。例如，我们定义一个public类型，然后可以实现一些internal的协议。</p>
+
+<p>类型实现协议后的上下文是类型访问级别和协议访问级别的最小值。例如，如果类型是public，协议是internal，那么类型的协议实现就是internal。</p>
+
+<p>如果我们写或者扩展一个类型来实现一个协议，我们必须确保类型对于协议要求的实现至少要和类型对于协议实现的访问级别一致。例如，如果一个public类型要实现一个internal的协议，那这个类型对于协议要求的实现至少要是internal的。</p>
+
+<pre><code>注意
+在Swift，和ObjC一样，协议实现是全局的，我们不可能在一个程序里，让一个类型通过两种不同的方式实现一个协议。
+</code></pre>
+
+<h3>扩展</h3>
+
+<p>我们可以在当一个类，结构体，枚举可以被访问的时候扩展他们。在扩展里添加的任何成员都和原始成员一样有默认的访问级别。例如，如果我们扩展一个public类型，任何新添加的成员的默认访问级别都是internal。</p>
+
+<p>但是，我们可以给扩展设置一个访问级别来修改所有扩展里添加的成员的访问级别。这个新设置的访问级别依然可以被单个成员的访问级别所覆盖。</p>
+
+<h4>在扩展中实现协议</h4>
+
+<p>如果一个扩展是用来实现协议，那么我们不能在这样扩展中重新给出扩展的访问级别。相反，协议本身的访问级别被用来给扩展里的新成员提供默认访问级别。</p>
+
+<h3>泛型</h3>
+
+<p>泛型函数和泛型类型的访问级别是他们本身和类型参数的访问级别的最小值。</p>
+
+<h3>类型别名</h3>
+
+<p>对于访问级别，任何的类型别名都被认为是独立的类型。一个类型别名可以有比原始类型更低或相等的访问级别。例如，一个私有类型别名可以作为一个private，internal，public的类型的别名，但是一个public的类型别名不能做为一个internal或private的类型的别名。</p>
+
+<pre><code>注意
+这一规则在实现协议时使用的关联类型同样适用。
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Language Guide: Generics]]></title>
+    <link href="http://zxhfirefox.github.io/blog/2014/10/26/language-guide-generics/"/>
+    <updated>2014-10-26T23:25:21+08:00</updated>
+    <id>http://zxhfirefox.github.io/blog/2014/10/26/language-guide-generics</id>
+    <content type="html"><![CDATA[<p>泛型可以帮助我们写出灵活的，可重用的函数和类型，他们可以使用任何类型来满足我们的要求。我们可以写出目的明确，抽象清晰的代码。</p>
+
+<p>泛型是Swift最强大的几个特性之一，并且Swift的标准库很多都是用泛型来做的。事实上，我们可能没有意识到，但是我们已经一直在用泛型了。例如，Array和Dictionary类型都是泛型集合。我们可以创建一个元素为Int的数组，也可以创建一个元素为String的数组，或者其他任何Swift的类型。相同的，我们也可以创建不同类型的字典。</p>
+
+<!-- more -->
+
+
+<h3>泛型所解决的问题</h3>
+
+<p>下面是交换2个Int的一个函数：</p>
+
+<pre><code class="swift">func swapTwoInts(inout a: Int, inout b: Int) {
+    let temporaryA = a
+    a = b
+    b = temporaryA
+}
+</code></pre>
+
+<p>我们使用他们来交换2个整数。</p>
+
+<pre><code class="swift">var someInt = 3
+var anotherInt = 107
+swapTwoInts(&amp;someInt, &amp;anotherInt)
+println("someInt is now \(someInt), and anotherInt is now \(anotherInt)")
+// prints "someInt is now 107, and anotherInt is now 3"
+</code></pre>
+
+<p>swapTwoInts是可用的，但是他只能交换两个Int，如果我们需要交换两个String，或者Double，我们就需要再写更多的方法，例如swapTwoStrings和swapTwoDoubles。</p>
+
+<pre><code class="swift">func swapTwoStrings(inout a: String, inout b: String) {
+    let temporaryA = a
+    a = b
+    b = temporaryA
+}
+func swapTwoDoubles(inout a: Double, inout b: Double) {
+    let temporaryA = a
+    a = b
+    b = temporaryA
+}
+</code></pre>
+
+<p>我们可以发现，这三个函数的函数体是很相似的，唯一不同的就是处理的参数类型。</p>
+
+<p>如果我们可以写出一个函数，他可以交换任意两个类型，那么我们的代码就会很简洁，而泛型就是为了这一目的而存在的语言特性。</p>
+
+<pre><code>注意
+上面三个函数，有一个隐含的要求，就是a和b的类型是一样的，如果他们的类型不一样，也就不可能交换他们的值。
+</code></pre>
+
+<h3>泛型函数</h3>
+
+<p>泛型函数可以使用任何值。</p>
+
+<pre><code class="swift">func swapTwoValues&lt;T&gt;(inout a: T, inout b: T) {
+    let temporaryA = a
+    a = b
+    b = temporaryA
+}
+</code></pre>
+
+<p>swapTwoValues的函数体和swapTwoInts的完全一样，但是，函数的第一行区别很大。</p>
+
+<pre><code class="swift">func swapTwoInts(inout a: Int, inout b: Int)
+func swapTwoValues&lt;T&gt;(inout a: T, inout b: T)
+</code></pre>
+
+<p>泛型的版本，有一个占位符类型（这里是 T），而不是特定的某个类型（例如Int，String）。占位符类型没有说任何关于类型的信息，但是却表示了a和b必须是同一类型。真正的类型会在调用时决定。</p>
+
+<p>另一个不同是泛型函数的名字后面跟着占位符类型，包裹在一个尖括号里。尖括号告诉Swift T是一个类型名字的占位符，因为他是占位符，Swift不会去寻找真实的T类型。</p>
+
+<pre><code class="swift">var someInt = 3
+var anotherInt = 107
+swapTwoValues(&amp;someInt, &amp;anotherInt)
+// someInt is now 107, and anotherInt is now 3
+var someString = "hello"
+var anotherString = "world"
+swapTwoValues(&amp;someString, &amp;anotherString)
+// someString is now "world", and anotherString is now "hello"
+</code></pre>
+
+<p>我们可以给swapTwoValues传递Int或String或任何类型。</p>
+
+<pre><code>注意
+swapTwoValues的名字来自于Swift的标准库的swap函数。如果我们需要，可以直接使用。
+</code></pre>
+
+<h3>类型参数</h3>
+
+<p>在上面的例子里，T是一个类型参数。类型参数表示了一个占位符类型，紧跟着函数名，包裹在尖括号里。</p>
+
+<p>我们表明一个类型参数之后，我们就可以定义这个类型的参数（例子里的a和b），或者返回值类型，或者在函数体里使用。不论如何，这个占位符类型都会被调用时的实际类型所取代。</p>
+
+<p>我们可以提供多个类型参数，都写在尖括号里，逗号隔开。</p>
+
+<h3>命名类型参数</h3>
+
+<p>简单的情况下，泛型函数和泛型类型只会用到一个类型参数（例如上面的例子和Array），传统上就使用T来表示。然而我们可以使用任何符合规则的标示符。</p>
+
+<p>如果我们在写比较复杂的泛型函数和泛型类型，他们需要多个类型参数，那么给类型参数一些有意义的名字就非常有意义了。例如，Swift的Dictionay类型，有两个类型参数，分别是Key和Value。</p>
+
+<pre><code>注意
+类型参数的名字应该是首字母大写的驼峰格式，这样说明他是一个类型的占位符。
+</code></pre>
+
+<h3>泛型类型</h3>
+
+<p>除了泛型函数，Swift还允许我们定义自己的泛型类型。这些自定义的类，结构体，枚举可以使用任何类型作为类型参数，就和Array，Dictionary一样。</p>
+
+<p>这部分我们将实现一个泛型的集合，栈。栈是一个有序的集合，和数组很像。但存取方式有很大区别，数组允许在任意地方存取，而栈，只能从最顶部的元素存取。</p>
+
+<pre><code>注意
+UINavigationController的push和pop，就是栈的一个很好的例子。在你需要后进先出得时候，就应该使用栈。
+</code></pre>
+
+<pre><code class="swift">struct IntStack {
+    var items = [Int]()
+    mutating func push(item: Int) {
+        items.append(item)
+    }
+    mutating func pop() -&gt; Int {
+        return items.removeLast()
+    }
+}
+</code></pre>
+
+<p>这是一个非泛型的栈的定义。我们用一个数组来作为内部存数的容器，然后实现push和pop。</p>
+
+<pre><code class="swift">struct Stack&lt;T&gt; {
+    var items = [T]()
+    mutating func push(item: T) {
+        items.append(item)
+    }
+    mutating func pop() -&gt; T {
+        return items.removeLast()
+    }
+}
+</code></pre>
+
+<p>IntStack只能处理Int类型，我们把它改写为泛型之后，就可以处理任何类型。</p>
+
+<p>注意，占位符类型T，在三个地方使用：
+    *   创建一个items的属性，是T类型的一个空数组
+    *   标明push函数接受的参数必须是T类型
+    *   标明pop函数返回的类型是T类型</p>
+
+<pre><code class="swift">var stackOfStrings = Stack&lt;String&gt;()
+stackOfStrings.push("uno")
+stackOfStrings.push("dos")
+stackOfStrings.push("tres")
+stackOfStrings.push("cuatro")
+// the stack now contains 4 strings
+</code></pre>
+
+<pre><code class="swift">let fromTheTop = stackOfStrings.pop()
+// fromTheTop is equal to "cuatro", and the stack now contains 3 strings
+</code></pre>
+
+<h3>扩展一个泛型类型</h3>
+
+<p>当我们扩展一个泛型类型时，我们不需要在扩展定义时给出类型参数列表。原始类型的类型参数列表在我们的扩展内自动可见的，类型参数的名字也和原始类型一致。</p>
+
+<p>下面，我们扩展Stack类型，添加一个返回顶部元素的只读的计算属性。</p>
+
+<pre><code class="swift">extension Stack {
+    var topItem: T? {
+        return items.isEmpty ? nil : items[items.count - 1]
+    }
+}
+</code></pre>
+
+<p>注意，没有这里扩展没有给出类型参数，而是直接使用了Stack原始定义时的T。</p>
+
+<pre><code class="swift">if let topItem = stackOfStrings.topItem {
+    println("The top item on the stack is \(topItem).")
+}
+// prints "The top item on the stack is tres."
+</code></pre>
+
+<h3>类型限制</h3>
+
+<p>swapTwoValues和Stack可以使用任何类型，但是，有时候我们需要限定只有特殊的类型才可以作为参数传递给泛型函数和泛型类型。类型限制就表明了类型参数必须是继承自某个类，或是必须实现了某个协议或协议组。</p>
+
+<p>例如，Swift的Dictionary类型就限制了可以作为键的类型，这个类型必须是可以哈希的。也就是说，必须可以给出一种方式来使得自己是唯一的。而字典使用这个哈希来检查是否已经有相同的key存在，如果没有这个限制，字典就无法知道是否改插入还是替换某一个键，也无法根据键来找到对应的值。</p>
+
+<p>这个要求是强制在Dictionary的键的类型上，必须实现Hashable协议。Swift的所有基础类型（Int，String，Double，Bool）都实现了这一协议。</p>
+
+<p>我们可以定义自己的类型限制。像Hashable这样的抽象帮我们定义了一些概念上的特性，而不是特定的类型。</p>
+
+<h4>类型限制语法</h4>
+
+<p>我们在类型参数列表里的参数后面加上冒号，跟着需要继承的类或需要实现的协议来定义类型限制。</p>
+
+<pre><code class="swift">func someFunction&lt;T: SomeClass, U: SomeProtocol&gt;(someT: T, someU: U) {
+    // function body goes here
+}
+</code></pre>
+
+<p>上面的函数，定义了两个类型参数，T和U，他们两个分别需要继承自SomeClass和实现SomeProtocol。</p>
+
+<h4>类型限制实践</h4>
+
+<p>下面是一个非泛型的函数，来在一个数组里查找某个值第一次出现的索引。</p>
+
+<pre><code class="swift">func findStringIndex(array: [String], valueToFind: String) -&gt; Int? {
+    for (index, value) in enumerate(array) {
+        if value == valueToFind {
+            return index
+        }
+    }
+    return nil
+}
+let strings = ["cat", "dog", "llama", "parakeet", "terrapin"]
+if let foundIndex = findStringIndex(strings, "llama") {
+    println("The index of llama is \(foundIndex)")
+}
+// prints "The index of llama is 2"
+</code></pre>
+
+<p>这种查找，不单对于String需要，其他类型也会需要。所以我们应该写成泛型的。</p>
+
+<pre><code class="swift">func findIndex&lt;T&gt;(array: [T], valueToFind: T) -&gt; Int? {
+    for (index, value) in enumerate(array) {
+        if value == valueToFind {
+            return index
+        }
+    }
+    return nil
+}
+</code></pre>
+
+<p>我们这么写后，并没有办法编译，因为在我们检查value == valueToFind的时候，不是所有的Swift类型都定义了 == 操作符。比如我们自己定义的类型，相等的意义并不是Swift可以给我们提供的。所以我们无法保证每个T都满足要求。</p>
+
+<p>尽管如此，Swift标准科定义了一个Equatable的协议，它需要任何实现的类型提供 == 和 != 操作符用来比较。所有的Swift标准类型都实现了这一协议。</p>
+
+<p>那么所有的实现了Equatable得类型都是在findIndex中使用，这样我们就需要限制我们的类型必须是实现了Equatable协议的类型。</p>
+
+<pre><code class="swift">func findIndex&lt;T: Equatable&gt;(array: [T], valueToFind: T) -&gt; Int? {
+    for (index, value) in enumerate(array) {
+        if value == valueToFind {
+            return index
+        }
+    }
+    return nil
+}
+let doubleIndex = findIndex([3.14159, 0.1, 0.25], 9.3)
+// doubleIndex is an optional Int with no value, because 9.3 is not in the array
+let stringIndex = findIndex(["Mike", "Malcolm", "Andrea"], "Andrea")
+// stringIndex is an optional Int containing a value of 2
+</code></pre>
+
+<h3>关联的类型</h3>
+
+<p>当我们定义协议的时候，可以声明一个或多个关联的类型来作为协议定义的一部分。一个关联的类型就是给定一个类型的占位符，然后可以在协议定义中使用。真实的类型，直到协议被真实实现的时候才会确定。关联的类型由 typealias 关键字声明。</p>
+
+<h4>关联类型实践</h4>
+
+<pre><code class="swift">protocol Container {
+    typealias ItemType
+    mutating func append(item: ItemType)
+    var count: Int { get }
+    subscript(i: Int) -&gt; ItemType { get }
+}
+</code></pre>
+
+<p>我们定义了一个Container协议，里面关联了一个ItemType。</p>
+
+<p>Container协议定义了一个方法来追加元素，一个属性来获取元素数量，一个角标来访问元素。</p>
+
+<p>它没有说明，元素是如何存储的，也没有说明元素的类型是什么。一个实现这个协议的类型，只需要实现上面三点要求即可。</p>
+
+<p>任何实现Container协议的类型必须可以说明它存储的元素类型。确切来讲，就是他必须保证只有正确的类型可以被添加到容器内，或者被访问。</p>
+
+<p>为了描述这种要求，Container协议需要一种方法来说明容器元素的类型，但是它又不需要知道是什么类型。</p>
+
+<p>为了达到这点要求，Container声明了一个关联类型ItemType。Container协议没有定义ItemType，而是把ItemType作为一种方式来表示容器内的元素类型，并在协议定义中使用它来确保协议的行为是正确的。</p>
+
+<pre><code class="swift">struct IntStack: Container {
+    // original IntStack implementation
+    var items = [Int]()
+    mutating func push(item: Int) {
+        items.append(item)
+    }
+    mutating func pop() -&gt; Int {
+        return items.removeLast()
+    }
+    // conformance to the Container protocol
+    typealias ItemType = Int
+    mutating func append(item: Int) {
+        self.push(item)
+    }
+    var count: Int {
+        return items.count
+    }
+    subscript(i: Int) -&gt; Int {
+        return items[i]
+    }
+}
+</code></pre>
+
+<p>这是一个非泛型的Container协议的实现。它把ItemType定义为了Int。</p>
+
+<p>因为Swift强大的类型推导，我们其实可以不写 typealias ItemType = Int，因为通过append方法，就可以推导出容器元素的类型了。</p>
+
+<pre><code class="swift">struct Stack&lt;T&gt;: Container {
+    // original Stack&lt;T&gt; implementation
+    var items = [T]()
+    mutating func push(item: T) {
+        items.append(item)
+    }
+    mutating func pop() -&gt; T {
+        return items.removeLast()
+    }
+    // conformance to the Container protocol
+    mutating func append(item: T) {
+        self.push(item)
+    }
+    var count: Int {
+        return items.count
+    }
+    subscript(i: Int) -&gt; T {
+        return items[i]
+    }
+}
+</code></pre>
+
+<p>这一次，我们用泛型的方式来实现Container容器，因为我们用T来作为append方法的参数的类型,Swift会把ItemType关联到T。</p>
+
+<h4>扩展一个已有类型来给出关联类型</h4>
+
+<p>我们可以通过扩展类型来增加协议的实现。这也包括了还有关联类型的协议。</p>
+
+<p>Swift的Array已经提供了append方法，count属性和角标。这些正好满足了Container协议。这样我们就可以简单的写一个扩展来让Array实现Container协议。</p>
+
+<pre><code class="swift">extension Array: Container {}
+</code></pre>
+
+<p>Array已有的append方法和角标会告诉Swift如何正确的推导ItemType的类型。</p>
+
+<h3>Where分句</h3>
+
+<p>类型限制，可以让我们定义关联到泛型函数和泛型类型的类型参数的要求。</p>
+
+<p>有时候我们需要能给关联类型也定义要求。我们可以通过在类型参数列表上添加where分句来做到这一点。where分句使得我们可以要求一个关联的类型必须实现某个协议，或者某个类型参数和关联的类型必须一样。我们把where分句就写在类型参数列表的后面。</p>
+
+<pre><code class="swift">func allItemsMatch&lt;
+    C1: Container, C2: Container
+    where C1.ItemType == C2.ItemType,C1.ItemType: Equatable&gt;
+    (someContainer: C1,anotherContainer: C2) -&gt; Bool {
+         // check that both containers contain the same number of items
+        if someContainer.count != anotherContainer.count {
+            return false
+        }
+        // check each pair of items to see if they are equivalent
+        for i in 0..&lt;someContainer.count {
+            if someContainer[i] != anotherContainer[i] {
+                return false
+            }
+        }
+         // all items match, so return true
+        return true
+}
+</code></pre>
+
+<p>allItemsMatch的函数有2个参数，他们都是实现了Container协议的容器，这里我们使用where分句添加了一些限制，使得整个参数的要求变成了：
+    *   C1和C2都必须实现Container协议
+    *   C1的ItemType和C2的ItemType必须一致
+    *   C1的ItemType必须实现Equatable协议，因为C1和C2的ItemType一致，所以C2的ItemType也是实现了Equatable的。</p>
+
+<p>第二，三个要求是由where分句增加的。</p>
+
+<pre><code class="swift">var stackOfStrings = Stack&lt;String&gt;()
+stackOfStrings.push("uno")
+stackOfStrings.push("dos")
+stackOfStrings.push("tres")
+
+var arrayOfStrings = ["uno", "dos", "tres"]
+
+if allItemsMatch(stackOfStrings, arrayOfStrings) {
+    println("All items match.")
+} else {
+    println("Not all items match.")
+}
+// prints "All items match."
+</code></pre>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Language Guide: Protocols]]></title>
@@ -610,819 +1726,6 @@ for _ in 1...5 {
 // -1
 // 0
 // 0
-</code></pre>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Language Guide: Extension]]></title>
-    <link href="http://zxhfirefox.github.io/blog/2014/10/25/language-guide-v-extension/"/>
-    <updated>2014-10-25T10:25:34+08:00</updated>
-    <id>http://zxhfirefox.github.io/blog/2014/10/25/language-guide-v-extension</id>
-    <content type="html"><![CDATA[<p>扩展可以给已有的类，结构体，枚举添加新的功能。这包括可以给我们无法获取源代码的类型添加功能。扩展和ObjC的类别很相似。（和ObjC的类别不同，Swift的扩展没有名字）</p>
-
-<p>Swift里扩展可以：</p>
-
-<ul>
-<li>添加计算属性和静态计算属性</li>
-<li>添加实例方法和类型方法</li>
-<li>提供新的初始化函数</li>
-<li>定义角标</li>
-<li>定义和使用新的嵌套类型</li>
-<li><p>实现协议</p>
-
-<pre><code>注意
-扩展只能添加功能，而不能重写已有的功能
-</code></pre></li>
-</ul>
-
-
-<!-- more -->
-
-
-<h3>语法</h3>
-
-<p>使用 extension 关键字声明扩展：</p>
-
-<pre><code class="swift">extension SomeType{
-}
-</code></pre>
-
-<p>扩展可以让一个现有类型实现一个或多个协议。这种情况下，协议的名字和对于类或者结构体是一样的。</p>
-
-<pre><code class="swift">extension SomeType: SomeProtocol, AnotherProtocol{
-}
-</code></pre>
-
-<pre><code>注意
-我们使用扩展给现有类型添加功能，这些功能将对所有实例产生效果，即使是在扩展定义之前就创建的实例
-</code></pre>
-
-<h3>计算属性</h3>
-
-<p>扩展可以给现有类型添加计算的实例属性或类属性。</p>
-
-<pre><code class="swift">extension Double{
-    var km: Double { return self * 1_000.0 }
-    var m: Double { return self }
-    var cm: Double { return self / 100.0 }
-    var mm: Double { return self / 1_000.0 }
-    var ft: Double { return self / 3.28084 }
-}
-let oneInch = 25.4.mm
-println("One inch is \(oneInch) meters")
-// prints "One inch is 0.0254 meters"
-let threeFeet = 3.ft
-println("Three feet is \(threeFeet) meters")
-// prints "Three feet is 0.914399970739201 meters"
-</code></pre>
-
-<p>这些计算属性可以用于数值字面量。</p>
-
-<p>他们也是只读的属性。</p>
-
-<pre><code class="swift">let aMarathon = 42.km + 195.m
-println("A marathon is \(aMarathon) meters long")
-// prints "A marathon is 42195.0 meters long"
-</code></pre>
-
-<pre><code>注意
-扩展可以添加计算属性，但是不能添加存储属性，也不能注册属性观察者
-</code></pre>
-
-<h3>初始化函数</h3>
-
-<p>扩展可以给已有类型添加新的初始化函数。这样我们可以扩展一些类型让他们可以接受我们自己的初始化参数，或者增加一些原有实现没有的初始化选项。</p>
-
-<p>扩展可以给类添加便利初始化函数，但是不能添加指定初始化函数，或者反初始化函数。这两种函数必须在原有实现上实现。</p>
-
-<pre><code>注意
-如果我们通过扩展给值类型添加一个初始化函数，而这个函数提供了所有存储属性的默认值，并且没有添加自定义的初始化函数，那么我们可以在扩展的初始化函数里调用默认初始化函数或按成员的初始化函数。
-
-因为如果我们在值类型里定义了自定义的初始化函数，默认的初始化函数就不会提供。但是扩展里可以。
-</code></pre>
-
-<pre><code class="swift">struct Size {
-    var width = 0.0, height = 0.0
-}
-struct Point {
-    var x = 0.0, y = 0.0
-}
-struct Rect {
-    var origin = Point()
-    var size = Size()
-}
-</code></pre>
-
-<p>我们定义了3个结构体，他们都有默认的初始化函数和按成员的初始化函数。</p>
-
-<pre><code class="swift">let defaultRect = Rect()
-let memberwiseRect = Rect(origin: Point(x: 2.0, y: 2.0),
-    size: Size(width: 5.0, height: 5.0))
-</code></pre>
-
-<p>我们添加一个扩展：</p>
-
-<pre><code class="swift">extension Rect {
-    init(center: Point, size: Size) {
-        let originX = center.x - (size.width / 2)
-        let originY = center.y - (size.height / 2)
-        self.init(origin: Point(x: originX, y: originY), size: size)
-    }
-}
-</code></pre>
-
-<p>我们可以使用这个初始化来创建实例：</p>
-
-<pre><code class="swift">let centerRect = Rect(center: Point(x: 4.0, y: 4.0),
-    size: Size(width: 3.0, height: 3.0))
-// centerRect's origin is (2.5, 2.5) and its size is (3.0, 3.0)
-</code></pre>
-
-<pre><code>注意
-所有我们在扩展里添加的初始化函数，都依然需要保证初始化结束后，实例是完整的被初始化的。
-</code></pre>
-
-<h3>方法</h3>
-
-<p>扩展还可以给已有类型添加实例方法或类型方法。</p>
-
-<pre><code class="swift">extension Int {
-    func repetitions(task: () -&gt; ()) {
-        for i in 0..&lt;self {
-            task()
-        }
-    }
-}
-3.repetitions({
-    println("Hello!")
-})
-// Hello!
-// Hello!
-// Hello!
-3.repetitions {
-    println("Goodbye!")
-}
-// Goodbye!
-// Goodbye!
-// Goodbye!
-</code></pre>
-
-<p>注：这种看起来就和Ruby的有些相似了。</p>
-
-<h4>可变的实例方法</h4>
-
-<p>通过扩展添加的实例方法也可以修改实例本身。结构体和枚举方法修改的自己的必须添加 mutating。</p>
-
-<pre><code class="swift">extension Int {
-    mutating func square() {
-        self = self * self
-    }
-}
-var someInt = 3
-someInt.square()
-// someInt is now 9
-</code></pre>
-
-<h3>角标</h3>
-
-<p>扩展也可以给给已有类型添加角标。</p>
-
-<pre><code class="swift">extension Int {
-    subscript(var digitIndex: Int) -&gt; Int {
-        var decimalBase = 1
-        while digitIndex &gt; 0 {
-            decimalBase *= 10
-            --digitIndex
-        }
-        return (self / decimalBase) % 10
-    }
-}
-746381295[0]
-// returns 5
-746381295[1]
-// returns 9
-746381295[2]
-// returns 2
-746381295[8]
-// returns 7
-</code></pre>
-
-<p>注：很有意思的扩展。。。</p>
-
-<h3>嵌套类型</h3>
-
-<p>扩展也可以在已有类型中添加新的嵌套类型。</p>
-
-<pre><code class="swift">extension Int {
-    enum Kind {
-        case Negative, Zero, Positive
-    }
-    var kind: Kind {
-        switch self {
-        case 0:
-            return .Zero
-        case let x where x &gt; 0:
-            return .Positive
-        default:
-            return .Negative
-        }
-    }
-}
-</code></pre>
-
-<pre><code class="swift">func printIntegerKinds(numbers: [Int]) {
-    for number in numbers {
-        switch number.kind {
-        case .Negative:
-            print("- ")
-        case .Zero:
-            print("0 ")
-        case .Positive:
-            print("+ ")
-        }
-    }
-    print("\n")
-}
-printIntegerKinds([3, 19, -27, 0, -6, 0, 7])
-// prints "+ + - 0 - 0 +"
-</code></pre>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Language Guide: Nested Type]]></title>
-    <link href="http://zxhfirefox.github.io/blog/2014/10/25/language-guide-u-nested-type/"/>
-    <updated>2014-10-25T10:24:19+08:00</updated>
-    <id>http://zxhfirefox.github.io/blog/2014/10/25/language-guide-u-nested-type</id>
-    <content type="html"><![CDATA[<p>枚举通常被定义来帮助实现一个类和结构体。同样的，有时候为了在一个更复杂的上下文里定义和使用某一些特殊的类型是很方便的。为了达到这一点，Swift允许定义嵌套类型，这样你就可以在需要枚举，类，结构体来支持的复杂的类型里定义他们。</p>
-
-<p>定义嵌套类型，只需要把类型定义写在大括号里面。你需要嵌套几层就嵌套几层。</p>
-
-<!-- more -->
-
-
-<h5>嵌套类型举例</h5>
-
-<p>下面的例子定义了一个结构体，BlackjackCard，它代表了一种扑克牌。这个结构里有2个嵌套的类型，叫Suit和Rank。</p>
-
-<p>在 Blackjack里，Ace有2个值，1或11.这个值有一个叫Values的结构体表示，这个结构体嵌套在Rank里。</p>
-
-<pre><code class="swift">struct BlackjackCard{
-    enum Suit: Character{
-        case Spades="s",Hearts="h",Diamonds="d",Clubs="c"
-    }
-    enum Rank: Int {
-        case Two = 2, Three, Four, Five, Six, Seven, Eight, Nine, Ten
-        case Jack, Queen, King, Ace
-        struct Values{
-            let first: Int,second: Int?
-        }
-        var values: Values{
-            switch self{
-            case .Ace:
-                return Values(first:1,second:11)
-            case .Jack, .Queen, .King:
-                return Values(first:10,second:nil)
-            default:
-                return Values(first:self.toRaw(),second:nil)
-            }
-        }
-    }
-    let rank: Rank,suit: Suit
-    var description: String {
-        var output = "suit is \(suit.toRaw(),"
-        output += " value is \(rank.values.first)"
-        if let second = rank.values.second {
-            output += " or \(second)"
-        }
-        return output
-    }
-}
-</code></pre>
-
-<p>Suit枚举定义了扑克牌里常见的四种花色。</p>
-
-<p>Rank枚举定义了扑克牌的大小。</p>
-
-<p>Rank还嵌套了一个类型Values来表示扑克牌一般只有一个值，除了Ace有两个值。而Values里有一个Int的first和一个optional的Int的sencond。</p>
-
-<p>Rank还定义了一个计算的属性values，返回一个Values类型的值。</p>
-
-<p>BlackjackCard自己有2个属性，suit和rank。还有一个计算的属性，description。</p>
-
-<p>因为BlackjackCard没有自定义初始化函数，所以它有一个默认的成员初始化函数。</p>
-
-<pre><code class="swift">let theAceOfSpades = BlackjackCard(rank: .Ace,suit: .Spades)
-println(theAceOfSpades)
-</code></pre>
-
-<p>尽管Rank和Suit是嵌套在BlackjackCard里的类型，他们的类型依然可以从上下文里推断出来。</p>
-
-<h5>引用嵌套类型</h5>
-
-<p>如果需要在定义上下文之外的地方使用嵌套类型，需要把外部类型的名字加在嵌套类型的名字的前面：</p>
-
-<pre><code class="swift">let heartsSymbol = BlackjackCard.Suit.Hearts.toRaw()
-</code></pre>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Language Guide: Type Casting]]></title>
-    <link href="http://zxhfirefox.github.io/blog/2014/10/25/language-guide-type-cast/"/>
-    <updated>2014-10-25T10:23:07+08:00</updated>
-    <id>http://zxhfirefox.github.io/blog/2014/10/25/language-guide-type-cast</id>
-    <content type="html"><![CDATA[<p>类型转换是一种检查实例类型的方法，并且或者把这个实例作为它的类别的父类或子类来使用。</p>
-
-<p>Swift里类型转换用is和as操作符。这两个操作符提供了简单的方式来检查一个值的类型或者把一个值转换到另一个类型。</p>
-
-<p>我们也可以用类型转换来检查一个类型是否实现了一个协议。</p>
-
-<!-- more -->
-
-
-<h3>定义一个类继承树</h3>
-
-<p>我们需要在类继承里检查一个实例是否是某个类的实例，并把它转换到同一个继承树里的其他类。</p>
-
-<pre><code class="swift">class MediaItem {
-    var name: String
-    init(name: String) {
-        self.name = name
-    }
-}
-class Movie: MediaItem {
-    var director: String
-    init(name: String, director: String) {
-        self.director = director
-        super.init(name: name)
-    }
-}
-class Song: MediaItem {
-    var artist: String
-    init(name: String, artist: String) {
-        self.artist = artist
-        super.init(name: name)
-    }
-}
-</code></pre>
-
-<p>我们定义了三个类，一个父类，两个子类。</p>
-
-<pre><code class="swift">let library = [
-    Movie(name: "Casablanca", director: "Michael Curtiz"),
-    Song(name: "Blue Suede Shoes", artist: "Elvis Presley"),
-    Movie(name: "Citizen Kane", director: "Orson Welles"),
-    Song(name: "The One And Only", artist: "Chesney Hawkes"),
-    Song(name: "Never Gonna Give You Up", artist: "Rick Astley")
-]
-// the type of "library" is inferred to be [MediaItem]
-</code></pre>
-
-<p>我们又定义了一个数组，里面包含了一些实例。注意，这个数组的类型是[MediaItem]。当我们遍历数组时，得到的对象也是MediaItem,我们需要向下转换到具体的类。</p>
-
-<h3>检查类型</h3>
-
-<p>使用 is 操作符来检查实例是否是某个特定类的实例。如果是就返回true，如果不是就返回false。</p>
-
-<pre><code class="swift">var movieCount = 0
-var songCount = 0
-for item in library {
-    if item is Movie {
-        ++movieCount
-    } else if item is Song {
-        ++songCount
-    }
-}
-println("Media library contains \(movieCount) movies and \(songCount) songs")
-// prints "Media library contains 2 movies and 3 songs"
-</code></pre>
-
-<p>上面的代码，我们遍历整个数组，判断每个实例的类型，然后分别计算出有多少电影，多少歌曲。</p>
-
-<h3>向下转换（Downcasting）</h3>
-
-<p>一个类型的变量或常量，事实上有可能指向一个这个类的子类。我们可以尝试使用as操作符来尝试向下转换。</p>
-
-<p>因为向下转换可能失败，所以转换操作符有两种形式。as？，返回一个optional。as，尝试转换并强制解包。</p>
-
-<p>当我们不确定实例的类型能否转换成功时，使用as？来做。如果失败了，会返回一个nil。</p>
-
-<p>只有当我们确认实例的类型能够转换成功时，才使用as来做。如果使用了as，却转换失败，会造成运行时错误。</p>
-
-<pre><code class="swift">for item in library {
-    if let movie = item as? Movie {
-        println("Movie: '\(movie.name)', dir. \(movie.director)")
-    } else if let song = item as? Song {
-        println("Song: '\(song.name)', by \(song.artist)")
-    }
-}
-// Movie: 'Casablanca', dir. Michael Curtiz
-// Song: 'Blue Suede Shoes', by Elvis Presley
-// Movie: 'Citizen Kane', dir. Orson Welles
-// Song: 'The One And Only', by Chesney Hawkes
-// Song: 'Never Gonna Give You Up', by Rick Astley
-</code></pre>
-
-<p>上面的代码中，我们尝试把每个实例向下转换到具体的类型。使用as？，然后使用optional绑定来使用真实的值。</p>
-
-<pre><code>注意
-转换并不会修改实例或它的值。底层的实例没有改变，只是简单的被当做另一个类型来使用。
-</code></pre>
-
-<h3>Any和AnyObject类型转到</h3>
-
-<p>Swift提供了两种比较宽泛的类型：</p>
-
-<ul>
-<li>AnyObject可以表示任何类类型的实例</li>
-<li><p>Any可以表示任何类型，包括函数类型</p>
-
-<pre><code>注意
-仅当需要时在使用Any和AnyObject，尽可能的明确出实例的类型。
-</code></pre></li>
-</ul>
-
-
-<h4>AnyObject</h4>
-
-<p>当使用Cocoa的API时，我们经常接收到一个数组类型是[AnyObject]的数组，这是因为ObjC没有指定类型的数组。然而，我们事实上通过API的信息是比较确定数组里元素的类型的。</p>
-
-<p>在这种情况下，我们可以使用as来直接把数组元素向下转换到特定的类型来使用。</p>
-
-<pre><code class="swift">let someObjects: [AnyObject] = [
-    Movie(name: "2001: A Space Odyssey", director: "Stanley Kubrick"),
-    Movie(name: "Moon", director: "Duncan Jones"),
-    Movie(name: "Alien", director: "Ridley Scott")
-]
-</code></pre>
-
-<p>因为数组里全是Moive类型的实例，所以我们可以直接使用as。</p>
-
-<pre><code class="swift">for object in someObjects {
-    let movie = object as Movie
-    println("Movie: '\(movie.name)', dir. \(movie.director)")
-}
-// Movie: '2001: A Space Odyssey', dir. Stanley Kubrick
-// Movie: 'Moon', dir. Duncan Jones
-// Movie: 'Alien', dir. Ridley Scott
-</code></pre>
-
-<p>我们甚至可以直接把数组向下转换到[Movie]来操作：</p>
-
-<pre><code class="swift">for movie in someObjects as [Movie] {
-    println("Movie: '\(movie.name)', dir. \(movie.director)")
-}
-// Movie: '2001: A Space Odyssey', dir. Stanley Kubrick
-// Movie: 'Moon', dir. Duncan Jones
-// Movie: 'Alien', dir. Ridley Scott
-</code></pre>
-
-<h4>Any</h4>
-
-<p>下面的例子里，我们使用Any来操作一个混合类型的数组，可以包括函数类型，和非类类型。</p>
-
-<pre><code class="swift">var things = [Any]()
-things.append(0)
-things.append(0.0)
-things.append(42)
-things.append(3.14159)
-things.append("hello")
-things.append((3.0, 5.0))
-things.append(Movie(name: "Ghostbusters", director: "Ivan Reitman"))
-things.append({ (name: String) -&gt; String in "Hello, \(name)" })
-</code></pre>
-
-<p>数组thing包含了两个Int，两个Double，一个String，一个元组，一个Movie，一个闭包。</p>
-
-<p>我们可以使用is和as用一个switch来处理这个数组：</p>
-
-<pre><code class="swift">for thing in things {
-    switch thing {
-    case 0 as Int:
-        println("zero as an Int")
-    case 0 as Double:
-        println("zero as a Double")
-    case let someInt as Int:
-        println("an integer value of \(someInt)")
-    case let someDouble as Double where someDouble &gt; 0:
-        println("a positive double value of \(someDouble)")
-    case is Double:
-        println("some other double value that I don't want to print")
-    case let someString as String:
-        println("a string value of \"\(someString)\"")
-    case let (x, y) as (Double, Double):
-        println("an (x, y) point at \(x), \(y)")
-    case let movie as Movie:
-        println("a movie called '\(movie.name)', dir. \(movie.director)")
-    case let stringConverter as String -&gt; String:
-        println(stringConverter("Michael"))
-    default:
-        println("something else")
-    }
-}
-// zero as an Int
-// zero as a Double
-// an integer value of 42
-// a positive double value of 3.14159
-// a string value of "hello"
-// an (x, y) point at 3.0, 5.0
-// a movie called 'Ghostbusters', dir. Ivan Reitman
-// Hello, Michael
-</code></pre>
-
-<pre><code>注意
-在switch里我们使用as而不是as？来检查和转换类型。在switch里这样做总是安全的。
-</code></pre>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Language Guide: Optional Chaining]]></title>
-    <link href="http://zxhfirefox.github.io/blog/2014/10/25/language-guide-optional-chaining/"/>
-    <updated>2014-10-25T10:22:10+08:00</updated>
-    <id>http://zxhfirefox.github.io/blog/2014/10/25/language-guide-optional-chaining</id>
-    <content type="html"><![CDATA[<p>Optional链条是一种在一个optional上查询，调用属性，方法和角标得时候，这个optional的值可能是nil得一种操作。如果这个optional有值，那么属性，方法，角标的调用会成功，如果optional是nil，属性，方法，角标的调用返回nil。多个查询可以链接在一起，整个链接在有任何一个地方为nil时简单的返回失败。</p>
-
-<pre><code>注意
-Optional链条有点类似于ObjC中给nil发送消息，但是它可以使用在任何类型上，而且也可以检查成功或失败。
-</code></pre>
-
-<!-- more -->
-
-
-<h3>Optional链条作为强制解包的替换方案</h3>
-
-<p>我们在我们期望的属性，方法，角标后面加？来表示optional链条。这和在一个optional值的后面加！来强制解包很相似。主要区别在于如果optional值为nil，链条会简单的失败，而强制解包会触发运行时错误。</p>
-
-<p>为了反映optional链条可以调用在一个nil上，整个链条的返回值都是一个optional的值，即使你访问的属性，方法，角标并不是optional的。我们可以使用这个返回值来检查optional链条的调用是否成功，或者因为有nil值而没有成功。</p>
-
-<p>特别的，optional链条调用的结果和预期的结果类型相同，包裹在一个optional里。一个返回Int的属性会返回Int？。</p>
-
-<pre><code class="swift">class Person{
-    var residence: Residence?
-}
-class Residence {
-    var numberOfRooms = 1
-}
-</code></pre>
-
-<p>我们定义了两个类。</p>
-
-<pre><code class="swift">let john = Person()
-</code></pre>
-
-<p>创建一个Person对象，这时候它的residence是nil。如果我们强制访问residence的numberOfRooms属性就会触发运行时错误。</p>
-
-<pre><code class="swift">let roomCount = john.residence!.numberOfRooms
-// this triggers a runtime error
-</code></pre>
-
-<p>然而，我们使用optional链条来处理这个：</p>
-
-<pre><code class="swift">if let roomCount = john.residence?.numberOfRooms {
-    println("John's residence has \(roomCount) room(s).")
-} else {
-    println("Unable to retrieve the number of rooms.")
-}
-// prints "Unable to retrieve the number of rooms."
-</code></pre>
-
-<p>因为residence是nil，所以optional链条失败，返回nil。</p>
-
-<p>如果我们给residence附值。</p>
-
-<pre><code class="swift">john.residence = Residence()
-if let roomCount = john.residence?.numberOfRooms {
-    println("John's residence has \(roomCount) room(s).")
-} else {
-    println("Unable to retrieve the number of rooms.")
-}
-// prints "John's residence has 1 room(s)."
-</code></pre>
-
-<p>optional链条就成功了，返回了正确的numberOfRooms。</p>
-
-<h3>为optional链条定义模型类</h3>
-
-<p>我们多层次的使用optional链条来调用属性，方法，角标。这使得你可以不断向下的访问复杂的模型类的属性，并且检查是否可以访问属性，方法，角标。</p>
-
-<pre><code class="swift">class Person {
-    var residence: Residence?
-}
-class Residence {
-    var rooms = [Room]()
-    var numberOfRooms: Int {
-        return rooms.count
-    }
-    subscript(i: Int) -&gt; Room {
-        get {
-            return rooms[i]
-        }
-        set {
-            rooms[i] = newValue
-        }
-    }
-    func printNumberOfRooms() {
-        println("The number of rooms is \(numberOfRooms)")
-    }
-    var address: Address?
-}
-</code></pre>
-
-<p>这次，我们的Residence有多个Room，所以numberOfRooms成为了一个计算属性。并实现了角标访问来访问或设置Room。最后，它还有一个optional的Address。</p>
-
-<pre><code class="swift">class Room {
-    let name: String
-    init(name: String) { self.name = name }
-}
-class Address {
-    var buildingName: String?
-    var buildingNumber: String?
-    var street: String?
-    func buildingIdentifier() -&gt; String? {
-        if buildingName != nil {
-            return buildingName
-        } else if buildingNumber != nil {
-            return buildingNumber
-        } else {
-            return nil
-        }
-    }
-}
-</code></pre>
-
-<p>我们定义了Room和Address类，Address类有3个optional的属性，和一个返回optional的String的方法。</p>
-
-<h3>通过optional链条访问属性</h3>
-
-<p>我们可以通过optional链条来访问一个optional值的属性，并检查访问是否成功。</p>
-
-<pre><code class="swift">let john = Person()
-if let roomCount = john.residence?.numberOfRooms {
-    println("John's residence has \(roomCount) room(s).")
-} else {
-    println("Unable to retrieve the number of rooms.")
-}
-// prints "Unable to retrieve the number of rooms."
-</code></pre>
-
-<p>上面的例子和之前一样，因为没有residence，所以没有办法访问房间数。</p>
-
-<pre><code class="swift">let someAddress = Address()
-someAddress.buildingNumber = "29"
-someAddress.street = "Acacia Road"
-john.residence?.address = someAddress
-</code></pre>
-
-<p>这次，我们通过optional链条来给属性附值，但是因为residence是nil，所以附值依然是失败的。</p>
-
-<h3>通过optional链条调用方法</h3>
-
-<p>我们可以用optional链条来调用一个optional值的方法，然后检查调用是否成功。即使这个方法不返回值，我们也能这么做。</p>
-
-<p>Residence的printNumberOfRooms方法，没有给出返回值。</p>
-
-<p>但是，没有给出返回值的方法其实是返回了Void类型，这意味着他们返回了一个空元组()。</p>
-
-<p>如果我们把这个方法调用在optional链条时，这个方法会返回Void？，而不是Void。这样我们可以用if语句来检查我们能不能调用printNumberOfRooms方法即便方法自己没有定义返回值。</p>
-
-<pre><code class="swift">if john.residence?.printNumberOfRooms() != nil {
-    println("It was possible to print the number of rooms.")
-} else {
-    println("It was not possible to print the number of rooms.")
-}
-// prints "It was not possible to print the number of rooms."
-</code></pre>
-
-<p>任何尝试通过optional链条设置属性的操作都会返回一个Void？，我们可以用来检查设置属性是否成功：</p>
-
-<pre><code class="swift">if (john.residence?.address = someAddress) != nil {
-    println("It was possible to set the address.")
-} else {
-    println("It was not possible to set the address.")
-}
-// prints "It was not possible to set the address."
-</code></pre>
-
-<h3>通过optional链条访问角标</h3>
-
-<p>我们可以通过在optional的值上使用optional链条来获取或设置角标的值，并且检查是否成功。</p>
-
-<pre><code>注意
-当我们使用optional链条来访问角标值的时候我们总是把？放在方括号的前面。事实上，optional链条的？总是紧跟着optional的值。
-</code></pre>
-
-<pre><code class="swift">if let firstRoomName = john.residence?[0].name {
-    println("The first room name is \(firstRoomName).")
-} else {
-    println("Unable to retrieve the first room name.")
-}
-// prints "Unable to retrieve the first room name."
-</code></pre>
-
-<p>？紧跟在residence后面，因为residence是我们要检查的optional值。</p>
-
-<pre><code class="swift">john.residence?[0] = Room(name: "Bathroom")
-</code></pre>
-
-<p>通过角标设置也是，这个操作也是失败的，因为residence是nil。</p>
-
-<pre><code class="swift">let johnsHouse = Residence()
-johnsHouse.rooms.append(Room(name: "Living Room"))
-johnsHouse.rooms.append(Room(name: "Kitchen"))
-john.residence = johnsHouse
-if let firstRoomName = john.residence?[0].name {
-    println("The first room name is \(firstRoomName).")
-} else {
-    println("Unable to retrieve the first room name.")
-}
-// prints "The first room name is Living Room."
-</code></pre>
-
-<p>在我们给residence附值之后，optional链条的操作就会成功。</p>
-
-<h4>访问optional类型的角标</h4>
-
-<p>如果一个角标的返回值是optional，那我们在使用optional链条时需要把？放到方括号的后面。</p>
-
-<pre><code class="swift">var testScores = ["Dave": [86, 82, 84], "Bev": [79, 94, 81]]
-testScores["Dave"]?[0] = 91
-testScores["Bev"]?[0]++
-testScores["Brian"]?[0] = 72
-// the "Dave" array is now [91, 82, 84] and the "Bev" array is now [80, 94, 81]
-</code></pre>
-
-<h3>连接多个层次的链条</h3>
-
-<p>我们多层次的使用optional链条来访问深入访问模型的方法，属性和角标。但是，多层次的optional并不会增加多层次的optional值。</p>
-
-<p>换句话说：</p>
-
-<ul>
-<li>如果我们获取的类型不是optional的，它会变成optional。</li>
-<li>如果获取的已经是optional的，它不会变的更加optional。</li>
-</ul>
-
-
-<p>因此：</p>
-
-<ul>
-<li>如果我们访问的返回值是Int，返回它会返回Int？</li>
-<li>如果我们访问的已经是Int？，那么返回的就是Int？</li>
-</ul>
-
-
-<pre><code class="swift">if let johnsStreet = john.residence?.address?.street {
-    println("John's street name is \(johnsStreet).")
-} else {
-    println("Unable to retrieve the address.")
-}
-// prints "Unable to retrieve the address."
-</code></pre>
-
-<p>这里，我们连续的使用optional链条来访问street属性。而street属性本身就是String？的，所以整个链条返回的类型也是String？。</p>
-
-<pre><code class="swift">let johnsAddress = Address()
-johnsAddress.buildingName = "The Larches"
-johnsAddress.street = "Laurel Street"
-john.residence!.address = johnsAddress
-if let johnsStreet = john.residence?.address?.street {
-    println("John's street name is \(johnsStreet).")
-} else {
-    println("Unable to retrieve the address.")
-}
-// prints "John's street name is Laurel Street."
-</code></pre>
-
-<h3>链接到有optional返回值的方法</h3>
-
-<p>上面的例子是我们通过optional链条来尝试访问一个optional类型的属性。</p>
-
-<p>我们也可以把一个返回optional值的方法链接到链条里。</p>
-
-<pre><code class="swift">if let buildingIdentifier = john.residence?.address?.buildingIdentifier() {
-    println("John's building identifier is \(buildingIdentifier).")
-}
-// prints "John's building identifier is The Larches."
-</code></pre>
-
-<p>我们也可以继续把更多的方法链接到一起。</p>
-
-<pre><code class="swift">if let beginsWithThe =
-    john.residence?.address?.buildingIdentifier()?.hasPrefix("The") {
-        if beginsWithThe {
-            println("John's building identifier begins with \"The\".")
-        } else {
-            println("John's building identifier does not begin with \"The\".")
-        }
-}
-// prints "John's building identifier begins with "The"."
-</code></pre>
-
-<pre><code>注意
-注意?在括弧的后面。
 </code></pre>
 ]]></content>
   </entry>
