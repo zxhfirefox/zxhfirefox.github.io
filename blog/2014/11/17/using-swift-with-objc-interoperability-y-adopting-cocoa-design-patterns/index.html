@@ -1,0 +1,474 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Using Swift With Cocoa and Objective-C: Interoperability-Adopting Cocoa Design Patterns - zxhfirefox&#8217;s Blog</title>
+  <meta name="author" content="zxhfirefox">
+
+  
+  <meta name="description" content="使用Cocoa已经建立好的设计模式可以帮助我们写出良好设计的app。许多的这种模式都依赖ObjC里定义的类。因为Swift和ObjC可以互相调用，所以我们可以在Swift里使用ObjC的模式。在很多情况下，我们可以使用Swift的特性来简化或扩展现有的Cocoa模式，让他们更加强大，更加有用。 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://zxhfirefox.github.io/blog/2014/11/17/using-swift-with-objc-interoperability-y-adopting-cocoa-design-patterns">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="zxhfirefox's Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-55876830-1']);
+    _gaq.push(['_trackPageview']);
+    _gaq.push(['_setDomainName','github.io']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">zxhfirefox&#8217;s Blog</a></h1>
+  
+    <h2>A place to record some words.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:zxhfirefox.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/about">About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Using Swift With Cocoa and Objective-C: Interoperability-Adopting Cocoa Design Patterns</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-11-17T23:18:39+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>11:18 pm</span></time>
+        
+      </p>
+    
+    
+    <h5>禁止用于商业用途，转载请注明出处</h5>
+    
+  </header>
+
+  
+    <div class="entry-content"><p>使用Cocoa已经建立好的设计模式可以帮助我们写出良好设计的app。许多的这种模式都依赖ObjC里定义的类。因为Swift和ObjC可以互相调用，所以我们可以在Swift里使用ObjC的模式。在很多情况下，我们可以使用Swift的特性来简化或扩展现有的Cocoa模式，让他们更加强大，更加有用。</p>
+
+<!-- more -->
+
+
+<h3>代理</h3>
+
+<p>在Swift和ObjC里，代理通常使用一个定义了一些要求的协议和一个实现了协议的代理属性来表达。和在ObjC里一样，在我们给一个可能不存在的代理发消息时，我们询问代理是否响应这个selector。在Swift里，我们可以用optional链条来调用一个可能是nil的对象上的一个可选的方法，然后用if-let语法来检查返回的结果。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">class</span> <span class="nl">MyDelegate</span><span class="p">:</span> <span class="bp">NSObject</span><span class="p">,</span> <span class="n">NSWindowDelegate</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">func</span> <span class="n">window</span><span class="p">(</span><span class="n">NSWindow</span><span class="p">,</span> <span class="n">willUseFullScreenContentSize</span> <span class="nl">proposedSize</span><span class="p">:</span> <span class="n">NSSize</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NSSize</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">proposedSize</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="n">var</span> <span class="nl">myDelegate</span><span class="p">:</span> <span class="n">NSWindowDelegate</span><span class="o">?</span> <span class="o">=</span> <span class="n">MyDelegate</span><span class="p">()</span>
+</span><span class='line'><span class="k">if</span> <span class="n">let</span> <span class="n">fullScreenSize</span> <span class="o">=</span> <span class="n">myDelegate</span><span class="o">?</span><span class="p">.</span><span class="n">window</span><span class="o">?</span><span class="p">(</span><span class="n">myWindow</span><span class="p">,</span> <span class="nl">willUseFullScreenContentSize</span><span class="p">:</span> <span class="n">mySize</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">println</span><span class="p">(</span><span class="n">NSStringFromSize</span><span class="p">(</span><span class="n">fullScreenSize</span><span class="p">))</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>我们先检查myDelegate是不是nil，检查myDelegate是否实现了window:willUseFullScreenContentSize:方法，如果都是true，调用方法，返回一个对象叫fullScreenSize。</p>
+
+<h3>错误报告</h3>
+
+<p>Swift里错误报告的模式和ObjC的一样，使用可选的返回值。在最简单的情况下，我们返回Bool值来表示函数调用成功与否。如果我们需要返回错误信息，我们添加一个out的NSError参数，类型是NSErrorPointer。这个类型基本和ObjC的 NSError** 类似，但是由额外的内存安全和optional typing。我们使用 &amp; 来传入一个optional的NSError类型给NSErrorPointer。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">var</span> <span class="nl">writeError</span><span class="p">:</span> <span class="bp">NSError</span><span class="o">?</span>
+</span><span class='line'><span class="n">let</span> <span class="n">written</span> <span class="o">=</span> <span class="n">myString</span><span class="p">.</span><span class="n">writeToFile</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="nl">atomically</span><span class="p">:</span> <span class="nb">false</span><span class="p">,</span>
+</span><span class='line'>    <span class="nl">encoding</span><span class="p">:</span> <span class="n">NSUTF8StringEncoding</span><span class="p">,</span>
+</span><span class='line'>    <span class="nl">error</span><span class="p">:</span> <span class="o">&amp;</span><span class="n">writeError</span><span class="p">)</span>
+</span><span class='line'><span class="k">if</span> <span class="o">!</span><span class="n">written</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">let</span> <span class="n">error</span> <span class="o">=</span> <span class="n">writeError</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">println</span><span class="p">(</span><span class="s">&quot;write failure: \(error.localizedDescription)&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>当我们自己实现函数，需要提供错误报告时，我们把一个NSError对象设置到NSErrorPointer的memory属性。确保调用者给我们传入了一个不是nil的NSErrorPointer对象：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">func</span> <span class="nf">contentsForType</span><span class="p">(</span><span class="nl">typeName</span><span class="p">:</span> <span class="n">String</span><span class="o">!</span><span class="p">,</span> <span class="nl">error</span><span class="p">:</span> <span class="n">NSErrorPointer</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AnyObject</span><span class="o">!</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">cannotProduceContentsForType</span><span class="p">(</span><span class="n">typeName</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">if</span> <span class="n">error</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">error</span><span class="p">.</span><span class="n">memory</span> <span class="o">=</span> <span class="bp">NSError</span><span class="p">(</span><span class="nl">domain</span><span class="p">:</span> <span class="n">domain</span><span class="p">,</span> <span class="nl">code</span><span class="p">:</span> <span class="n">code</span><span class="p">,</span> <span class="nl">userInfo</span><span class="p">:</span> <span class="p">[</span><span class="o">:</span><span class="p">])</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">return</span> <span class="nb">nil</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="c1">// ...</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>KVO</h3>
+
+<p>KVO是一种可以让对象在其他对象某个属性变化时接到通知的一种方式。只要我们的Swift类继承自NSObject，我们就能在这个类上使用KVO。我们需要三步来实现KVO。</p>
+
+<ol>
+<li>在我们想观察的属性前面加上dynamic。</li>
+</ol>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">class</span> <span class="nl">MyObjectToObserve</span><span class="p">:</span> <span class="bp">NSObject</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">dynamic</span> <span class="n">var</span> <span class="n">myDate</span> <span class="o">=</span> <span class="bp">NSDate</span><span class="p">()</span>
+</span><span class='line'>    <span class="n">func</span> <span class="n">updateDate</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">myDate</span> <span class="o">=</span> <span class="bp">NSDate</span><span class="p">()</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>创建一个全局的private的上下文变量。</li>
+</ol>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">private</span> <span class="n">var</span> <span class="n">myContext</span> <span class="o">=</span> <span class="mi">0</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>添加一个观察者，重写observeValueForKeyPath:ofObject:change:context:，然后在deinit里移除观察者。</li>
+</ol>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">class</span> <span class="nl">MyObserver</span><span class="p">:</span> <span class="bp">NSObject</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">var</span> <span class="n">objectToObserve</span> <span class="o">=</span> <span class="n">MyObjectToObserve</span><span class="p">()</span>
+</span><span class='line'>    <span class="n">override</span> <span class="n">init</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nb">super</span><span class="p">.</span><span class="n">init</span><span class="p">()</span>
+</span><span class='line'>        <span class="n">objectToObserve</span><span class="p">.</span><span class="n">addObserver</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span> <span class="nl">forKeyPath</span><span class="p">:</span> <span class="s">&quot;myDate&quot;</span><span class="p">,</span> <span class="nl">options</span><span class="p">:</span> <span class="p">.</span><span class="n">New</span><span class="p">,</span> <span class="nl">context</span><span class="p">:</span> <span class="o">&amp;</span><span class="n">myContext</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="n">override</span> <span class="n">func</span> <span class="n">observeValueForKeyPath</span><span class="p">(</span><span class="nl">keyPath</span><span class="p">:</span> <span class="n">String</span><span class="p">,</span> <span class="n">ofObject</span> <span class="nl">object</span><span class="p">:</span> <span class="n">AnyObject</span><span class="p">,</span> <span class="nl">change</span><span class="p">:</span> <span class="p">[</span><span class="nl">NSObject</span><span class="p">:</span> <span class="n">AnyObject</span><span class="p">],</span> <span class="nl">context</span><span class="p">:</span> <span class="n">UnsafeMutablePointer</span><span class="o">&lt;</span><span class="n">Void</span><span class="o">&gt;</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">if</span> <span class="n">context</span> <span class="o">==</span> <span class="o">&amp;</span><span class="n">myContext</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">println</span><span class="p">(</span><span class="s">&quot;Date changed: \(change[NSKeyValueChangeNewKey])&quot;</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>            <span class="nb">super</span><span class="p">.</span><span class="n">observeValueForKeyPath</span><span class="p">(</span><span class="n">keyPath</span><span class="p">,</span> <span class="nl">ofObject</span><span class="p">:</span> <span class="n">object</span><span class="p">,</span> <span class="nl">change</span><span class="p">:</span> <span class="n">change</span><span class="p">,</span> <span class="nl">context</span><span class="p">:</span> <span class="n">context</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="n">deinit</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">objectToObserve</span><span class="p">.</span><span class="n">removeObserver</span><span class="p">(</span><span class="nb">self</span><span class="p">,</span> <span class="nl">forKeyPath</span><span class="p">:</span> <span class="s">&quot;myDate&quot;</span><span class="p">,</span> <span class="nl">context</span><span class="p">:</span> <span class="o">&amp;</span><span class="n">myContext</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>目标-动作</h3>
+
+<p>目标-动作是一种通用的模式，他可以让一个对象在某个特定事件发生时给另外一个对象发消息。它在ObjC和Swift里是很相似的。在Swift里，我们用Selector类型来代表ObjC的selectors。</p>
+
+<h3>Introspection(自省)</h3>
+
+<p>在ObjC里，我们用isKindOfClass:来检查一个对象是否是某个类以及它子类的实例(注：这里，苹果文档是错的= =)，用conformsToProtocol:来检查对象是否实现了某个协议。在Swift里，我们用is 来检查类型，用 as? 来向下转换一个类型。</p>
+
+<p>我们用is来检查一个实例是否是一个类的实例：(注：这里不明确是类本身还是子类也可以，所以我做了实现，是子类也可以。应该说成，用 is 来判断一个比较广泛的类的实例是否是这个广泛类的某一个子类的实例)。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">if</span> <span class="n">object</span> <span class="n">is</span> <span class="bp">UIButton</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">// object is of type UIButton</span>
+</span><span class='line'><span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">// object is not of type UIButton</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>注：下面是我测试的代码。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">import</span> <span class="n">UIKit</span>
+</span><span class='line'><span class="k">class</span> <span class="nl">ParentView</span> <span class="p">:</span> <span class="bp">UIView</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">class</span> <span class="nl">ChildView</span> <span class="p">:</span> <span class="n">ParentView</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="n">let</span> <span class="nl">view</span> <span class="p">:</span> <span class="bp">UIView</span> <span class="o">=</span> <span class="n">ChildView</span><span class="p">()</span> <span class="c1">//我们必须给出view的类型，如果自动推导，它就是ChildView类型，下面的代码就会报错。</span>
+</span><span class='line'><span class="k">if</span> <span class="n">view</span> <span class="n">is</span> <span class="n">ParentView</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">println</span><span class="p">(</span><span class="nb">true</span><span class="p">)</span> <span class="c1">// true</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="k">if</span> <span class="n">view</span> <span class="n">is</span> <span class="n">ChildView</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">println</span><span class="p">(</span><span class="nb">true</span><span class="p">)</span> <span class="c1">// true</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>我们也可以用 as? 来尝试把一个实例向下转换到一个子类的类型。as?返回一个optional的对象，然后用if-let语句来检查结果。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">if</span> <span class="n">let</span> <span class="n">button</span> <span class="o">=</span> <span class="n">object</span> <span class="n">as</span><span class="o">?</span> <span class="bp">UIButton</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">// object is successfully cast to type UIButton and bound to button</span>
+</span><span class='line'><span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">// object could not be cast to type UIButton</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>检查是否实现协议和检查是否是类的实例是一样的：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">if</span> <span class="n">let</span> <span class="n">dataSource</span> <span class="o">=</span> <span class="n">object</span> <span class="n">as</span><span class="o">?</span> <span class="bp">UITableViewDataSource</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">// object conforms to UITableViewDataSource and is bound to dataSource</span>
+</span><span class='line'><span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">// object not conform to UITableViewDataSource</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>注意，上面的dataSource是UITableViewDataSource的对象，如果我想调用它的其他方法(不是UITableViewDataSource定义的方法)，我们需要把它们在转换到其他类型来调用。</p>
+</div>
+  
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">zxhfirefox</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2014-11-17T23:18:39+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>11:18 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/swift/'>swift</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/11/17/using-swift-with-objc-interoperability-x-working-with-cocoa-data-types/" title="Previous Post: Using Swift with Cocoa and Objective-C: Interoperability-Working With Cocoa Data Types">&laquo; Using Swift with Cocoa and Objective-C: Interoperability-Working With Cocoa Data Types</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2014/11/17/using-swift-with-objc-interoperability-y-interact-with-c/" title="Next Post: Using Swift with Cocoa and Objective-C: Interoperability-Interacting with C APIs">Using Swift with Cocoa and Objective-C: Interoperability-Interacting with C APIs &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/11/17/using-swift-with-objc-n-migration-migrating-your-objc-code-to-swift/">Using Swift With Cocoa and Objective-C: Migration-Migrating Your ObjC Code to Swift</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/11/17/using-swift-with-objc-mix-and-match-swift-and-objc-in-same-project/">Using Swift With Cocoa and Objective-C: Mix and Match-Swift and ObjC in the Same Project</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/11/17/using-swift-with-objc-interoperability-y-interact-with-c/">Using Swift With Cocoa and Objective-C: Interoperability-Interacting With C APIs</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/11/17/using-swift-with-objc-interoperability-y-adopting-cocoa-design-patterns/">Using Swift With Cocoa and Objective-C: Interoperability-Adopting Cocoa Design Patterns</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/11/17/using-swift-with-objc-interoperability-x-working-with-cocoa-data-types/">Using Swift With Cocoa and Objective-C: Interoperability-Working With Cocoa Data Types</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - zxhfirefox -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'zxhfirefoxblog';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://zxhfirefox.github.io/blog/2014/11/17/using-swift-with-objc-interoperability-y-adopting-cocoa-design-patterns/';
+        var disqus_url = 'http://zxhfirefox.github.io/blog/2014/11/17/using-swift-with-objc-interoperability-y-adopting-cocoa-design-patterns/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
