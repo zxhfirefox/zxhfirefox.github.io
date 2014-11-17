@@ -4,7 +4,7 @@
   <title><![CDATA[zxhfirefox's Blog]]></title>
   <link href="http://zxhfirefox.github.io/atom.xml" rel="self"/>
   <link href="http://zxhfirefox.github.io/"/>
-  <updated>2014-11-17T23:28:12+08:00</updated>
+  <updated>2014-11-17T23:32:46+08:00</updated>
   <id>http://zxhfirefox.github.io/</id>
   <author>
     <name><![CDATA[zxhfirefox]]></name>
@@ -19,6 +19,9 @@
     <updated>2014-11-17T23:24:58+08:00</updated>
     <id>http://zxhfirefox.github.io/blog/2014/11/17/using-swift-with-objc-n-migration-migrating-your-objc-code-to-swift</id>
     <content type="html"><![CDATA[<p>迁移，让我们有机会去重新审视现有的ObjC的app，我们可以使用Swift来替换其中的一部分来改进它的架构，逻辑和性能。直接来说，我们使用前面学得知识(混合与匹配，互用性)来一点点迁移我们的app。混合与匹配，让我们选择合适的部分来使用Swift重写，把剩下的留在ObjC。互用性让我们可以把这些新的特性在融会到ObjC里。使用这些工具来探索Swift丰富的功能，然后把这些在整合回ObjC得app，我们不需要一次性从头使用Swift写一个新的app。</p>
+
+<!-- more -->
+
 
 <h3>为了迁移修改ObjC的代码</h3>
 
