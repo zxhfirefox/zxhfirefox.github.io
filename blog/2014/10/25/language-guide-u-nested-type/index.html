@@ -1,120 +1,130 @@
-
 <!DOCTYPE html>
 <!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
 <!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
-<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!-->
+<html class="no-js" lang="en">
+<!--<![endif]-->
+
 <head>
-  <meta charset="utf-8">
-  <title>Language Guide: Nested Type - zxhfirefox&#8217;s Blog</title>
-  <meta name="author" content="zxhfirefox">
+    <meta charset="utf-8">
+    <title>Language Guide: Nested Type - zxhfirefox&#8217;s Blog</title>
+    <meta name="author" content="zxhfirefox">
 
-  
-  <meta name="description" content="枚举通常被定义来帮助实现一个类和结构体。同样的，有时候为了在一个更复杂的上下文里定义和使用某一些特殊的类型是很方便的。为了达到这一点，Swift允许定义嵌套类型，这样你就可以在需要枚举，类，结构体来支持的复杂的类型里定义他们。 定义嵌套类型，只需要把类型定义写在大括号里面。你需要嵌套几层就嵌套几层 &hellip;">
-  
 
-  <!-- http://t.co/dKP3o1e -->
-  <meta name="HandheldFriendly" content="True">
-  <meta name="MobileOptimized" content="320">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="枚举通常被定义来帮助实现一个类和结构体。同样的，有时候为了在一个更复杂的上下文里定义和使用某一些特殊的类型是很方便的。为了达到这一点，Swift允许定义嵌套类型，这样你就可以在需要枚举，类，结构体来支持的复杂的类型里定义他们。 定义嵌套类型，只需要把类型定义写在大括号里面。你需要嵌套几层就嵌套几层 &hellip;">
 
-  
-  <link rel="canonical" href="http://zxhfirefox.github.io/blog/2014/10/25/language-guide-u-nested-type">
-  <link href="/favicon.png" rel="icon">
-  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <link href="/atom.xml" rel="alternate" title="zxhfirefox's Blog" type="application/atom+xml">
-  <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
-  <script src="/javascripts/octopress.js" type="text/javascript"></script>
-  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 
-  
-  <script type="text/javascript">
+    <!-- http://t.co/dKP3o1e -->
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+    <link rel="canonical" href="http://zxhfirefox.github.io/blog/2014/10/25/language-guide-u-nested-type">
+    <link href="/favicon.png" rel="icon">
+    <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+    <link href="/atom.xml" rel="alternate" title="zxhfirefox's Blog" type="application/atom+xml">
+    <script src="/javascripts/modernizr-2.0.js"></script>
+
+    <script>
+    !window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))
+    </script>
+    <script src="/javascripts/octopress.js" type="text/javascript"></script>
+
+
+
+    <script type="text/javascript">
     var _gaq = _gaq || [];
     _gaq.push(['_setAccount', 'UA-55876830-1']);
     _gaq.push(['_trackPageview']);
-    _gaq.push(['_setDomainName','github.io']);
+    _gaq.push(['_setDomainName', 'github.io']);
 
     (function() {
-      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        var ga = document.createElement('script');
+        ga.type = 'text/javascript';
+        ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(ga, s);
     })();
-  </script>
+    </script>
 
 
 </head>
 
-<body   >
-  <header role="banner"><hgroup>
-  <h1><a href="/">zxhfirefox&#8217;s Blog</a></h1>
-  
-    <h2>A place to record some words.</h2>
-  
-</hgroup>
+<body>
+    <header role="banner">
+        <hgroup>
+            <h1><a href="/">zxhfirefox&#8217;s Blog</a></h1>
 
-</header>
-  <nav role="navigation"><ul class="subscription" data-subscription="rss">
-  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
-  
-</ul>
-  
-<form action="http://google.com/search" method="get">
-  <fieldset role="search">
-    <input type="hidden" name="q" value="site:zxhfirefox.github.io" />
-    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
-  </fieldset>
-</form>
-  
-<ul class="main-navigation">
-  <li><a href="/">Blog</a></li>
-  <li><a href="/blog/archives">Archives</a></li>
-  <li><a href="/about">About</a></li>
-</ul>
+            <h2>A place to record some words.</h2>
 
-</nav>
-  <div id="main">
-    <div id="content">
-      <div>
-<article class="hentry" role="article">
-  
-  <header>
-    
-      <h1 class="entry-title">Language Guide: Nested Type</h1>
-    
-    
-      <p class="meta">
-        
+        </hgroup>
+
+    </header>
+    <nav role="navigation">
 
 
 
 
-<time class='entry-date' datetime='2014-10-25T10:24:19+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>10:24 am</span></time>
-        
-      </p>
-    
-    
-    <h5>禁止用于商业用途，转载请注明出处</h5>
-    
-  </header>
+        <ul class="main-navigation">
+            <li><a href="/">Blog</a>
+            </li>
+            <li><a href="/blog/archives">Archives</a>
+            </li>
+            <li><a href="/about">About</a>
+            </li>
+        </ul>
 
-  
-    <div class="entry-content"><p>枚举通常被定义来帮助实现一个类和结构体。同样的，有时候为了在一个更复杂的上下文里定义和使用某一些特殊的类型是很方便的。为了达到这一点，Swift允许定义嵌套类型，这样你就可以在需要枚举，类，结构体来支持的复杂的类型里定义他们。</p>
+    </nav>
+    <div id="main">
+        <div id="content">
+            <div>
+                <article class="hentry" role="article">
 
-<p>定义嵌套类型，只需要把类型定义写在大括号里面。你需要嵌套几层就嵌套几层。</p>
+                    <header>
 
-<!-- more -->
+                        <h1 class="entry-title">Language Guide: Nested Type</h1>
 
 
-<h5>嵌套类型举例</h5>
+                        <p class="meta">
 
-<p>下面的例子定义了一个结构体，BlackjackCard，它代表了一种扑克牌。这个结构里有2个嵌套的类型，叫Suit和Rank。</p>
 
-<p>在 Blackjack里，Ace有2个值，1或11.这个值有一个叫Values的结构体表示，这个结构体嵌套在Rank里。</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+
+
+                            <time class='entry-date' datetime='2014-10-25T10:24:19+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>10:24 am</span>
+                            </time>
+
+                        </p>
+
+
+                        <h5>禁止用于商业用途，转载请注明出处</h5>
+
+                    </header>
+
+
+                    <div class="entry-content">
+                        <p>枚举通常被定义来帮助实现一个类和结构体。同样的，有时候为了在一个更复杂的上下文里定义和使用某一些特殊的类型是很方便的。为了达到这一点，Swift允许定义嵌套类型，这样你就可以在需要枚举，类，结构体来支持的复杂的类型里定义他们。</p>
+
+                        <p>定义嵌套类型，只需要把类型定义写在大括号里面。你需要嵌套几层就嵌套几层。</p>
+
+                        <!-- more -->
+
+
+                        <h5>嵌套类型举例</h5>
+
+                        <p>下面的例子定义了一个结构体，BlackjackCard，它代表了一种扑克牌。这个结构里有2个嵌套的类型，叫Suit和Rank。</p>
+
+                        <p>在 Blackjack里，Ace有2个值，1或11.这个值有一个叫Values的结构体表示，这个结构体嵌套在Rank里。</p>
+
+                        <figure class='code'>
+                            <figcaption><span></span>
+                            </figcaption>
+                            <div class="highlight">
+                                <table>
+                                    <tr>
+                                        <td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -145,7 +155,9 @@
 <span class='line-number'>29</span>
 <span class='line-number'>30</span>
 <span class='line-number'>31</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">struct</span> <span class="n">BlackjackCard</span><span class="p">{</span>
+</pre>
+                                        </td>
+                                        <td class='code'><pre><code class='objc'><span class='line'><span class="k">struct</span> <span class="n">BlackjackCard</span><span class="p">{</span>
 </span><span class='line'>  <span class="k">enum</span> <span class="nl">Suit</span><span class="p">:</span> <span class="n">Character</span><span class="p">{</span>
 </span><span class='line'>      <span class="k">case</span> <span class="n">Spades</span><span class="o">=</span><span class="s">&quot;s&quot;</span><span class="p">,</span><span class="n">Hearts</span><span class="o">=</span><span class="s">&quot;h&quot;</span><span class="p">,</span><span class="n">Diamonds</span><span class="o">=</span><span class="s">&quot;d&quot;</span><span class="p">,</span><span class="n">Clubs</span><span class="o">=</span><span class="s">&quot;c&quot;</span>
 </span><span class='line'>  <span class="p">}</span>
@@ -176,156 +188,173 @@
 </span><span class='line'>      <span class="k">return</span> <span class="n">output</span>
 </span><span class='line'>  <span class="p">}</span>
 </span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </figure>
 
 
-<p>Suit枚举定义了扑克牌里常见的四种花色。</p>
+                        <p>Suit枚举定义了扑克牌里常见的四种花色。</p>
 
-<p>Rank枚举定义了扑克牌的大小。</p>
+                        <p>Rank枚举定义了扑克牌的大小。</p>
 
-<p>Rank还嵌套了一个类型Values来表示扑克牌一般只有一个值，除了Ace有两个值。而Values里有一个Int的first和一个optional的Int的sencond。</p>
+                        <p>Rank还嵌套了一个类型Values来表示扑克牌一般只有一个值，除了Ace有两个值。而Values里有一个Int的first和一个optional的Int的sencond。</p>
 
-<p>Rank还定义了一个计算的属性values，返回一个Values类型的值。</p>
+                        <p>Rank还定义了一个计算的属性values，返回一个Values类型的值。</p>
 
-<p>BlackjackCard自己有2个属性，suit和rank。还有一个计算的属性，description。</p>
+                        <p>BlackjackCard自己有2个属性，suit和rank。还有一个计算的属性，description。</p>
 
-<p>因为BlackjackCard没有自定义初始化函数，所以它有一个默认的成员初始化函数。</p>
+                        <p>因为BlackjackCard没有自定义初始化函数，所以它有一个默认的成员初始化函数。</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+                        <figure class='code'>
+                            <figcaption><span></span>
+                            </figcaption>
+                            <div class="highlight">
+                                <table>
+                                    <tr>
+                                        <td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="n">theAceOfSpades</span> <span class="o">=</span> <span class="n">BlackjackCard</span><span class="p">(</span><span class="nl">rank</span><span class="p">:</span> <span class="p">.</span><span class="n">Ace</span><span class="p">,</span><span class="nl">suit</span><span class="p">:</span> <span class="p">.</span><span class="n">Spades</span><span class="p">)</span>
+</pre>
+                                        </td>
+                                        <td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="n">theAceOfSpades</span> <span class="o">=</span> <span class="n">BlackjackCard</span><span class="p">(</span><span class="nl">rank</span><span class="p">:</span> <span class="p">.</span><span class="n">Ace</span><span class="p">,</span><span class="nl">suit</span><span class="p">:</span> <span class="p">.</span><span class="n">Spades</span><span class="p">)</span>
 </span><span class='line'><span class="n">println</span><span class="p">(</span><span class="n">theAceOfSpades</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </figure>
 
 
-<p>尽管Rank和Suit是嵌套在BlackjackCard里的类型，他们的类型依然可以从上下文里推断出来。</p>
+                        <p>尽管Rank和Suit是嵌套在BlackjackCard里的类型，他们的类型依然可以从上下文里推断出来。</p>
 
-<h5>引用嵌套类型</h5>
+                        <h5>引用嵌套类型</h5>
 
-<p>如果需要在定义上下文之外的地方使用嵌套类型，需要把外部类型的名字加在嵌套类型的名字的前面：</p>
+                        <p>如果需要在定义上下文之外的地方使用嵌套类型，需要把外部类型的名字加在嵌套类型的名字的前面：</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="n">heartsSymbol</span> <span class="o">=</span> <span class="n">BlackjackCard</span><span class="p">.</span><span class="n">Suit</span><span class="p">.</span><span class="n">Hearts</span><span class="p">.</span><span class="n">toRaw</span><span class="p">()</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-</div>
-  
-
-  <footer>
-    <p class="meta">
-      
-  
-
-<span class="byline author vcard">Posted by <span class="fn">zxhfirefox</span></span>
-
-      
-
+                        <figure class='code'>
+                            <figcaption><span></span>
+                            </figcaption>
+                            <div class="highlight">
+                                <table>
+                                    <tr>
+                                        <td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre>
+                                        </td>
+                                        <td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="n">heartsSymbol</span> <span class="o">=</span> <span class="n">BlackjackCard</span><span class="p">.</span><span class="n">Suit</span><span class="p">.</span><span class="n">Hearts</span><span class="p">.</span><span class="n">toRaw</span><span class="p">()</span>
+</span></code></pre>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </figure>
 
 
 
-<time class='entry-date' datetime='2014-10-25T10:24:19+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>10:24 am</span></time>
-      
+                    </div>
 
-<span class="categories">
+
+                    <footer>
+                        <p class="meta">
+
+
+
+                            <span class="byline author vcard">Posted by <span class="fn">zxhfirefox</span></span>
+
+
+
+
+
+
+                            <time class='entry-date' datetime='2014-10-25T10:24:19+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>10:24 am</span>
+                            </time>
+
+
+                            <span class="categories">
   
     <a class='category' href='/blog/categories/swift/'>swift</a>
   
 </span>
 
 
-    </p>
-    
-      <div class="sharing">
-  
-  
-  
-</div>
+                        </p>
 
-    
-    <p class="meta">
-      
-        <a class="basic-alignment left" href="/blog/2014/10/25/language-guide-type-cast/" title="Previous Post: Language Guide: Type Casting">&laquo; Language Guide: Type Casting</a>
-      
-      
-        <a class="basic-alignment right" href="/blog/2014/10/25/language-guide-v-extension/" title="Next Post: Language Guide: Extension">Language Guide: Extension &raquo;</a>
-      
-    </p>
-  </footer>
-</article>
-
-  <section>
-    <h1>Comments</h1>
-    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-</div>
-  </section>
-
-</div>
-
-<aside class="sidebar">
-  
-    <section>
-  <h1>Recent Posts</h1>
-  <ul id="recent_posts">
-    
-      <li class="post">
-        <a href="/blog/2014/11/17/using-swift-with-objc-n-migration-migrating-your-objc-code-to-swift/">Using Swift With Cocoa and Objective-C: Migration-Migrating Your ObjC Code to Swift</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/11/17/using-swift-with-objc-mix-and-match-swift-and-objc-in-same-project/">Using Swift With Cocoa and Objective-C: Mix and Match-Swift and ObjC in the Same Project</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/11/17/using-swift-with-objc-interoperability-y-interact-with-c/">Using Swift With Cocoa and Objective-C: Interoperability-Interacting With C APIs</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/11/17/using-swift-with-objc-interoperability-y-adopting-cocoa-design-patterns/">Using Swift With Cocoa and Objective-C: Interoperability-Adopting Cocoa Design Patterns</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/11/17/using-swift-with-objc-interoperability-x-working-with-cocoa-data-types/">Using Swift With Cocoa and Objective-C: Interoperability-Working With Cocoa Data Types</a>
-      </li>
-    
-  </ul>
-</section>
+                        <div class="sharing">
 
 
 
+                        </div>
 
 
-  
-</aside>
+                        <p class="meta">
+
+                            <a class="basic-alignment left" href="/blog/2014/10/25/language-guide-type-cast/" title="Previous Post: Language Guide: Type Casting">&laquo; Language Guide: Type Casting</a>
 
 
+                            <a class="basic-alignment right" href="/blog/2014/10/25/language-guide-v-extension/" title="Next Post: Language Guide: Extension">Language Guide: Extension &raquo;</a>
+
+                        </p>
+                    </footer>
+                </article>
+
+                <section>
+                    <h1>Comments</h1>
+                    <div id="disqus_thread" aria-live="polite">
+                        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+                        </noscript>
+                    </div>
+                </section>
+
+            </div>
+
+            <aside class="sidebar">
+
+                <section>
+                    <h1>Recent Posts</h1>
+                    <ul id="recent_posts">
+
+                        <li class="post">
+                            <a href="/blog/2014/11/17/using-swift-with-objc-n-migration-migrating-your-objc-code-to-swift/">Using Swift With Cocoa and Objective-C: Migration-Migrating Your ObjC Code to Swift</a>
+                        </li>
+
+                        <li class="post">
+                            <a href="/blog/2014/11/17/using-swift-with-objc-mix-and-match-swift-and-objc-in-same-project/">Using Swift With Cocoa and Objective-C: Mix and Match-Swift and ObjC in the Same Project</a>
+                        </li>
+
+                        <li class="post">
+                            <a href="/blog/2014/11/17/using-swift-with-objc-interoperability-y-interact-with-c/">Using Swift With Cocoa and Objective-C: Interoperability-Interacting With C APIs</a>
+                        </li>
+
+                        <li class="post">
+                            <a href="/blog/2014/11/17/using-swift-with-objc-interoperability-y-adopting-cocoa-design-patterns/">Using Swift With Cocoa and Objective-C: Interoperability-Adopting Cocoa Design Patterns</a>
+                        </li>
+
+                        <li class="post">
+                            <a href="/blog/2014/11/17/using-swift-with-objc-interoperability-x-working-with-cocoa-data-types/">Using Swift With Cocoa and Objective-C: Interoperability-Working With Cocoa Data Types</a>
+                        </li>
+
+                    </ul>
+                </section>
+
+
+
+
+
+
+            </aside>
+
+
+        </div>
     </div>
-  </div>
-  <footer role="contentinfo"><p>
-  Copyright &copy; 2014 - zxhfirefox -
-  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
-</p>
+    <footer role="contentinfo">
+        <p>
+            Copyright &copy; 2015 - zxhfirefox
 
-</footer>
-  
+        </p>
 
-<script type="text/javascript">
-      var disqus_shortname = 'zxhfirefoxblog';
-      
-        
-        // var disqus_developer = 1;
-        var disqus_identifier = 'http://zxhfirefox.github.io/blog/2014/10/25/language-guide-u-nested-type/';
-        var disqus_url = 'http://zxhfirefox.github.io/blog/2014/10/25/language-guide-u-nested-type/';
-        var disqus_script = 'embed.js';
-      
-    (function () {
-      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
-      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    }());
-</script>
-
+    </footer>
 
 
 
@@ -337,4 +366,5 @@
 
 
 </body>
+
 </html>

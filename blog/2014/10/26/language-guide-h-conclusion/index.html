@@ -1,260 +1,250 @@
-
 <!DOCTYPE html>
 <!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
 <!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
-<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!-->
+<html class="no-js" lang="en">
+<!--<![endif]-->
+
 <head>
-  <meta charset="utf-8">
-  <title>Language Guide: Conclusion - zxhfirefox&#8217;s Blog</title>
-  <meta name="author" content="zxhfirefox">
+    <meta charset="utf-8">
+    <title>Language Guide: Conclusion - zxhfirefox&#8217;s Blog</title>
+    <meta name="author" content="zxhfirefox">
 
-  
-  <meta name="description" content="从9月14号开始翻译到今天（10月26号），终于很粗糙的把苹果关于Swift的第一篇文档（The Swift Programming Language）的重要部分（Welcome to Swift 和 Language Guie）翻译完毕。 关于语言参考（Language Reference）部分 &hellip;">
-  
 
-  <!-- http://t.co/dKP3o1e -->
-  <meta name="HandheldFriendly" content="True">
-  <meta name="MobileOptimized" content="320">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="从9月14号开始翻译到今天（10月26号），终于很粗糙的把苹果关于Swift的第一篇文档（The Swift Programming Language）的重要部分（Welcome to Swift 和 Language Guie）翻译完毕。 关于语言参考（Language Reference）部分 &hellip;">
 
-  
-  <link rel="canonical" href="http://zxhfirefox.github.io/blog/2014/10/26/language-guide-h-conclusion">
-  <link href="/favicon.png" rel="icon">
-  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <link href="/atom.xml" rel="alternate" title="zxhfirefox's Blog" type="application/atom+xml">
-  <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
-  <script src="/javascripts/octopress.js" type="text/javascript"></script>
-  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 
-  
-  <script type="text/javascript">
+    <!-- http://t.co/dKP3o1e -->
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+    <link rel="canonical" href="http://zxhfirefox.github.io/blog/2014/10/26/language-guide-h-conclusion">
+    <link href="/favicon.png" rel="icon">
+    <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+    <link href="/atom.xml" rel="alternate" title="zxhfirefox's Blog" type="application/atom+xml">
+    <script src="/javascripts/modernizr-2.0.js"></script>
+
+    <script>
+    !window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))
+    </script>
+    <script src="/javascripts/octopress.js" type="text/javascript"></script>
+
+
+
+    <script type="text/javascript">
     var _gaq = _gaq || [];
     _gaq.push(['_setAccount', 'UA-55876830-1']);
     _gaq.push(['_trackPageview']);
-    _gaq.push(['_setDomainName','github.io']);
+    _gaq.push(['_setDomainName', 'github.io']);
 
     (function() {
-      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        var ga = document.createElement('script');
+        ga.type = 'text/javascript';
+        ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(ga, s);
     })();
-  </script>
+    </script>
 
 
 </head>
 
-<body   >
-  <header role="banner"><hgroup>
-  <h1><a href="/">zxhfirefox&#8217;s Blog</a></h1>
-  
-    <h2>A place to record some words.</h2>
-  
-</hgroup>
+<body>
+    <header role="banner">
+        <hgroup>
+            <h1><a href="/">zxhfirefox&#8217;s Blog</a></h1>
 
-</header>
-  <nav role="navigation"><ul class="subscription" data-subscription="rss">
-  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
-  
-</ul>
-  
-<form action="http://google.com/search" method="get">
-  <fieldset role="search">
-    <input type="hidden" name="q" value="site:zxhfirefox.github.io" />
-    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
-  </fieldset>
-</form>
-  
-<ul class="main-navigation">
-  <li><a href="/">Blog</a></li>
-  <li><a href="/blog/archives">Archives</a></li>
-  <li><a href="/about">About</a></li>
-</ul>
+            <h2>A place to record some words.</h2>
 
-</nav>
-  <div id="main">
-    <div id="content">
-      <div>
-<article class="hentry" role="article">
-  
-  <header>
-    
-      <h1 class="entry-title">Language Guide: Conclusion</h1>
-    
-    
-      <p class="meta">
-        
+        </hgroup>
+
+    </header>
+    <nav role="navigation">
 
 
 
 
-<time class='entry-date' datetime='2014-10-26T23:28:48+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>11:28 pm</span></time>
-        
-      </p>
-    
-    
-    <h5>禁止用于商业用途，转载请注明出处</h5>
-    
-  </header>
+        <ul class="main-navigation">
+            <li><a href="/">Blog</a>
+            </li>
+            <li><a href="/blog/archives">Archives</a>
+            </li>
+            <li><a href="/about">About</a>
+            </li>
+        </ul>
 
-  
-    <div class="entry-content"><p>从9月14号开始翻译到今天（10月26号），终于很粗糙的把苹果关于Swift的第一篇文档（The Swift Programming Language）的重要部分（Welcome to Swift 和 Language Guie）翻译完毕。</p>
+    </nav>
+    <div id="main">
+        <div id="content">
+            <div>
+                <article class="hentry" role="article">
 
-<p>关于语言参考（Language Reference）部分，我不打算翻译了，因为这些是一些语法定义的细节。大部分都是我们在工作不需要的，但是有一些部分是我们在使用Swift一些高级特性时最好知道的细节，所以，以后也许会单独的翻译那些细节。</p>
+                    <header>
 
-<p>在翻译过程中的一些问题需要在这里总结出来。</p>
-
-<!-- more -->
+                        <h1 class="entry-title">Language Guide: Conclusion</h1>
 
 
-<h4>特殊语境内，专业名词的翻译。</h4>
-
-<p>对于这一个，我在翻译时有很多地方很纠结。有些专用的词我们应该给出比较专业的翻译，而我其实水平是达不到的。。。</p>
-
-<p>想到的解决办法就是，首先，要有一个索引，来指出文章中的特殊的英文单词和我们翻译后的单词的对照。其次，在文章中使用到这个翻译的地方，同时给出原有英文。</p>
-
-<h4>按照原文翻译，还是加入我们自己的理解</h4>
-
-<p>这也是一个问题，开始很多地方，本来是想着按照原文的意思来翻译。后来发现有时候不太好表达，有时候原文很多废话，最后我也就会加入一些我自己的理解，并且直接忽略了一些无用的废话。</p>
-
-<h4>最后</h4>
-
-<p>看完这些，可能会觉得这次的翻译，对于我自己很有帮助，但是如果真的给别人去读，可能帮助并不大。。。</p>
-
-<p>所以，这次的翻译，作为给读者的建议：</p>
-
-<p>如果你能阅读原文，最好阅读原文。</p>
-
-<p>如果你不能阅读原文，最好也参照原文来读。</p>
-
-<h4>最最后</h4>
-
-<p>苹果关于Swift总共2篇主要的文档，那么下面自然是要继续翻译下一篇。</p>
-
-<p>Using Swift with Cocoa and Objective-C</p>
-
-<p>这次，我会尽量改进前面说到的两个问题，不过也许可能大概改进不了多少= =</p>
-
-<p>如果你读到了任何错误，请告诉我，谢谢。</p>
-</div>
-  
-
-  <footer>
-    <p class="meta">
-      
-  
-
-<span class="byline author vcard">Posted by <span class="fn">zxhfirefox</span></span>
-
-      
+                        <p class="meta">
 
 
 
 
-<time class='entry-date' datetime='2014-10-26T23:28:48+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>11:28 pm</span></time>
-      
 
-<span class="categories">
+                            <time class='entry-date' datetime='2014-10-26T23:28:48+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>11:28 pm</span>
+                            </time>
+
+                        </p>
+
+
+                        <h5>禁止用于商业用途，转载请注明出处</h5>
+
+                    </header>
+
+
+                    <div class="entry-content">
+                        <p>从9月14号开始翻译到今天（10月26号），终于很粗糙的把苹果关于Swift的第一篇文档（The Swift Programming Language）的重要部分（Welcome to Swift 和 Language Guie）翻译完毕。</p>
+
+                        <p>关于语言参考（Language Reference）部分，我不打算翻译了，因为这些是一些语法定义的细节。大部分都是我们在工作不需要的，但是有一些部分是我们在使用Swift一些高级特性时最好知道的细节，所以，以后也许会单独的翻译那些细节。</p>
+
+                        <p>在翻译过程中的一些问题需要在这里总结出来。</p>
+
+                        <!-- more -->
+
+
+                        <h4>特殊语境内，专业名词的翻译。</h4>
+
+                        <p>对于这一个，我在翻译时有很多地方很纠结。有些专用的词我们应该给出比较专业的翻译，而我其实水平是达不到的。。。</p>
+
+                        <p>想到的解决办法就是，首先，要有一个索引，来指出文章中的特殊的英文单词和我们翻译后的单词的对照。其次，在文章中使用到这个翻译的地方，同时给出原有英文。</p>
+
+                        <h4>按照原文翻译，还是加入我们自己的理解</h4>
+
+                        <p>这也是一个问题，开始很多地方，本来是想着按照原文的意思来翻译。后来发现有时候不太好表达，有时候原文很多废话，最后我也就会加入一些我自己的理解，并且直接忽略了一些无用的废话。</p>
+
+                        <h4>最后</h4>
+
+                        <p>看完这些，可能会觉得这次的翻译，对于我自己很有帮助，但是如果真的给别人去读，可能帮助并不大。。。</p>
+
+                        <p>所以，这次的翻译，作为给读者的建议：</p>
+
+                        <p>如果你能阅读原文，最好阅读原文。</p>
+
+                        <p>如果你不能阅读原文，最好也参照原文来读。</p>
+
+                        <h4>最最后</h4>
+
+                        <p>苹果关于Swift总共2篇主要的文档，那么下面自然是要继续翻译下一篇。</p>
+
+                        <p>Using Swift with Cocoa and Objective-C</p>
+
+                        <p>这次，我会尽量改进前面说到的两个问题，不过也许可能大概改进不了多少= =</p>
+
+                        <p>如果你读到了任何错误，请告诉我，谢谢。</p>
+                    </div>
+
+
+                    <footer>
+                        <p class="meta">
+
+
+
+                            <span class="byline author vcard">Posted by <span class="fn">zxhfirefox</span></span>
+
+
+
+
+
+
+                            <time class='entry-date' datetime='2014-10-26T23:28:48+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>11:28 pm</span>
+                            </time>
+
+
+                            <span class="categories">
   
     <a class='category' href='/blog/categories/swift/'>swift</a>
   
 </span>
 
 
-    </p>
-    
-      <div class="sharing">
-  
-  
-  
-</div>
+                        </p>
 
-    
-    <p class="meta">
-      
-        <a class="basic-alignment left" href="/blog/2014/10/26/language-guide-h-advanced-operators/" title="Previous Post: Language Guide: Advanced Operators">&laquo; Language Guide: Advanced Operators</a>
-      
-      
-        <a class="basic-alignment right" href="/blog/2014/11/17/using-swift-with-objc-getting-started-basic-setup/" title="Next Post: Using Swift with Cocoa and Objective-C: Getting Started-Basic Setup">Using Swift with Cocoa and Objective-C: Getting Started-Basic Setup &raquo;</a>
-      
-    </p>
-  </footer>
-</article>
-
-  <section>
-    <h1>Comments</h1>
-    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-</div>
-  </section>
-
-</div>
-
-<aside class="sidebar">
-  
-    <section>
-  <h1>Recent Posts</h1>
-  <ul id="recent_posts">
-    
-      <li class="post">
-        <a href="/blog/2014/11/17/using-swift-with-objc-n-migration-migrating-your-objc-code-to-swift/">Using Swift With Cocoa and Objective-C: Migration-Migrating Your ObjC Code to Swift</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/11/17/using-swift-with-objc-mix-and-match-swift-and-objc-in-same-project/">Using Swift With Cocoa and Objective-C: Mix and Match-Swift and ObjC in the Same Project</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/11/17/using-swift-with-objc-interoperability-y-interact-with-c/">Using Swift With Cocoa and Objective-C: Interoperability-Interacting With C APIs</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/11/17/using-swift-with-objc-interoperability-y-adopting-cocoa-design-patterns/">Using Swift With Cocoa and Objective-C: Interoperability-Adopting Cocoa Design Patterns</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/11/17/using-swift-with-objc-interoperability-x-working-with-cocoa-data-types/">Using Swift With Cocoa and Objective-C: Interoperability-Working With Cocoa Data Types</a>
-      </li>
-    
-  </ul>
-</section>
+                        <div class="sharing">
 
 
 
+                        </div>
 
 
-  
-</aside>
+                        <p class="meta">
+
+                            <a class="basic-alignment left" href="/blog/2014/10/26/language-guide-h-advanced-operators/" title="Previous Post: Language Guide: Advanced Operators">&laquo; Language Guide: Advanced Operators</a>
 
 
+                            <a class="basic-alignment right" href="/blog/2014/11/17/using-swift-with-objc-getting-started-basic-setup/" title="Next Post: Using Swift with Cocoa and Objective-C: Getting Started-Basic Setup">Using Swift with Cocoa and Objective-C: Getting Started-Basic Setup &raquo;</a>
+
+                        </p>
+                    </footer>
+                </article>
+
+                <section>
+                    <h1>Comments</h1>
+                    <div id="disqus_thread" aria-live="polite">
+                        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+                        </noscript>
+                    </div>
+                </section>
+
+            </div>
+
+            <aside class="sidebar">
+
+                <section>
+                    <h1>Recent Posts</h1>
+                    <ul id="recent_posts">
+
+                        <li class="post">
+                            <a href="/blog/2014/11/17/using-swift-with-objc-n-migration-migrating-your-objc-code-to-swift/">Using Swift With Cocoa and Objective-C: Migration-Migrating Your ObjC Code to Swift</a>
+                        </li>
+
+                        <li class="post">
+                            <a href="/blog/2014/11/17/using-swift-with-objc-mix-and-match-swift-and-objc-in-same-project/">Using Swift With Cocoa and Objective-C: Mix and Match-Swift and ObjC in the Same Project</a>
+                        </li>
+
+                        <li class="post">
+                            <a href="/blog/2014/11/17/using-swift-with-objc-interoperability-y-interact-with-c/">Using Swift With Cocoa and Objective-C: Interoperability-Interacting With C APIs</a>
+                        </li>
+
+                        <li class="post">
+                            <a href="/blog/2014/11/17/using-swift-with-objc-interoperability-y-adopting-cocoa-design-patterns/">Using Swift With Cocoa and Objective-C: Interoperability-Adopting Cocoa Design Patterns</a>
+                        </li>
+
+                        <li class="post">
+                            <a href="/blog/2014/11/17/using-swift-with-objc-interoperability-x-working-with-cocoa-data-types/">Using Swift With Cocoa and Objective-C: Interoperability-Working With Cocoa Data Types</a>
+                        </li>
+
+                    </ul>
+                </section>
+
+
+
+
+
+
+            </aside>
+
+
+        </div>
     </div>
-  </div>
-  <footer role="contentinfo"><p>
-  Copyright &copy; 2014 - zxhfirefox -
-  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
-</p>
+    <footer role="contentinfo">
+        <p>
+            Copyright &copy; 2015 - zxhfirefox
 
-</footer>
-  
+        </p>
 
-<script type="text/javascript">
-      var disqus_shortname = 'zxhfirefoxblog';
-      
-        
-        // var disqus_developer = 1;
-        var disqus_identifier = 'http://zxhfirefox.github.io/blog/2014/10/26/language-guide-h-conclusion/';
-        var disqus_url = 'http://zxhfirefox.github.io/blog/2014/10/26/language-guide-h-conclusion/';
-        var disqus_script = 'embed.js';
-      
-    (function () {
-      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
-      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    }());
-</script>
-
+    </footer>
 
 
 
@@ -266,4 +256,5 @@
 
 
 </body>
+
 </html>

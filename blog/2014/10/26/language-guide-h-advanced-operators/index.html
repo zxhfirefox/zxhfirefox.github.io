@@ -1,488 +1,739 @@
-
 <!DOCTYPE html>
 <!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
 <!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
-<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!-->
+<html class="no-js" lang="en">
+<!--<![endif]-->
+
 <head>
-  <meta charset="utf-8">
-  <title>Language Guide: Advanced Operators - zxhfirefox&#8217;s Blog</title>
-  <meta name="author" content="zxhfirefox">
+    <meta charset="utf-8">
+    <title>Language Guide: Advanced Operators - zxhfirefox&#8217;s Blog</title>
+    <meta name="author" content="zxhfirefox">
 
-  
-  <meta name="description" content="除了在基础操作符里提到的那些操作符，Swift还提供了一些高级操作符。这些包含了位操作符。 和C里算数操作符不一样，Swift的算数操作符不会溢出。溢出行为会被捕获并报错。如果不想要这种行为，可以使用另外一套操作符，默认是会溢出的。所有这种操作符都是新加一个 &amp; 。 当我们定义自定义类时， &hellip;">
-  
 
-  <!-- http://t.co/dKP3o1e -->
-  <meta name="HandheldFriendly" content="True">
-  <meta name="MobileOptimized" content="320">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="除了在基础操作符里提到的那些操作符，Swift还提供了一些高级操作符。这些包含了位操作符。 和C里算数操作符不一样，Swift的算数操作符不会溢出。溢出行为会被捕获并报错。如果不想要这种行为，可以使用另外一套操作符，默认是会溢出的。所有这种操作符都是新加一个 &amp; 。 当我们定义自定义类时， &hellip;">
 
-  
-  <link rel="canonical" href="http://zxhfirefox.github.io/blog/2014/10/26/language-guide-h-advanced-operators">
-  <link href="/favicon.png" rel="icon">
-  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <link href="/atom.xml" rel="alternate" title="zxhfirefox's Blog" type="application/atom+xml">
-  <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
-  <script src="/javascripts/octopress.js" type="text/javascript"></script>
-  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 
-  
-  <script type="text/javascript">
+    <!-- http://t.co/dKP3o1e -->
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+    <link rel="canonical" href="http://zxhfirefox.github.io/blog/2014/10/26/language-guide-h-advanced-operators">
+    <link href="/favicon.png" rel="icon">
+    <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+    <link href="/atom.xml" rel="alternate" title="zxhfirefox's Blog" type="application/atom+xml">
+    <script src="/javascripts/modernizr-2.0.js"></script>
+
+    <script>
+    !window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))
+    </script>
+    <script src="/javascripts/octopress.js" type="text/javascript"></script>
+
+
+
+    <script type="text/javascript">
     var _gaq = _gaq || [];
     _gaq.push(['_setAccount', 'UA-55876830-1']);
     _gaq.push(['_trackPageview']);
-    _gaq.push(['_setDomainName','github.io']);
+    _gaq.push(['_setDomainName', 'github.io']);
 
     (function() {
-      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        var ga = document.createElement('script');
+        ga.type = 'text/javascript';
+        ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(ga, s);
     })();
-  </script>
+    </script>
 
 
 </head>
 
-<body   >
-  <header role="banner"><hgroup>
-  <h1><a href="/">zxhfirefox&#8217;s Blog</a></h1>
-  
-    <h2>A place to record some words.</h2>
-  
-</hgroup>
+<body>
+    <header role="banner">
+        <hgroup>
+            <h1><a href="/">zxhfirefox&#8217;s Blog</a></h1>
 
-</header>
-  <nav role="navigation"><ul class="subscription" data-subscription="rss">
-  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
-  
-</ul>
-  
-<form action="http://google.com/search" method="get">
-  <fieldset role="search">
-    <input type="hidden" name="q" value="site:zxhfirefox.github.io" />
-    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
-  </fieldset>
-</form>
-  
-<ul class="main-navigation">
-  <li><a href="/">Blog</a></li>
-  <li><a href="/blog/archives">Archives</a></li>
-  <li><a href="/about">About</a></li>
-</ul>
+            <h2>A place to record some words.</h2>
 
-</nav>
-  <div id="main">
-    <div id="content">
-      <div>
-<article class="hentry" role="article">
-  
-  <header>
-    
-      <h1 class="entry-title">Language Guide: Advanced Operators</h1>
-    
-    
-      <p class="meta">
-        
+        </hgroup>
+
+    </header>
+    <nav role="navigation">
 
 
 
 
-<time class='entry-date' datetime='2014-10-26T23:28:03+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>11:28 pm</span></time>
-        
-      </p>
-    
-    
-    <h5>禁止用于商业用途，转载请注明出处</h5>
-    
-  </header>
+        <ul class="main-navigation">
+            <li><a href="/">Blog</a>
+            </li>
+            <li><a href="/blog/archives">Archives</a>
+            </li>
+            <li><a href="/about">About</a>
+            </li>
+        </ul>
 
-  
-    <div class="entry-content"><p>除了在基础操作符里提到的那些操作符，Swift还提供了一些高级操作符。这些包含了位操作符。</p>
+    </nav>
+    <div id="main">
+        <div id="content">
+            <div>
+                <article class="hentry" role="article">
 
-<p>和C里算数操作符不一样，Swift的算数操作符不会溢出。溢出行为会被捕获并报错。如果不想要这种行为，可以使用另外一套操作符，默认是会溢出的。所有这种操作符都是新加一个 &amp; 。</p>
+                    <header>
 
-<p>当我们定义自定义类时，我们可以提供一些Swift里的一些标准操作符。Swift简化了这一过程。</p>
-
-<p>我们并不被限制在已有的操作符。Swift里我们可以定义任意的中缀，前缀和后缀，附值操作符，还可以自定义优先级和关联度。这些操作符可以在代码像已有操作符一样使用，我们甚至可以扩展已有操作符来支持自定义操作符。</p>
-
-<!-- more -->
+                        <h1 class="entry-title">Language Guide: Advanced Operators</h1>
 
 
-<h3>位操作符</h3>
+                        <p class="meta">
 
-<p>位操作符让我们可以处理数据结构里的单个原始数据，经常用于底层变成，例如，图形编程和设备驱动制作。位操作符在我们处理外来原始数据时也很有用，例如自定义协议的编码和解码。</p>
 
-<p>Swift支持所有C定义的位操作符。</p>
 
-<h4>按位取反</h4>
 
-<p>~ 反转一个数字的所有位。</p>
 
-<pre><code>    Input 00001111
+                            <time class='entry-date' datetime='2014-10-26T23:28:03+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>11:28 pm</span>
+                            </time>
+
+                        </p>
+
+
+                        <h5>禁止用于商业用途，转载请注明出处</h5>
+
+                    </header>
+
+
+                    <div class="entry-content">
+                        <p>除了在基础操作符里提到的那些操作符，Swift还提供了一些高级操作符。这些包含了位操作符。</p>
+
+                        <p>和C里算数操作符不一样，Swift的算数操作符不会溢出。溢出行为会被捕获并报错。如果不想要这种行为，可以使用另外一套操作符，默认是会溢出的。所有这种操作符都是新加一个 &amp; 。</p>
+
+                        <p>当我们定义自定义类时，我们可以提供一些Swift里的一些标准操作符。Swift简化了这一过程。</p>
+
+                        <p>我们并不被限制在已有的操作符。Swift里我们可以定义任意的中缀，前缀和后缀，附值操作符，还可以自定义优先级和关联度。这些操作符可以在代码像已有操作符一样使用，我们甚至可以扩展已有操作符来支持自定义操作符。</p>
+
+                        <!-- more -->
+
+
+                        <h3>位操作符</h3>
+
+                        <p>位操作符让我们可以处理数据结构里的单个原始数据，经常用于底层变成，例如，图形编程和设备驱动制作。位操作符在我们处理外来原始数据时也很有用，例如自定义协议的编码和解码。</p>
+
+                        <p>Swift支持所有C定义的位操作符。</p>
+
+                        <h4>按位取反</h4>
+
+                        <p>~ 反转一个数字的所有位。</p>
+
+                        <pre><code>    Input 00001111
           11110000 Result
 </code></pre>
 
-<p>按位取反操作符是前缀操作符，出现在操作数前，没有空格。</p>
+                        <p>按位取反操作符是前缀操作符，出现在操作数前，没有空格。</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+                        <figure class='code'>
+                            <figcaption><span></span>
+                            </figcaption>
+                            <div class="highlight">
+                                <table>
+                                    <tr>
+                                        <td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="nl">initialBits</span><span class="p">:</span> <span class="kt">UInt8</span> <span class="o">=</span> <span class="mi">0</span><span class="n">b00001111</span>
+</pre>
+                                        </td>
+                                        <td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="nl">initialBits</span><span class="p">:</span> <span class="kt">UInt8</span> <span class="o">=</span> <span class="mi">0</span><span class="n">b00001111</span>
 </span><span class='line'><span class="n">let</span> <span class="n">invertedBits</span> <span class="o">=</span> <span class="o">~</span><span class="n">initialBits</span>  <span class="c1">// equals 11110000</span>
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </figure>
 
 
-<h4>按位与</h4>
+                        <h4>按位与</h4>
 
-<p>&amp; 把两个数组按位组合，结果的值只有两个参数都是1是才是1，其他都是0。</p>
+                        <p>&amp; 把两个数组按位组合，结果的值只有两个参数都是1是才是1，其他都是0。</p>
 
-<pre><code>    Input1 11111100
+                        <pre><code>    Input1 11111100
            00111100 Result
     Input2 00111111      
 </code></pre>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+                        <figure class='code'>
+                            <figcaption><span></span>
+                            </figcaption>
+                            <div class="highlight">
+                                <table>
+                                    <tr>
+                                        <td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="nl">firstSixBits</span><span class="p">:</span> <span class="kt">UInt8</span> <span class="o">=</span> <span class="mi">0</span><span class="n">b11111100</span>
+</pre>
+                                        </td>
+                                        <td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="nl">firstSixBits</span><span class="p">:</span> <span class="kt">UInt8</span> <span class="o">=</span> <span class="mi">0</span><span class="n">b11111100</span>
 </span><span class='line'><span class="n">let</span> <span class="nl">lastSixBits</span><span class="p">:</span> <span class="kt">UInt8</span>  <span class="o">=</span> <span class="mi">0</span><span class="n">b00111111</span>
 </span><span class='line'><span class="n">let</span> <span class="n">middleFourBits</span> <span class="o">=</span> <span class="n">firstSixBits</span> <span class="o">&amp;</span> <span class="n">lastSixBits</span>  <span class="c1">// equals 00111100</span>
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </figure>
 
 
-<h4>按位或</h4>
+                        <h4>按位或</h4>
 
-<p>| 把两个数组按位组合，结果的值只要有1个参数都是1是就是1，其他都是0。</p>
+                        <p>| 把两个数组按位组合，结果的值只要有1个参数都是1是就是1，其他都是0。</p>
 
-<pre><code>    Input1 10110010
+                        <pre><code>    Input1 10110010
            11111110 Result
     Input2 01011110
 </code></pre>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+                        <figure class='code'>
+                            <figcaption><span></span>
+                            </figcaption>
+                            <div class="highlight">
+                                <table>
+                                    <tr>
+                                        <td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="nl">someBits</span><span class="p">:</span> <span class="kt">UInt8</span> <span class="o">=</span> <span class="mi">0</span><span class="n">b10110010</span>
+</pre>
+                                        </td>
+                                        <td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="nl">someBits</span><span class="p">:</span> <span class="kt">UInt8</span> <span class="o">=</span> <span class="mi">0</span><span class="n">b10110010</span>
 </span><span class='line'><span class="n">let</span> <span class="nl">moreBits</span><span class="p">:</span> <span class="kt">UInt8</span> <span class="o">=</span> <span class="mi">0</span><span class="n">b01011110</span>
 </span><span class='line'><span class="n">let</span> <span class="n">combinedbits</span> <span class="o">=</span> <span class="n">someBits</span> <span class="o">|</span> <span class="n">moreBits</span>  <span class="c1">// equals 11111110</span>
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </figure>
 
 
-<h4>按位异或</h4>
+                        <h4>按位异或</h4>
 
-<p>^ 操作符，组合两个数字，当两个数字位的值相同时，结果是0，不相同时是1。</p>
+                        <p>^ 操作符，组合两个数字，当两个数字位的值相同时，结果是0，不相同时是1。</p>
 
-<pre><code>    Input1 00010100
+                        <pre><code>    Input1 00010100
            00010001 Result
     Input2 00000101
 </code></pre>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+                        <figure class='code'>
+                            <figcaption><span></span>
+                            </figcaption>
+                            <div class="highlight">
+                                <table>
+                                    <tr>
+                                        <td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="nl">firstBits</span><span class="p">:</span> <span class="kt">UInt8</span> <span class="o">=</span> <span class="mi">0</span><span class="n">b00010100</span>
+</pre>
+                                        </td>
+                                        <td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="nl">firstBits</span><span class="p">:</span> <span class="kt">UInt8</span> <span class="o">=</span> <span class="mi">0</span><span class="n">b00010100</span>
 </span><span class='line'><span class="n">let</span> <span class="nl">otherBits</span><span class="p">:</span> <span class="kt">UInt8</span> <span class="o">=</span> <span class="mi">0</span><span class="n">b00000101</span>
 </span><span class='line'><span class="n">let</span> <span class="n">outputBits</span> <span class="o">=</span> <span class="n">firstBits</span> <span class="o">^</span> <span class="n">otherBits</span>  <span class="c1">// equals 00010001</span>
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </figure>
 
 
-<h4>按位左移和右移操作符</h4>
+                        <h4>按位左移和右移操作符</h4>
 
-<p>&lt;&lt; 和 >> 分别把一个数字的所有位向左和向右移动特定数字位。</p>
+                        <p>&lt;&lt; 和 >> 分别把一个数字的所有位向左和向右移动特定数字位。</p>
 
-<p>按位移动操作符相当于对数字做乘以2的指数幂或除以2指数幂。往左一位相当于乘以2，往右相当于除以2.</p>
+                        <p>按位移动操作符相当于对数字做乘以2的指数幂或除以2指数幂。往左一位相当于乘以2，往右相当于除以2.</p>
 
-<h4>无符号整数的位移</h4>
+                        <h4>无符号整数的位移</h4>
 
-<ol>
-<li>现有位移动到指定的位置。</li>
-<li>任何超出边界的位都被遗弃。</li>
-<li>剩余空位补0.</li>
-</ol>
+                        <ol>
+                            <li>现有位移动到指定的位置。</li>
+                            <li>任何超出边界的位都被遗弃。</li>
+                            <li>剩余空位补0.</li>
+                        </ol>
 
 
-<p>这种叫做逻辑位移。</p>
+                        <p>这种叫做逻辑位移。</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+                        <figure class='code'>
+                            <figcaption><span></span>
+                            </figcaption>
+                            <div class="highlight">
+                                <table>
+                                    <tr>
+                                        <td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="nl">shiftBits</span><span class="p">:</span> <span class="kt">UInt8</span> <span class="o">=</span> <span class="mi">4</span>   <span class="c1">// 00000100 in binary</span>
+</pre>
+                                        </td>
+                                        <td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="nl">shiftBits</span><span class="p">:</span> <span class="kt">UInt8</span> <span class="o">=</span> <span class="mi">4</span>   <span class="c1">// 00000100 in binary</span>
 </span><span class='line'><span class="n">shiftBits</span> <span class="o">&lt;&lt;</span> <span class="mi">1</span>             <span class="c1">// 00001000</span>
 </span><span class='line'><span class="n">shiftBits</span> <span class="o">&lt;&lt;</span> <span class="mi">2</span>             <span class="c1">// 00010000</span>
 </span><span class='line'><span class="n">shiftBits</span> <span class="o">&lt;&lt;</span> <span class="mi">5</span>             <span class="c1">// 10000000</span>
 </span><span class='line'><span class="n">shiftBits</span> <span class="o">&lt;&lt;</span> <span class="mi">6</span>             <span class="c1">// 00000000</span>
 </span><span class='line'><span class="n">shiftBits</span> <span class="o">&gt;&gt;</span> <span class="mi">2</span>             <span class="c1">// 00000001</span>
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </figure>
 
 
-<p>我们可以使用位移来编码和解码。</p>
+                        <p>我们可以使用位移来编码和解码。</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+                        <figure class='code'>
+                            <figcaption><span></span>
+                            </figcaption>
+                            <div class="highlight">
+                                <table>
+                                    <tr>
+                                        <td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="nl">pink</span><span class="p">:</span> <span class="kt">UInt32</span> <span class="o">=</span> <span class="mh">0xCC6699</span>
+</pre>
+                                        </td>
+                                        <td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="nl">pink</span><span class="p">:</span> <span class="kt">UInt32</span> <span class="o">=</span> <span class="mh">0xCC6699</span>
 </span><span class='line'><span class="n">let</span> <span class="n">redComponent</span> <span class="o">=</span> <span class="p">(</span><span class="n">pink</span> <span class="o">&amp;</span> <span class="mh">0xFF0000</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="mi">16</span>    <span class="c1">// redComponent is 0xCC, or 204</span>
 </span><span class='line'><span class="n">let</span> <span class="n">greenComponent</span> <span class="o">=</span> <span class="p">(</span><span class="n">pink</span> <span class="o">&amp;</span> <span class="mh">0x00FF00</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="mi">8</span>   <span class="c1">// greenComponent is 0x66, or 102</span>
 </span><span class='line'><span class="n">let</span> <span class="n">blueComponent</span> <span class="o">=</span> <span class="n">pink</span> <span class="o">&amp;</span> <span class="mh">0x0000FF</span>           <span class="c1">// blueComponent is 0x99, or 153</span>
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </figure>
 
 
-<h4>有符号整数的位移</h4>
+                        <h4>有符号整数的位移</h4>
 
-<p>有符号的位移要比无符号数的位移复杂许多，主要是和有符号数在内存的表示方式有关。</p>
+                        <p>有符号的位移要比无符号数的位移复杂许多，主要是和有符号数在内存的表示方式有关。</p>
 
-<p>有符号数使用第一位来作为符号位，标示正数还是负数。0是正数，1是负数。</p>
+                        <p>有符号数使用第一位来作为符号位，标示正数还是负数。0是正数，1是负数。</p>
 
-<p>剩余的位是值位，正数就是按照整数本身来存储的。</p>
+                        <p>剩余的位是值位，正数就是按照整数本身来存储的。</p>
 
-<pre><code>    0 000 0100 = 4
+                        <pre><code>    0 000 0100 = 4
 </code></pre>
 
-<p>负数，就不一样了，他们存储的是他们值的绝对值减掉2的n次幂，n是值位的个数。如果是Int8，那么n就是7，减去的就是128。</p>
+                        <p>负数，就不一样了，他们存储的是他们值的绝对值减掉2的n次幂，n是值位的个数。如果是Int8，那么n就是7，减去的就是128。</p>
 
-<pre><code>    1 111 1100 = -4
+                        <pre><code>    1 111 1100 = -4
     0 111 1100 = 124
 </code></pre>
 
-<p>负数的编码叫做补码。它有一些优点。</p>
+                        <p>负数的编码叫做补码。它有一些优点。</p>
 
-<p>首先做加法时，我们可以直接加，包括符号位，然后舍弃任何超出范围的位。</p>
+                        <p>首先做加法时，我们可以直接加，包括符号位，然后舍弃任何超出范围的位。</p>
 
-<pre><code>    0 1111 1100 = -4
+                        <pre><code>    0 1111 1100 = -4
 +   0 1111 1111 = -1
 =   1 1111 1011 = -5
 </code></pre>
 
-<p>其次，使用补码，我们在位移时可以像处理正数一样。但是有个额外的规则。
-    *   在右移时，补位用符号位而不是0。</p>
+                        <p>其次，使用补码，我们在位移时可以像处理正数一样。但是有个额外的规则。 * 在右移时，补位用符号位而不是0。</p>
 
-<pre><code>    1111111         01111111
+                        <pre><code>    1111111         01111111
     11111111        001111111
 </code></pre>
 
-<p>这样就确保了在位移后，数字的符号位不会变化，叫做算数位移。</p>
+                        <p>这样就确保了在位移后，数字的符号位不会变化，叫做算数位移。</p>
 
-<p>因为正数和负数存储的特殊方式，右移他们都是把它们向0靠近。保留符号位意味着负数还是负数，同时更加接近0。</p>
+                        <p>因为正数和负数存储的特殊方式，右移他们都是把它们向0靠近。保留符号位意味着负数还是负数，同时更加接近0。</p>
 
-<h3>溢出操作符</h3>
+                        <h3>溢出操作符</h3>
 
-<p>如果我们尝试把一个超出存储范围的数字附值给一个常量或变量，Swift会报错。</p>
+                        <p>如果我们尝试把一个超出存储范围的数字附值给一个常量或变量，Swift会报错。</p>
 
-<p>例如，Int16的值的范围是-32768到32767。</p>
+                        <p>例如，Int16的值的范围是-32768到32767。</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+                        <figure class='code'>
+                            <figcaption><span></span>
+                            </figcaption>
+                            <div class="highlight">
+                                <table>
+                                    <tr>
+                                        <td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">var</span> <span class="n">potentialOverflow</span> <span class="o">=</span> <span class="n">Int16</span><span class="p">.</span><span class="n">max</span>
+</pre>
+                                        </td>
+                                        <td class='code'><pre><code class='objc'><span class='line'><span class="n">var</span> <span class="n">potentialOverflow</span> <span class="o">=</span> <span class="n">Int16</span><span class="p">.</span><span class="n">max</span>
 </span><span class='line'><span class="c1">// potentialOverflow equals 32767, which is the largest value an Int16 can hold</span>
 </span><span class='line'><span class="n">potentialOverflow</span> <span class="o">+=</span> <span class="mi">1</span>
 </span><span class='line'><span class="c1">// this causes an error</span>
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </figure>
 
 
-<p>在这种时候，我们需要提供错误处理。
-    *   加   &amp;+
-    *   减   &amp;-
-    *   乘   &amp;*
-    *   除   &amp;/
-    *   取余 &amp;%</p>
+                        <p>在这种时候，我们需要提供错误处理。 * 加 &amp;+ * 减 &amp;- * 乘 &amp;* * 除 &amp;/ * 取余 &amp;%</p>
 
-<h4>值上溢出</h4>
+                        <h4>值上溢出</h4>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+                        <figure class='code'>
+                            <figcaption><span></span>
+                            </figcaption>
+                            <div class="highlight">
+                                <table>
+                                    <tr>
+                                        <td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">var</span> <span class="n">willOverflow</span> <span class="o">=</span> <span class="kt">UInt8</span><span class="p">.</span><span class="n">max</span>
+</pre>
+                                        </td>
+                                        <td class='code'><pre><code class='objc'><span class='line'><span class="n">var</span> <span class="n">willOverflow</span> <span class="o">=</span> <span class="kt">UInt8</span><span class="p">.</span><span class="n">max</span>
 </span><span class='line'><span class="c1">// willOverflow equals 255, which is the largest value a UInt8 can hold</span>
 </span><span class='line'><span class="n">willOverflow</span> <span class="o">=</span> <span class="n">willOverflow</span> <span class="o">&amp;+</span> <span class="mi">1</span>
 </span><span class='line'><span class="c1">// willOverflow is now equal to 0</span>
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </figure>
 
 
-<pre><code>    0 1111 1111 = 255
+                        <pre><code>    0 1111 1111 = 255
 &amp;+  0 0000 0001 =   1
 =   1 0000 0000 =   0
 </code></pre>
 
-<h4>值下溢出</h4>
+                        <h4>值下溢出</h4>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+                        <figure class='code'>
+                            <figcaption><span></span>
+                            </figcaption>
+                            <div class="highlight">
+                                <table>
+                                    <tr>
+                                        <td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">var</span> <span class="n">willUnderflow</span> <span class="o">=</span> <span class="kt">UInt8</span><span class="p">.</span><span class="n">min</span>
+</pre>
+                                        </td>
+                                        <td class='code'><pre><code class='objc'><span class='line'><span class="n">var</span> <span class="n">willUnderflow</span> <span class="o">=</span> <span class="kt">UInt8</span><span class="p">.</span><span class="n">min</span>
 </span><span class='line'><span class="c1">// willUnderflow equals 0, which is the smallest value a UInt8 can hold</span>
 </span><span class='line'><span class="n">willUnderflow</span> <span class="o">=</span> <span class="n">willUnderflow</span> <span class="o">&amp;-</span> <span class="mi">1</span>
 </span><span class='line'><span class="c1">// willUnderflow is now equal to 255</span>
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </figure>
 
 
-<pre><code>    0000 0000 = 0
+                        <pre><code>    0000 0000 = 0
 &amp;-  0000 0001 = 1
 =   1111 1111 = 255
 </code></pre>
 
-<p>有符号数也会发生下溢出。符号数减法时，所有位都参与，包括符号位。</p>
+                        <p>有符号数也会发生下溢出。符号数减法时，所有位都参与，包括符号位。</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+                        <figure class='code'>
+                            <figcaption><span></span>
+                            </figcaption>
+                            <div class="highlight">
+                                <table>
+                                    <tr>
+                                        <td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">var</span> <span class="n">signedUnderflow</span> <span class="o">=</span> <span class="n">Int8</span><span class="p">.</span><span class="n">min</span>
+</pre>
+                                        </td>
+                                        <td class='code'><pre><code class='objc'><span class='line'><span class="n">var</span> <span class="n">signedUnderflow</span> <span class="o">=</span> <span class="n">Int8</span><span class="p">.</span><span class="n">min</span>
 </span><span class='line'><span class="c1">// signedUnderflow equals -128, which is the smallest value an Int8 can hold</span>
 </span><span class='line'><span class="n">signedUnderflow</span> <span class="o">=</span> <span class="n">signedUnderflow</span> <span class="o">&amp;-</span> <span class="mi">1</span>
 </span><span class='line'><span class="c1">// signedUnderflow is now equal to 127</span>
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </figure>
 
 
-<pre><code>    1000 0000 = -128
+                        <pre><code>    1000 0000 = -128
 &amp;-  0000 0001 = 1
 =   0111 1111 = 127
 </code></pre>
 
-<p>上面的这些溢出的结构，都是在最大值后回到了最小值，或者最小值后回到了最大值。</p>
+                        <p>上面的这些溢出的结构，都是在最大值后回到了最小值，或者最小值后回到了最大值。</p>
 
-<h4>除以0</h4>
+                        <h4>除以0</h4>
 
-<p>当我们尝试除以0或者对0取余时，会报错。</p>
+                        <p>当我们尝试除以0或者对0取余时，会报错。</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+                        <figure class='code'>
+                            <figcaption><span></span>
+                            </figcaption>
+                            <div class="highlight">
+                                <table>
+                                    <tr>
+                                        <td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">1</span>
+</pre>
+                                        </td>
+                                        <td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">1</span>
 </span><span class='line'><span class="n">let</span> <span class="n">y</span> <span class="o">=</span> <span class="n">x</span> <span class="o">/</span> <span class="mi">0</span>
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </figure>
 
 
-<p>然后如果用溢出操作符时，返回0.</p>
+                        <p>然后如果用溢出操作符时，返回0.</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+                        <figure class='code'>
+                            <figcaption><span></span>
+                            </figcaption>
+                            <div class="highlight">
+                                <table>
+                                    <tr>
+                                        <td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">1</span>
+</pre>
+                                        </td>
+                                        <td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">1</span>
 </span><span class='line'><span class="n">let</span> <span class="n">y</span> <span class="o">=</span> <span class="n">x</span> <span class="o">&amp;/</span> <span class="mi">0</span>
 </span><span class='line'><span class="c1">// y is equal to 0</span>
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </figure>
 
 
-<h3>优先级和关联性</h3>
+                        <h3>优先级和关联性</h3>
 
-<p>操作符的优先级是说某些操作符优先于其他操作符进行计算。</p>
+                        <p>操作符的优先级是说某些操作符优先于其他操作符进行计算。</p>
 
-<p>操作符的关联性是说，如果两个相同优先级的操作符在一起时，是算到左边还是右边。这样想，他们和他们左边的表达式在一起，或者他们和他们右边的表达式在一起。</p>
+                        <p>操作符的关联性是说，如果两个相同优先级的操作符在一起时，是算到左边还是右边。这样想，他们和他们左边的表达式在一起，或者他们和他们右边的表达式在一起。</p>
 
-<p>当我们考虑表达式如果计算时，优先级和关联性很重要。</p>
+                        <p>当我们考虑表达式如果计算时，优先级和关联性很重要。</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+                        <figure class='code'>
+                            <figcaption><span></span>
+                            </figcaption>
+                            <div class="highlight">
+                                <table>
+                                    <tr>
+                                        <td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="mi">2</span> <span class="o">+</span> <span class="mi">3</span> <span class="o">*</span> <span class="mi">4</span> <span class="o">%</span> <span class="mi">5</span>
+</pre>
+                                        </td>
+                                        <td class='code'><pre><code class='objc'><span class='line'><span class="mi">2</span> <span class="o">+</span> <span class="mi">3</span> <span class="o">*</span> <span class="mi">4</span> <span class="o">%</span> <span class="mi">5</span>
 </span><span class='line'><span class="c1">// this equals 4</span>
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </figure>
 
 
-<pre><code>注意
+                        <pre><code>注意
 Swift的操作符优先级和关联性和C，ObjC中得很相似，并且更可预测。但是这意味着他不一样，所以在使用时需要注意。
 </code></pre>
 
-<h3>操作符函数</h3>
+                        <h3>操作符函数</h3>
 
-<p>类和结构体可以提供现有操作符的自定义实现，这叫做操作符重载。</p>
+                        <p>类和结构体可以提供现有操作符的自定义实现，这叫做操作符重载。</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+                        <figure class='code'>
+                            <figcaption><span></span>
+                            </figcaption>
+                            <div class="highlight">
+                                <table>
+                                    <tr>
+                                        <td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="k">struct</span> <span class="n">Vector2D</span> <span class="p">{</span>
+</pre>
+                                        </td>
+                                        <td class='code'><pre><code class='objc'><span class='line'><span class="k">struct</span> <span class="n">Vector2D</span> <span class="p">{</span>
 </span><span class='line'>    <span class="n">var</span> <span class="n">x</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="mf">0.0</span>
 </span><span class='line'><span class="p">}</span>
 </span><span class='line'><span class="n">func</span> <span class="o">+</span> <span class="p">(</span><span class="nl">left</span><span class="p">:</span> <span class="n">Vector2D</span><span class="p">,</span> <span class="nl">right</span><span class="p">:</span> <span class="n">Vector2D</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Vector2D</span> <span class="p">{</span>
 </span><span class='line'>    <span class="k">return</span> <span class="n">Vector2D</span><span class="p">(</span><span class="nl">x</span><span class="p">:</span> <span class="n">left</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">right</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="nl">y</span><span class="p">:</span> <span class="n">left</span><span class="p">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">right</span><span class="p">.</span><span class="n">y</span><span class="p">)</span>
 </span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </figure>
 
 
-<p>这个操作符函数被定义为全局函数，函数名和操作符匹配。因为是中缀操作符，所以有两个参数。</p>
+                        <p>这个操作符函数被定义为全局函数，函数名和操作符匹配。因为是中缀操作符，所以有两个参数。</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+                        <figure class='code'>
+                            <figcaption><span></span>
+                            </figcaption>
+                            <div class="highlight">
+                                <table>
+                                    <tr>
+                                        <td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="n">vector</span> <span class="o">=</span> <span class="n">Vector2D</span><span class="p">(</span><span class="nl">x</span><span class="p">:</span> <span class="mf">3.0</span><span class="p">,</span> <span class="nl">y</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">)</span>
+</pre>
+                                        </td>
+                                        <td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="n">vector</span> <span class="o">=</span> <span class="n">Vector2D</span><span class="p">(</span><span class="nl">x</span><span class="p">:</span> <span class="mf">3.0</span><span class="p">,</span> <span class="nl">y</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">)</span>
 </span><span class='line'><span class="n">let</span> <span class="n">anotherVector</span> <span class="o">=</span> <span class="n">Vector2D</span><span class="p">(</span><span class="nl">x</span><span class="p">:</span> <span class="mf">2.0</span><span class="p">,</span> <span class="nl">y</span><span class="p">:</span> <span class="mf">4.0</span><span class="p">)</span>
 </span><span class='line'><span class="n">let</span> <span class="n">combinedVector</span> <span class="o">=</span> <span class="n">vector</span> <span class="o">+</span> <span class="n">anotherVector</span>
 </span><span class='line'><span class="c1">// combinedVector is a Vector2D instance with values of (5.0, 5.0)</span>
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </figure>
 
 
-<h4>前缀和后缀操作符</h4>
+                        <h4>前缀和后缀操作符</h4>
 
-<p>上面的例子是一个中缀操作符，类和结构体也可以提供一元操作符，可以区分前缀和后缀。</p>
+                        <p>上面的例子是一个中缀操作符，类和结构体也可以提供一元操作符，可以区分前缀和后缀。</p>
 
-<p>我们需要在函数前面写上 prefix 或 postfix来表示操作符是前缀还是后缀。</p>
+                        <p>我们需要在函数前面写上 prefix 或 postfix来表示操作符是前缀还是后缀。</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+                        <figure class='code'>
+                            <figcaption><span></span>
+                            </figcaption>
+                            <div class="highlight">
+                                <table>
+                                    <tr>
+                                        <td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">prefix</span> <span class="n">func</span> <span class="o">-</span> <span class="p">(</span><span class="nl">vector</span><span class="p">:</span> <span class="n">Vector2D</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Vector2D</span> <span class="p">{</span>
+</pre>
+                                        </td>
+                                        <td class='code'><pre><code class='objc'><span class='line'><span class="n">prefix</span> <span class="n">func</span> <span class="o">-</span> <span class="p">(</span><span class="nl">vector</span><span class="p">:</span> <span class="n">Vector2D</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Vector2D</span> <span class="p">{</span>
 </span><span class='line'>    <span class="k">return</span> <span class="n">Vector2D</span><span class="p">(</span><span class="nl">x</span><span class="p">:</span> <span class="o">-</span><span class="n">vector</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="nl">y</span><span class="p">:</span> <span class="o">-</span><span class="n">vector</span><span class="p">.</span><span class="n">y</span><span class="p">)</span>
 </span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </figure>
 
 
 
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+                        <figure class='code'>
+                            <figcaption><span></span>
+                            </figcaption>
+                            <div class="highlight">
+                                <table>
+                                    <tr>
+                                        <td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="n">positive</span> <span class="o">=</span> <span class="n">Vector2D</span><span class="p">(</span><span class="nl">x</span><span class="p">:</span> <span class="mf">3.0</span><span class="p">,</span> <span class="nl">y</span><span class="p">:</span> <span class="mf">4.0</span><span class="p">)</span>
+</pre>
+                                        </td>
+                                        <td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="n">positive</span> <span class="o">=</span> <span class="n">Vector2D</span><span class="p">(</span><span class="nl">x</span><span class="p">:</span> <span class="mf">3.0</span><span class="p">,</span> <span class="nl">y</span><span class="p">:</span> <span class="mf">4.0</span><span class="p">)</span>
 </span><span class='line'><span class="n">let</span> <span class="n">negative</span> <span class="o">=</span> <span class="o">-</span><span class="n">positive</span>
 </span><span class='line'><span class="c1">// negative is a Vector2D instance with values of (-3.0, -4.0)</span>
 </span><span class='line'><span class="n">let</span> <span class="n">alsoPositive</span> <span class="o">=</span> <span class="o">-</span><span class="n">negative</span>
 </span><span class='line'><span class="c1">// alsoPositive is a Vector2D instance with values of (3.0, 4.0)</span>
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </figure>
 
 
-<h4>组合附值操作符</h4>
+                        <h4>组合附值操作符</h4>
 
-<p>组合附值操作符把附值操作符（=）和其他操作符组合起来。例如，+=是说把加法和附值操作符合为一个操作符。我们实现时需要把一个参数定义为 inout。</p>
+                        <p>组合附值操作符把附值操作符（=）和其他操作符组合起来。例如，+=是说把加法和附值操作符合为一个操作符。我们实现时需要把一个参数定义为 inout。</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+                        <figure class='code'>
+                            <figcaption><span></span>
+                            </figcaption>
+                            <div class="highlight">
+                                <table>
+                                    <tr>
+                                        <td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">func</span> <span class="o">+=</span> <span class="p">(</span><span class="k">inout</span> <span class="nl">left</span><span class="p">:</span> <span class="n">Vector2D</span><span class="p">,</span> <span class="nl">right</span><span class="p">:</span> <span class="n">Vector2D</span><span class="p">)</span> <span class="p">{</span>
+</pre>
+                                        </td>
+                                        <td class='code'><pre><code class='objc'><span class='line'><span class="n">func</span> <span class="o">+=</span> <span class="p">(</span><span class="k">inout</span> <span class="nl">left</span><span class="p">:</span> <span class="n">Vector2D</span><span class="p">,</span> <span class="nl">right</span><span class="p">:</span> <span class="n">Vector2D</span><span class="p">)</span> <span class="p">{</span>
 </span><span class='line'>    <span class="n">left</span> <span class="o">=</span> <span class="n">left</span> <span class="o">+</span> <span class="n">right</span>
 </span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </figure>
 
 
 
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+                        <figure class='code'>
+                            <figcaption><span></span>
+                            </figcaption>
+                            <div class="highlight">
+                                <table>
+                                    <tr>
+                                        <td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">var</span> <span class="n">original</span> <span class="o">=</span> <span class="n">Vector2D</span><span class="p">(</span><span class="nl">x</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span> <span class="nl">y</span><span class="p">:</span> <span class="mf">2.0</span><span class="p">)</span>
+</pre>
+                                        </td>
+                                        <td class='code'><pre><code class='objc'><span class='line'><span class="n">var</span> <span class="n">original</span> <span class="o">=</span> <span class="n">Vector2D</span><span class="p">(</span><span class="nl">x</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span> <span class="nl">y</span><span class="p">:</span> <span class="mf">2.0</span><span class="p">)</span>
 </span><span class='line'><span class="n">let</span> <span class="n">vectorToAdd</span> <span class="o">=</span> <span class="n">Vector2D</span><span class="p">(</span><span class="nl">x</span><span class="p">:</span> <span class="mf">3.0</span><span class="p">,</span> <span class="nl">y</span><span class="p">:</span> <span class="mf">4.0</span><span class="p">)</span>
 </span><span class='line'><span class="n">original</span> <span class="o">+=</span> <span class="n">vectorToAdd</span>
 </span><span class='line'><span class="c1">// original now has values of (4.0, 6.0)</span>
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </figure>
 
 
-<p>我们可以把前缀或后缀与组合附值操作符结合使用。</p>
+                        <p>我们可以把前缀或后缀与组合附值操作符结合使用。</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+                        <figure class='code'>
+                            <figcaption><span></span>
+                            </figcaption>
+                            <div class="highlight">
+                                <table>
+                                    <tr>
+                                        <td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -490,7 +741,9 @@ Swift的操作符优先级和关联性和C，ObjC中得很相似，并且更可�
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">prefix</span> <span class="n">func</span> <span class="o">++</span> <span class="p">(</span><span class="k">inout</span> <span class="nl">vector</span><span class="p">:</span> <span class="n">Vector2D</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Vector2D</span> <span class="p">{</span>
+</pre>
+                                        </td>
+                                        <td class='code'><pre><code class='objc'><span class='line'><span class="n">prefix</span> <span class="n">func</span> <span class="o">++</span> <span class="p">(</span><span class="k">inout</span> <span class="nl">vector</span><span class="p">:</span> <span class="n">Vector2D</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Vector2D</span> <span class="p">{</span>
 </span><span class='line'>    <span class="n">vector</span> <span class="o">+=</span> <span class="n">Vector2D</span><span class="p">(</span><span class="nl">x</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span> <span class="nl">y</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">)</span>
 </span><span class='line'>    <span class="k">return</span> <span class="n">vector</span>
 </span><span class='line'><span class="p">}</span>
@@ -498,63 +751,113 @@ Swift的操作符优先级和关联性和C，ObjC中得很相似，并且更可�
 </span><span class='line'><span class="n">let</span> <span class="n">afterIncrement</span> <span class="o">=</span> <span class="o">++</span><span class="n">toIncrement</span>
 </span><span class='line'><span class="c1">// toIncrement now has values of (4.0, 5.0)</span>
 </span><span class='line'><span class="c1">// afterIncrement also has values of (4.0, 5.0)</span>
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </figure>
 
 
-<pre><code>注意
+                        <pre><code>注意
 我们无法重载默认的附值操作符（=）。另外，三元条件操作符（a?b:c）也不能被重载。
 </code></pre>
 
-<h4>相等操作符</h4>
+                        <h4>相等操作符</h4>
 
-<p>自定义的类和结构体，默认并会有 == 和 != 操作符。</p>
+                        <p>自定义的类和结构体，默认并会有 == 和 != 操作符。</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+                        <figure class='code'>
+                            <figcaption><span></span>
+                            </figcaption>
+                            <div class="highlight">
+                                <table>
+                                    <tr>
+                                        <td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">func</span> <span class="o">==</span> <span class="p">(</span><span class="nl">left</span><span class="p">:</span> <span class="n">Vector2D</span><span class="p">,</span> <span class="nl">right</span><span class="p">:</span> <span class="n">Vector2D</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bool</span> <span class="p">{</span>
+</pre>
+                                        </td>
+                                        <td class='code'><pre><code class='objc'><span class='line'><span class="n">func</span> <span class="o">==</span> <span class="p">(</span><span class="nl">left</span><span class="p">:</span> <span class="n">Vector2D</span><span class="p">,</span> <span class="nl">right</span><span class="p">:</span> <span class="n">Vector2D</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bool</span> <span class="p">{</span>
 </span><span class='line'>    <span class="k">return</span> <span class="p">(</span><span class="n">left</span><span class="p">.</span><span class="n">x</span> <span class="o">==</span> <span class="n">right</span><span class="p">.</span><span class="n">x</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">left</span><span class="p">.</span><span class="n">y</span> <span class="o">==</span> <span class="n">right</span><span class="p">.</span><span class="n">y</span><span class="p">)</span>
 </span><span class='line'><span class="p">}</span>
 </span><span class='line'><span class="n">func</span> <span class="o">!=</span> <span class="p">(</span><span class="nl">left</span><span class="p">:</span> <span class="n">Vector2D</span><span class="p">,</span> <span class="nl">right</span><span class="p">:</span> <span class="n">Vector2D</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Bool</span> <span class="p">{</span>
 </span><span class='line'>    <span class="k">return</span> <span class="o">!</span><span class="p">(</span><span class="n">left</span> <span class="o">==</span> <span class="n">right</span><span class="p">)</span>
 </span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </figure>
 
 
-<p>我们实现了 == 之后，在实现 != 时只需要取反即可。</p>
+                        <p>我们实现了 == 之后，在实现 != 时只需要取反即可。</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+                        <figure class='code'>
+                            <figcaption><span></span>
+                            </figcaption>
+                            <div class="highlight">
+                                <table>
+                                    <tr>
+                                        <td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="n">twoThree</span> <span class="o">=</span> <span class="n">Vector2D</span><span class="p">(</span><span class="nl">x</span><span class="p">:</span> <span class="mf">2.0</span><span class="p">,</span> <span class="nl">y</span><span class="p">:</span> <span class="mf">3.0</span><span class="p">)</span>
+</pre>
+                                        </td>
+                                        <td class='code'><pre><code class='objc'><span class='line'><span class="n">let</span> <span class="n">twoThree</span> <span class="o">=</span> <span class="n">Vector2D</span><span class="p">(</span><span class="nl">x</span><span class="p">:</span> <span class="mf">2.0</span><span class="p">,</span> <span class="nl">y</span><span class="p">:</span> <span class="mf">3.0</span><span class="p">)</span>
 </span><span class='line'><span class="n">let</span> <span class="n">anotherTwoThree</span> <span class="o">=</span> <span class="n">Vector2D</span><span class="p">(</span><span class="nl">x</span><span class="p">:</span> <span class="mf">2.0</span><span class="p">,</span> <span class="nl">y</span><span class="p">:</span> <span class="mf">3.0</span><span class="p">)</span>
 </span><span class='line'><span class="k">if</span> <span class="n">twoThree</span> <span class="o">==</span> <span class="n">anotherTwoThree</span> <span class="p">{</span>
 </span><span class='line'>    <span class="n">println</span><span class="p">(</span><span class="s">&quot;These two vectors are equivalent.&quot;</span><span class="p">)</span>
 </span><span class='line'><span class="p">}</span>
 </span><span class='line'><span class="c1">// prints &quot;These two vectors are equivalent.&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </figure>
 
 
-<h3>自定义操作符</h3>
+                        <h3>自定义操作符</h3>
 
-<p>我们可以自定义和实现一些操作符。</p>
+                        <p>我们可以自定义和实现一些操作符。</p>
 
-<p>新的操作符，定义在全局范围，使用 operator 关键字，标示为 prefix，infix或者postfix。</p>
+                        <p>新的操作符，定义在全局范围，使用 operator 关键字，标示为 prefix，infix或者postfix。</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">prefix</span> <span class="n">operator</span> <span class="o">+++</span> <span class="p">{}</span>
-</span></code></pre></td></tr></table></div></figure>
+                        <figure class='code'>
+                            <figcaption><span></span>
+                            </figcaption>
+                            <div class="highlight">
+                                <table>
+                                    <tr>
+                                        <td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre>
+                                        </td>
+                                        <td class='code'><pre><code class='objc'><span class='line'><span class="n">prefix</span> <span class="n">operator</span> <span class="o">+++</span> <span class="p">{}</span>
+</span></code></pre>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </figure>
 
 
-<p>我们定义了一个 +++ 操作符，它对于Swift没有任何意义。所以可以被用于Vector2D。</p>
+                        <p>我们定义了一个 +++ 操作符，它对于Swift没有任何意义。所以可以被用于Vector2D。</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+                        <figure class='code'>
+                            <figcaption><span></span>
+                            </figcaption>
+                            <div class="highlight">
+                                <table>
+                                    <tr>
+                                        <td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -562,7 +865,9 @@ Swift的操作符优先级和关联性和C，ObjC中得很相似，并且更可�
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">prefix</span> <span class="n">func</span> <span class="o">+++</span> <span class="p">(</span><span class="k">inout</span> <span class="nl">vector</span><span class="p">:</span> <span class="n">Vector2D</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Vector2D</span> <span class="p">{</span>
+</pre>
+                                        </td>
+                                        <td class='code'><pre><code class='objc'><span class='line'><span class="n">prefix</span> <span class="n">func</span> <span class="o">+++</span> <span class="p">(</span><span class="k">inout</span> <span class="nl">vector</span><span class="p">:</span> <span class="n">Vector2D</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Vector2D</span> <span class="p">{</span>
 </span><span class='line'>    <span class="n">vector</span> <span class="o">+=</span> <span class="n">vector</span>
 </span><span class='line'>    <span class="k">return</span> <span class="n">vector</span>
 </span><span class='line'><span class="p">}</span>
@@ -570,16 +875,27 @@ Swift的操作符优先级和关联性和C，ObjC中得很相似，并且更可�
 </span><span class='line'><span class="n">let</span> <span class="n">afterDoubling</span> <span class="o">=</span> <span class="o">+++</span><span class="n">toBeDoubled</span>
 </span><span class='line'><span class="c1">// toBeDoubled now has values of (2.0, 8.0)</span>
 </span><span class='line'><span class="c1">// afterDoubling also has values of (2.0, 8.0)</span>
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </figure>
 
 
-<h4>自定义中缀操作符的优先级和关联性</h4>
+                        <h4>自定义中缀操作符的优先级和关联性</h4>
 
-<p>我们自定义中缀操作符时，还需要给出优先级和关联性。</p>
+                        <p>我们自定义中缀操作符时，还需要给出优先级和关联性。</p>
 
-<p>关联性可以是，left，right或none。默认是none。优先级默认是100。</p>
+                        <p>关联性可以是，left，right或none。默认是none。优先级默认是100。</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+                        <figure class='code'>
+                            <figcaption><span></span>
+                            </figcaption>
+                            <div class="highlight">
+                                <table>
+                                    <tr>
+                                        <td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -587,7 +903,9 @@ Swift的操作符优先级和关联性和C，ObjC中得很相似，并且更可�
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">infix</span> <span class="n">operator</span> <span class="o">+-</span> <span class="p">{</span> <span class="n">associativity</span> <span class="n">left</span> <span class="n">precedence</span> <span class="mi">140</span> <span class="p">}</span>
+</pre>
+                                        </td>
+                                        <td class='code'><pre><code class='objc'><span class='line'><span class="n">infix</span> <span class="n">operator</span> <span class="o">+-</span> <span class="p">{</span> <span class="n">associativity</span> <span class="n">left</span> <span class="n">precedence</span> <span class="mi">140</span> <span class="p">}</span>
 </span><span class='line'><span class="n">func</span> <span class="o">+-</span> <span class="p">(</span><span class="nl">left</span><span class="p">:</span> <span class="n">Vector2D</span><span class="p">,</span> <span class="nl">right</span><span class="p">:</span> <span class="n">Vector2D</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Vector2D</span> <span class="p">{</span>
 </span><span class='line'>    <span class="k">return</span> <span class="n">Vector2D</span><span class="p">(</span><span class="nl">x</span><span class="p">:</span> <span class="n">left</span><span class="p">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">right</span><span class="p">.</span><span class="n">x</span><span class="p">,</span> <span class="nl">y</span><span class="p">:</span> <span class="n">left</span><span class="p">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">right</span><span class="p">.</span><span class="n">y</span><span class="p">)</span>
 </span><span class='line'><span class="p">}</span>
@@ -595,128 +913,119 @@ Swift的操作符优先级和关联性和C，ObjC中得很相似，并且更可�
 </span><span class='line'><span class="n">let</span> <span class="n">secondVector</span> <span class="o">=</span> <span class="n">Vector2D</span><span class="p">(</span><span class="nl">x</span><span class="p">:</span> <span class="mf">3.0</span><span class="p">,</span> <span class="nl">y</span><span class="p">:</span> <span class="mf">4.0</span><span class="p">)</span>
 </span><span class='line'><span class="n">let</span> <span class="n">plusMinusVector</span> <span class="o">=</span> <span class="n">firstVector</span> <span class="o">+-</span> <span class="n">secondVector</span>
 </span><span class='line'><span class="c1">// plusMinusVector is a Vector2D instance with values of (4.0, -2.0)</span>
-</span></code></pre></td></tr></table></div></figure>
+</span></code></pre>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </figure>
 
 
-<pre><code>注意
+                        <pre><code>注意
 我们在定义前缀和后缀操作符时，不需要给出优先级。但是如果我们一个操作数同时使用前缀和后缀操作符时，后缀操作符优先执行。
 </code></pre>
-</div>
-  
+                    </div>
 
-  <footer>
-    <p class="meta">
-      
-  
 
-<span class="byline author vcard">Posted by <span class="fn">zxhfirefox</span></span>
+                    <footer>
+                        <p class="meta">
 
-      
+
+
+                            <span class="byline author vcard">Posted by <span class="fn">zxhfirefox</span></span>
 
 
 
 
-<time class='entry-date' datetime='2014-10-26T23:28:03+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>11:28 pm</span></time>
-      
 
-<span class="categories">
+
+                            <time class='entry-date' datetime='2014-10-26T23:28:03+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>11:28 pm</span>
+                            </time>
+
+
+                            <span class="categories">
   
     <a class='category' href='/blog/categories/swift/'>swift</a>
   
 </span>
 
 
-    </p>
-    
-      <div class="sharing">
-  
-  
-  
-</div>
+                        </p>
 
-    
-    <p class="meta">
-      
-        <a class="basic-alignment left" href="/blog/2014/10/26/language-guide-h-access-contoll/" title="Previous Post: Language Guide: Access Controll">&laquo; Language Guide: Access Controll</a>
-      
-      
-        <a class="basic-alignment right" href="/blog/2014/10/26/language-guide-h-conclusion/" title="Next Post: Language Guide: Conclusion">Language Guide: Conclusion &raquo;</a>
-      
-    </p>
-  </footer>
-</article>
-
-  <section>
-    <h1>Comments</h1>
-    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-</div>
-  </section>
-
-</div>
-
-<aside class="sidebar">
-  
-    <section>
-  <h1>Recent Posts</h1>
-  <ul id="recent_posts">
-    
-      <li class="post">
-        <a href="/blog/2014/11/17/using-swift-with-objc-n-migration-migrating-your-objc-code-to-swift/">Using Swift With Cocoa and Objective-C: Migration-Migrating Your ObjC Code to Swift</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/11/17/using-swift-with-objc-mix-and-match-swift-and-objc-in-same-project/">Using Swift With Cocoa and Objective-C: Mix and Match-Swift and ObjC in the Same Project</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/11/17/using-swift-with-objc-interoperability-y-interact-with-c/">Using Swift With Cocoa and Objective-C: Interoperability-Interacting With C APIs</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/11/17/using-swift-with-objc-interoperability-y-adopting-cocoa-design-patterns/">Using Swift With Cocoa and Objective-C: Interoperability-Adopting Cocoa Design Patterns</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/11/17/using-swift-with-objc-interoperability-x-working-with-cocoa-data-types/">Using Swift With Cocoa and Objective-C: Interoperability-Working With Cocoa Data Types</a>
-      </li>
-    
-  </ul>
-</section>
+                        <div class="sharing">
 
 
 
+                        </div>
 
 
-  
-</aside>
+                        <p class="meta">
+
+                            <a class="basic-alignment left" href="/blog/2014/10/26/language-guide-h-access-contoll/" title="Previous Post: Language Guide: Access Controll">&laquo; Language Guide: Access Controll</a>
 
 
+                            <a class="basic-alignment right" href="/blog/2014/10/26/language-guide-h-conclusion/" title="Next Post: Language Guide: Conclusion">Language Guide: Conclusion &raquo;</a>
+
+                        </p>
+                    </footer>
+                </article>
+
+                <section>
+                    <h1>Comments</h1>
+                    <div id="disqus_thread" aria-live="polite">
+                        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+                        </noscript>
+                    </div>
+                </section>
+
+            </div>
+
+            <aside class="sidebar">
+
+                <section>
+                    <h1>Recent Posts</h1>
+                    <ul id="recent_posts">
+
+                        <li class="post">
+                            <a href="/blog/2014/11/17/using-swift-with-objc-n-migration-migrating-your-objc-code-to-swift/">Using Swift With Cocoa and Objective-C: Migration-Migrating Your ObjC Code to Swift</a>
+                        </li>
+
+                        <li class="post">
+                            <a href="/blog/2014/11/17/using-swift-with-objc-mix-and-match-swift-and-objc-in-same-project/">Using Swift With Cocoa and Objective-C: Mix and Match-Swift and ObjC in the Same Project</a>
+                        </li>
+
+                        <li class="post">
+                            <a href="/blog/2014/11/17/using-swift-with-objc-interoperability-y-interact-with-c/">Using Swift With Cocoa and Objective-C: Interoperability-Interacting With C APIs</a>
+                        </li>
+
+                        <li class="post">
+                            <a href="/blog/2014/11/17/using-swift-with-objc-interoperability-y-adopting-cocoa-design-patterns/">Using Swift With Cocoa and Objective-C: Interoperability-Adopting Cocoa Design Patterns</a>
+                        </li>
+
+                        <li class="post">
+                            <a href="/blog/2014/11/17/using-swift-with-objc-interoperability-x-working-with-cocoa-data-types/">Using Swift With Cocoa and Objective-C: Interoperability-Working With Cocoa Data Types</a>
+                        </li>
+
+                    </ul>
+                </section>
+
+
+
+
+
+
+            </aside>
+
+
+        </div>
     </div>
-  </div>
-  <footer role="contentinfo"><p>
-  Copyright &copy; 2014 - zxhfirefox -
-  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
-</p>
+    <footer role="contentinfo">
+        <p>
+            Copyright &copy; 2015 - zxhfirefox
 
-</footer>
-  
+        </p>
 
-<script type="text/javascript">
-      var disqus_shortname = 'zxhfirefoxblog';
-      
-        
-        // var disqus_developer = 1;
-        var disqus_identifier = 'http://zxhfirefox.github.io/blog/2014/10/26/language-guide-h-advanced-operators/';
-        var disqus_url = 'http://zxhfirefox.github.io/blog/2014/10/26/language-guide-h-advanced-operators/';
-        var disqus_script = 'embed.js';
-      
-    (function () {
-      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
-      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    }());
-</script>
-
+    </footer>
 
 
 
@@ -728,4 +1037,5 @@ Swift的操作符优先级和关联性和C，ObjC中得很相似，并且更可�
 
 
 </body>
+
 </html>

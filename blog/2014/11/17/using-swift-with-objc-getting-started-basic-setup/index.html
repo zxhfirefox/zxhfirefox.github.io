@@ -1,263 +1,260 @@
-
 <!DOCTYPE html>
 <!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
 <!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
-<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!-->
+<html class="no-js" lang="en">
+<!--<![endif]-->
+
 <head>
-  <meta charset="utf-8">
-  <title>Using Swift With Cocoa and Objective-C: Getting Started-Basic Setup - zxhfirefox&#8217;s Blog</title>
-  <meta name="author" content="zxhfirefox">
+    <meta charset="utf-8">
+    <title>Using Swift With Cocoa and Objective-C: Getting Started-Basic Setup - zxhfirefox&#8217;s Blog</title>
+    <meta name="author" content="zxhfirefox">
 
-  
-  <meta name="description" content="Swift从设计开始就保证了和Cocoa以及ObjC的无缝兼容。我们可以在Swift里使用ObjC的API，不论是系统提供的框架还是我们自己写得代码；我们也可以在ObjC中使用Swift。这样我们可以很轻松的把Swift加入到我们现在的App开发流程中。 整个这篇文档从三个重要的方面来讲述兼容性 &hellip;">
-  
 
-  <!-- http://t.co/dKP3o1e -->
-  <meta name="HandheldFriendly" content="True">
-  <meta name="MobileOptimized" content="320">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Swift从设计开始就保证了和Cocoa以及ObjC的无缝兼容。我们可以在Swift里使用ObjC的API，不论是系统提供的框架还是我们自己写得代码；我们也可以在ObjC中使用Swift。这样我们可以很轻松的把Swift加入到我们现在的App开发流程中。 整个这篇文档从三个重要的方面来讲述兼容性 &hellip;">
 
-  
-  <link rel="canonical" href="http://zxhfirefox.github.io/blog/2014/11/17/using-swift-with-objc-getting-started-basic-setup">
-  <link href="/favicon.png" rel="icon">
-  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <link href="/atom.xml" rel="alternate" title="zxhfirefox's Blog" type="application/atom+xml">
-  <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
-  <script src="/javascripts/octopress.js" type="text/javascript"></script>
-  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 
-  
-  <script type="text/javascript">
+    <!-- http://t.co/dKP3o1e -->
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+    <link rel="canonical" href="http://zxhfirefox.github.io/blog/2014/11/17/using-swift-with-objc-getting-started-basic-setup">
+    <link href="/favicon.png" rel="icon">
+    <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+    <link href="/atom.xml" rel="alternate" title="zxhfirefox's Blog" type="application/atom+xml">
+    <script src="/javascripts/modernizr-2.0.js"></script>
+
+    <script>
+    !window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))
+    </script>
+    <script src="/javascripts/octopress.js" type="text/javascript"></script>
+
+
+
+    <script type="text/javascript">
     var _gaq = _gaq || [];
     _gaq.push(['_setAccount', 'UA-55876830-1']);
     _gaq.push(['_trackPageview']);
-    _gaq.push(['_setDomainName','github.io']);
+    _gaq.push(['_setDomainName', 'github.io']);
 
     (function() {
-      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        var ga = document.createElement('script');
+        ga.type = 'text/javascript';
+        ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(ga, s);
     })();
-  </script>
+    </script>
 
 
 </head>
 
-<body   >
-  <header role="banner"><hgroup>
-  <h1><a href="/">zxhfirefox&#8217;s Blog</a></h1>
-  
-    <h2>A place to record some words.</h2>
-  
-</hgroup>
+<body>
+    <header role="banner">
+        <hgroup>
+            <h1><a href="/">zxhfirefox&#8217;s Blog</a></h1>
 
-</header>
-  <nav role="navigation"><ul class="subscription" data-subscription="rss">
-  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
-  
-</ul>
-  
-<form action="http://google.com/search" method="get">
-  <fieldset role="search">
-    <input type="hidden" name="q" value="site:zxhfirefox.github.io" />
-    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
-  </fieldset>
-</form>
-  
-<ul class="main-navigation">
-  <li><a href="/">Blog</a></li>
-  <li><a href="/blog/archives">Archives</a></li>
-  <li><a href="/about">About</a></li>
-</ul>
+            <h2>A place to record some words.</h2>
 
-</nav>
-  <div id="main">
-    <div id="content">
-      <div>
-<article class="hentry" role="article">
-  
-  <header>
-    
-      <h1 class="entry-title">Using Swift With Cocoa and Objective-C: Getting Started-Basic Setup</h1>
-    
-    
-      <p class="meta">
-        
+        </hgroup>
+
+    </header>
+    <nav role="navigation">
 
 
 
 
-<time class='entry-date' datetime='2014-11-17T23:11:42+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>11:11 pm</span></time>
-        
-      </p>
-    
-    
-    <h5>禁止用于商业用途，转载请注明出处</h5>
-    
-  </header>
+        <ul class="main-navigation">
+            <li><a href="/">Blog</a>
+            </li>
+            <li><a href="/blog/archives">Archives</a>
+            </li>
+            <li><a href="/about">About</a>
+            </li>
+        </ul>
 
-  
-    <div class="entry-content"><p>Swift从设计开始就保证了和Cocoa以及ObjC的无缝兼容。我们可以在Swift里使用ObjC的API，不论是系统提供的框架还是我们自己写得代码；我们也可以在ObjC中使用Swift。这样我们可以很轻松的把Swift加入到我们现在的App开发流程中。</p>
+    </nav>
+    <div id="main">
+        <div id="content">
+            <div>
+                <article class="hentry" role="article">
 
-<p>整个这篇文档从三个重要的方面来讲述兼容性。
-    *   互用性（Interoperability），让我们可以在Swift和ObjC之间交互，让我们在ObjC中使用Swift类，还可以在Swift使用Cococa的框架和模式。
-    *   混合与匹配（Mix and Match），告诉我们如何同时在一个app内使用Swift和ObjC。
-    *   迁移（Migration），在互用性和混合与匹配的基础上，从现有的ObjC代码迁移到Swift就会比较简单。</p>
+                    <header>
 
-<p>在我们开始之前，我们需要先做一些准备工作，来配置我们的开发环境。</p>
-
-<!-- more -->
+                        <h1 class="entry-title">Using Swift With Cocoa and Objective-C: Getting Started-Basic Setup</h1>
 
 
-<h3>配置Swift环境</h3>
-
-<p>我们需要从Xcode项目模板中选择一个，然后创建一个Swift的项目工程。</p>
-
-<p>Swift的项目工程结构和ObjC的基本一样，但是有一个重要的区别：Swift文件没有头文件。在接口和实现没有明显的区别，都放在一个文件里。</p>
-
-<h3>理解Swift的Import过程</h3>
-
-<p>在配置好Xcode工程之后，我们可以导入任何来自Cocoa的框架。</p>
-
-<p>所有的ObjC框架和C类库在Swift里都以模块（module）的形式被导入。</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='objc'><span class='line'><span class="n">import</span> <span class="n">Foundation</span>
-</span></code></pre></td></tr></table></div></figure>
+                        <p class="meta">
 
 
-<p>这个命令导入了Foundation所有的API，包括NSDate，NSURL等等他们的方法，属性，类别，这些都直接可以在Swift内使用。</p>
 
-<p>导入的过程非常直接，ObjC框架把它们的API放到头文件里。Swift里，这些头文件被编译到ObjC模块，然后被导入到Swift里。这个构成决定了ObjC里的函数，类，方法如何出现在Swift里。对于函数和方法，参数类型和返回值类型可能受到影响。对于类型，可能发生下面的改变：
-    *   把ObjC特定的类型转到Swift里对应的类型。例如，id到AnyObject
-    *   把ObjC的核心类型转到Swift里对应的类型。例如，NSString到String。
-    *   把ObjC里的概念转到Swift里对应的概念。例如，指针到引用。</p>
 
-<p>把Swift导入ObjC的模型和把ObjC导入到Swift的模型非常相似。Swift把它的API表达成Swift模块（module）。这些模块会生成ObjC的头文件。这些头文件就可以在ObjC中使用。有一些Swift的API不能映射到ObjC，因为有些概念在ObjC中不存在。</p>
 
-<pre><code>注意
+                            <time class='entry-date' datetime='2014-11-17T23:11:42+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>11:11 pm</span>
+                            </time>
+
+                        </p>
+
+
+                        <h5>禁止用于商业用途，转载请注明出处</h5>
+
+                    </header>
+
+
+                    <div class="entry-content">
+                        <p>Swift从设计开始就保证了和Cocoa以及ObjC的无缝兼容。我们可以在Swift里使用ObjC的API，不论是系统提供的框架还是我们自己写得代码；我们也可以在ObjC中使用Swift。这样我们可以很轻松的把Swift加入到我们现在的App开发流程中。</p>
+
+                        <p>整个这篇文档从三个重要的方面来讲述兼容性。 * 互用性（Interoperability），让我们可以在Swift和ObjC之间交互，让我们在ObjC中使用Swift类，还可以在Swift使用Cococa的框架和模式。 * 混合与匹配（Mix and Match），告诉我们如何同时在一个app内使用Swift和ObjC。 * 迁移（Migration），在互用性和混合与匹配的基础上，从现有的ObjC代码迁移到Swift就会比较简单。</p>
+
+                        <p>在我们开始之前，我们需要先做一些准备工作，来配置我们的开发环境。</p>
+
+                        <!-- more -->
+
+
+                        <h3>配置Swift环境</h3>
+
+                        <p>我们需要从Xcode项目模板中选择一个，然后创建一个Swift的项目工程。</p>
+
+                        <p>Swift的项目工程结构和ObjC的基本一样，但是有一个重要的区别：Swift文件没有头文件。在接口和实现没有明显的区别，都放在一个文件里。</p>
+
+                        <h3>理解Swift的Import过程</h3>
+
+                        <p>在配置好Xcode工程之后，我们可以导入任何来自Cocoa的框架。</p>
+
+                        <p>所有的ObjC框架和C类库在Swift里都以模块（module）的形式被导入。</p>
+
+                        <figure class='code'>
+                            <figcaption><span></span>
+                            </figcaption>
+                            <div class="highlight">
+                                <table>
+                                    <tr>
+                                        <td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre>
+                                        </td>
+                                        <td class='code'><pre><code class='objc'><span class='line'><span class="n">import</span> <span class="n">Foundation</span>
+</span></code></pre>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </figure>
+
+
+                        <p>这个命令导入了Foundation所有的API，包括NSDate，NSURL等等他们的方法，属性，类别，这些都直接可以在Swift内使用。</p>
+
+                        <p>导入的过程非常直接，ObjC框架把它们的API放到头文件里。Swift里，这些头文件被编译到ObjC模块，然后被导入到Swift里。这个构成决定了ObjC里的函数，类，方法如何出现在Swift里。对于函数和方法，参数类型和返回值类型可能受到影响。对于类型，可能发生下面的改变： * 把ObjC特定的类型转到Swift里对应的类型。例如，id到AnyObject * 把ObjC的核心类型转到Swift里对应的类型。例如，NSString到String。 * 把ObjC里的概念转到Swift里对应的概念。例如，指针到引用。</p>
+
+                        <p>把Swift导入ObjC的模型和把ObjC导入到Swift的模型非常相似。Swift把它的API表达成Swift模块（module）。这些模块会生成ObjC的头文件。这些头文件就可以在ObjC中使用。有一些Swift的API不能映射到ObjC，因为有些概念在ObjC中不存在。</p>
+
+                        <pre><code>注意
 我们不能在Swift中直接使用C++，必须使用ObjC来包裹C++代码。
 </code></pre>
-</div>
-  
+                    </div>
 
-  <footer>
-    <p class="meta">
-      
-  
 
-<span class="byline author vcard">Posted by <span class="fn">zxhfirefox</span></span>
+                    <footer>
+                        <p class="meta">
 
-      
+
+
+                            <span class="byline author vcard">Posted by <span class="fn">zxhfirefox</span></span>
 
 
 
 
-<time class='entry-date' datetime='2014-11-17T23:11:42+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>11:11 pm</span></time>
-      
 
-<span class="categories">
+
+                            <time class='entry-date' datetime='2014-11-17T23:11:42+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>11:11 pm</span>
+                            </time>
+
+
+                            <span class="categories">
   
     <a class='category' href='/blog/categories/swift/'>swift</a>
   
 </span>
 
 
-    </p>
-    
-      <div class="sharing">
-  
-  
-  
-</div>
+                        </p>
 
-    
-    <p class="meta">
-      
-        <a class="basic-alignment left" href="/blog/2014/10/26/language-guide-h-conclusion/" title="Previous Post: Language Guide: Conclusion">&laquo; Language Guide: Conclusion</a>
-      
-      
-        <a class="basic-alignment right" href="/blog/2014/11/17/using-swift-with-objc-interoperability-interact-with-objc/" title="Next Post: Using Swift with Cocoa and Objective-C: Interoperability-Interacting with ObjC APIs">Using Swift with Cocoa and Objective-C: Interoperability-Interacting with ObjC APIs &raquo;</a>
-      
-    </p>
-  </footer>
-</article>
-
-  <section>
-    <h1>Comments</h1>
-    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-</div>
-  </section>
-
-</div>
-
-<aside class="sidebar">
-  
-    <section>
-  <h1>Recent Posts</h1>
-  <ul id="recent_posts">
-    
-      <li class="post">
-        <a href="/blog/2014/11/17/using-swift-with-objc-n-migration-migrating-your-objc-code-to-swift/">Using Swift With Cocoa and Objective-C: Migration-Migrating Your ObjC Code to Swift</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/11/17/using-swift-with-objc-mix-and-match-swift-and-objc-in-same-project/">Using Swift With Cocoa and Objective-C: Mix and Match-Swift and ObjC in the Same Project</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/11/17/using-swift-with-objc-interoperability-y-interact-with-c/">Using Swift With Cocoa and Objective-C: Interoperability-Interacting With C APIs</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/11/17/using-swift-with-objc-interoperability-y-adopting-cocoa-design-patterns/">Using Swift With Cocoa and Objective-C: Interoperability-Adopting Cocoa Design Patterns</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/11/17/using-swift-with-objc-interoperability-x-working-with-cocoa-data-types/">Using Swift With Cocoa and Objective-C: Interoperability-Working With Cocoa Data Types</a>
-      </li>
-    
-  </ul>
-</section>
+                        <div class="sharing">
 
 
 
+                        </div>
 
 
-  
-</aside>
+                        <p class="meta">
+
+                            <a class="basic-alignment left" href="/blog/2014/10/26/language-guide-h-conclusion/" title="Previous Post: Language Guide: Conclusion">&laquo; Language Guide: Conclusion</a>
 
 
+                            <a class="basic-alignment right" href="/blog/2014/11/17/using-swift-with-objc-interoperability-interact-with-objc/" title="Next Post: Using Swift with Cocoa and Objective-C: Interoperability-Interacting with ObjC APIs">Using Swift with Cocoa and Objective-C: Interoperability-Interacting with ObjC APIs &raquo;</a>
+
+                        </p>
+                    </footer>
+                </article>
+
+                <section>
+                    <h1>Comments</h1>
+                    <div id="disqus_thread" aria-live="polite">
+                        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+                        </noscript>
+                    </div>
+                </section>
+
+            </div>
+
+            <aside class="sidebar">
+
+                <section>
+                    <h1>Recent Posts</h1>
+                    <ul id="recent_posts">
+
+                        <li class="post">
+                            <a href="/blog/2014/11/17/using-swift-with-objc-n-migration-migrating-your-objc-code-to-swift/">Using Swift With Cocoa and Objective-C: Migration-Migrating Your ObjC Code to Swift</a>
+                        </li>
+
+                        <li class="post">
+                            <a href="/blog/2014/11/17/using-swift-with-objc-mix-and-match-swift-and-objc-in-same-project/">Using Swift With Cocoa and Objective-C: Mix and Match-Swift and ObjC in the Same Project</a>
+                        </li>
+
+                        <li class="post">
+                            <a href="/blog/2014/11/17/using-swift-with-objc-interoperability-y-interact-with-c/">Using Swift With Cocoa and Objective-C: Interoperability-Interacting With C APIs</a>
+                        </li>
+
+                        <li class="post">
+                            <a href="/blog/2014/11/17/using-swift-with-objc-interoperability-y-adopting-cocoa-design-patterns/">Using Swift With Cocoa and Objective-C: Interoperability-Adopting Cocoa Design Patterns</a>
+                        </li>
+
+                        <li class="post">
+                            <a href="/blog/2014/11/17/using-swift-with-objc-interoperability-x-working-with-cocoa-data-types/">Using Swift With Cocoa and Objective-C: Interoperability-Working With Cocoa Data Types</a>
+                        </li>
+
+                    </ul>
+                </section>
+
+
+
+
+
+
+            </aside>
+
+
+        </div>
     </div>
-  </div>
-  <footer role="contentinfo"><p>
-  Copyright &copy; 2014 - zxhfirefox -
-  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
-</p>
+    <footer role="contentinfo">
+        <p>
+            Copyright &copy; 2015 - zxhfirefox
 
-</footer>
-  
+        </p>
 
-<script type="text/javascript">
-      var disqus_shortname = 'zxhfirefoxblog';
-      
-        
-        // var disqus_developer = 1;
-        var disqus_identifier = 'http://zxhfirefox.github.io/blog/2014/11/17/using-swift-with-objc-getting-started-basic-setup/';
-        var disqus_url = 'http://zxhfirefox.github.io/blog/2014/11/17/using-swift-with-objc-getting-started-basic-setup/';
-        var disqus_script = 'embed.js';
-      
-    (function () {
-      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
-      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    }());
-</script>
-
+    </footer>
 
 
 
@@ -269,4 +266,5 @@
 
 
 </body>
+
 </html>
