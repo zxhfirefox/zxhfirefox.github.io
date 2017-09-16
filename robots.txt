@@ -1,4 +1,0 @@
-User-agent: *
-Disallow: 
-
-Sitemap: http://zxhfirefox.github.io/sitemap.xml 

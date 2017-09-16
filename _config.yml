@@ -1,0 +1,58 @@
+### Global Config
+
+#source: .
+
+#destination: ./_site
+
+#plugins_dir: _plugins
+
+#layouts_dir: _layouts
+
+#data_dir: _data
+
+#includes_dir: _includes
+
+#collections:
+#  posts:
+#    output: true
+
+#safe: false
+
+#exclude: ["Gemfile", "Gemfile.lock", "node_modules", "vendor/bundle/", "vendor/cache/", "vendor/gems/", "vendor/ruby/"]
+
+#include: [".htaccess"]
+
+#keep_files: [".git",".svn"]
+
+timezone: Asia/Shanghai
+
+#encoding: utf-8
+
+### Build Config
+#show_drafts: false
+
+#future: false
+
+#unpublished: false
+
+#incremental: true
+
+#profile: true
+
+### Serve Command Config
+#detach: true
+
+### Custom WEBrick Header
+#webrick:
+#  headers:
+#    My-Header: My-Value
+
+### Front Matter Defaults
+defaults:
+  -
+    scope:
+      path: ""
+      type: "posts" #pages, posts, drafts
+    values:
+      layout: "default"
+
