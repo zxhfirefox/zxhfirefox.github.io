@@ -8,7 +8,7 @@ categories: [swift]
 
 作为和ObjC互用性的一部分，Swift保留了一部分和C兼容的类型和特性。Swift也提供了一种和通用的C结构和模式的方法。
 
-<!-- more -->
+<!--more-->
 
 ### 基础类型
 

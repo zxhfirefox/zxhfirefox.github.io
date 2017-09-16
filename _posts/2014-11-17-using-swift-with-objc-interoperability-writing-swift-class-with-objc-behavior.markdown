@@ -9,7 +9,7 @@ categories: [swift]
 
 互用性(Interoperability)让我们可以定义包含ObjC行为的Swift类。我们在定义Swift类时，可以继承ObjC的类，可以实现ObjC的协议，可以使用ObjC其他的功能。这意味着我们可以以类为基础来创建ObjC行为相似的类，并且使用Swift现代的，强大的特性来加强我们的类。
 
-<!-- more -->
+<!--more-->
 
 ### 从ObjC的类继承
 

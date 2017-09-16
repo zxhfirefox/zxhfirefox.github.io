@@ -11,7 +11,7 @@ categories: [Swift]
 
 互用性（Interoperability）一个重要的方面就是在我们写Swift代码时可以使用ObjC的API。在我们导入ObjC的框架后，我们可以使用Swift的语法来创建这些类型的实例并和他们交互。
 
-<!-- more -->
+<!--more-->
 
 ### 初始化
 

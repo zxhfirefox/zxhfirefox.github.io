@@ -9,10 +9,11 @@ categories: [Swift]
 
 Optional链条是一种在一个optional上查询，调用属性，方法和角标得时候，这个optional的值可能是nil得一种操作。如果这个optional有值，那么属性，方法，角标的调用会成功，如果optional是nil，属性，方法，角标的调用返回nil。多个查询可以链接在一起，整个链接在有任何一个地方为nil时简单的返回失败。
 
+<!--more-->
+
     注意
     Optional链条有点类似于ObjC中给nil发送消息，但是它可以使用在任何类型上，而且也可以检查成功或失败。
 
-<!-- more -->
 
 ### Optional链条作为强制解包的替换方案
 

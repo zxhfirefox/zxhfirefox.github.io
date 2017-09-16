@@ -18,14 +18,12 @@
     </section>
 
     <section class="main-content">
+
+      <p>Posted at {{ page.date | date_to_long_string }}</p>
+
       {{ content }}
 
-      <footer class="site-footer">
-        <p>Posted at {{ page.date | date_to_long_string }}</p>
-        <span class="site-footer-credits">
-            Copyright &copy; 2017 - zxhfirefox
-        </span>
-      </footer>
+      {% include footer.html %}
     </section>
 
     {% if site.google_analytics %}
