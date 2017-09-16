@@ -1,4 +1,5 @@
 ### Global Config
+theme: jekyll-theme-cayman
 
 #source: .
 
@@ -55,4 +56,5 @@ defaults:
       type: "posts" #pages, posts, drafts
     values:
       layout: "default"
+
 
