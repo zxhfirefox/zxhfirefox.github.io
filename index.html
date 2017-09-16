@@ -1,0 +1,17 @@
+---
+layout: page
+title: zxhfirefox
+css_file: index
+---
+
+<ul class="posts">
+  {% for post in site.posts %}
+    <li class="post">
+        <span class="post-date">{{ post.date | date_to_string }} </span>
+        <div>
+          <a href="{{ post.url }}" class="post-link"><b> {{ post.title }} </b> </a>
+        </div>
+        <span> {{ post.excerpt | markdownify }} </span>
+    </li>
+  {% endfor %}
+</ul>

@@ -121,10 +121,11 @@ myCell.subtitle = "A custom cell"
 
 框架里的Swift文件就会在这个.m文件里可见。
 
-                 导入Swift                 导入ObjC
-    Swift代码     不需要导入语句             #import <ProductName/ProductModuleName-Swift.h>       
-    ObjC代码      不需要导入语句，           #import "Header.h"
-                 需要ObjC囊括头文件
+|           |导入Swift                                |导入ObjC                                         |
+|:----------|:---------------------------------------|:------------------------------------------------|
+| Swift代码  | 不需要导入语句                           | #import <ProductName/ProductModuleName-Swift.h> |
+| ObjC代码   | 不需要导入语句,需要ObjC囊括头文件          | #import "Header.h"                             |
+     
 
 
 ### 导入外部框架
