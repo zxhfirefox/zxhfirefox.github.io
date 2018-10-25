@@ -3,7 +3,7 @@ layout: post
 title: "Using Swift with Cocoa and Objective-C: Mix and Match-Swift and ObjC in the Same Project"
 date: 2014-11-17 23:22:01 +0800
 comments: true
-categories: [swfit]
+categories: [Swift]
 ---
 
 Swift和ObjC的互用性可以让我们在一个工程里包含这两种语言的源文件。我们可以使用这一特性，混合与匹配(Mix and Match)，来写出混合语言的代码。使用混合与匹配，我们可以把app部分的功能用最新的Swift特性来实现，又可以和已有的ObjC代码融合到一起。

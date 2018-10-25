@@ -3,7 +3,7 @@ layout: post
 title: "Using Swift with Cocoa and Objective-C: Interoperability-Adopting Cocoa Design Patterns"
 date: 2014-11-17 23:18:39 +0800
 comments: true
-categories: [swift]
+categories: [Swift]
 ---
 
 使用Cocoa已经建立好的设计模式可以帮助我们写出良好设计的app。许多的这种模式都依赖ObjC里定义的类。因为Swift和ObjC可以互相调用，所以我们可以在Swift里使用ObjC的模式。在很多情况下，我们可以使用Swift的特性来简化或扩展现有的Cocoa模式，让他们更加强大，更加有用。
