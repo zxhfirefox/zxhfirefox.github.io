@@ -3,7 +3,7 @@ layout: post
 title: "Language Guide: Type Casting"
 date: 2014-10-25 10:23:07 +0800
 comments: true
-categories: [swift]
+categories: [Swift]
 ---
 
 类型转换是一种检查实例类型的方法，并且或者把这个实例作为它的类别的父类或子类来使用。

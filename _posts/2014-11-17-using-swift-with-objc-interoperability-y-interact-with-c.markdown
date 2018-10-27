@@ -3,7 +3,7 @@ layout: post
 title: "Using Swift with Cocoa and Objective-C: Interoperability-Interacting with C APIs"
 date: 2014-11-17 23:19:56 +0800
 comments: true
-categories: [swift]
+categories: [Swift]
 ---
 
 作为和ObjC互用性的一部分，Swift保留了一部分和C兼容的类型和特性。Swift也提供了一种和通用的C结构和模式的方法。

@@ -3,7 +3,7 @@ layout: post
 title: "Using Swift with Cocoa and Objective-C: Interoperability-Working With Cocoa Data Types"
 date: 2014-11-17 23:17:29 +0800
 comments: true
-categories: [swift]
+categories: [Swift]
 ---
 
 作为与ObjC互用性的一部分，Swift提供了方便和高效的方法来处理Cocoa的数据类型。

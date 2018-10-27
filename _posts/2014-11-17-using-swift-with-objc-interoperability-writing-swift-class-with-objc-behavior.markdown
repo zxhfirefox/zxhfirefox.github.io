@@ -3,7 +3,7 @@ layout: post
 title: "Using Swift with Cocoa and Objective-C: Interoperability-Writing Swift Classes with ObjC Behavior"
 date: 2014-11-17 23:16:04 +0800
 comments: true
-categories: [swift]
+categories: [Swift]
 ---
 
 
