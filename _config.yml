@@ -17,16 +17,14 @@ title: zxhfirefox's blog
 email: zxhfirefox@hotmail.com
 description: > # this means to ignore newlines until "baseurl:"
   zxhfirefox's blog, mainly about coding.
-baseurl: "" # the subpath of your site, e.g. /blog
-url: "" # the base hostname & protocol for your site, e.g. http://example.com
+
 twitter_username: zxhfirefox
-github_username:  zxhfirefox
+github_username: zxhfirefox
 
 # Build settings
 markdown: kramdown
 theme: jekyll-theme-cayman
 plugins:
   - jekyll-feed
-
 
 excerpt_separator: "<!--more-->"
