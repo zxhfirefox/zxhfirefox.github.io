@@ -2,3 +2,20 @@
 ---
 
 @import "{{ site.theme }}";
+@media screen and (min-width: 64em) { .page-header { padding: 1rem 6rem 5rem 6rem; } }
+@media screen and (min-width: 42em) and (max-width: 64em) { .page-header { padding: 1rem 4rem 3rem 4rem; } }
+@media screen and (max-width: 42em) { .page-header { padding: 0rem 1rem 2rem 1rem; } }
+
+nav {
+    font-size: large;
+    margin-bottom: 16px;
+}
+
+nav a {
+    padding: 16px;
+    color: white;
+}
+
+.main-content {
+    margin-top: 50pt;
+}
